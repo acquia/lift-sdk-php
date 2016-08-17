@@ -1,17 +1,17 @@
 {
-    "name": "acquia/content-hub-php",
+    "name": "acquia/lift-sdk-php",
     "type": "library",
-    "description": "A PHP Client library to consume the Acquia Content Hub API.",
-    "homepage": "https://github.com/acquia/content-hub-php",
+    "description": "A PHP Client library to consume the Acquia Lift API.",
+    "homepage": "https://github.com/acquia/lift-sdk-php",
     "license": "MIT",
     "authors": [
         {
             "name": "See Contributors",
-            "homepage": "https://github.com/acquia/content-hub-php/graphs/contributors"
+            "homepage": "https://github.com/acquia/lift-sdk-php/graphs/contributors"
         }
     ],
     "support": {
-        "issues": "https://github.com/acquia/content-hub-php/issues"
+        "issues": "https://github.com/acquia/lift-sdk-php/issues"
     },
     "require": {
         "php": ">=5.5.0",
@@ -34,12 +34,12 @@
     },
     "autoload": {
     	"psr-4": {
-            "Acquia\\ContentHubClient\\": "src/"
+            "Acquia\\LiftClient\\": "src/"
     	}
     },
     "autoload-dev": {
     	"psr-4": {
-            "Acquia\\ContentHubClient\\": "test/"
+            "Acquia\\LiftClient\\": "test/"
     	}
     }
 }

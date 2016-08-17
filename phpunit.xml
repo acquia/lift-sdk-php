@@ -10,7 +10,7 @@
          bootstrap="test/bootstrap.php">
 
     <testsuites>
-       <testsuite name="Content Hub">
+       <testsuite name="Lift">
          <directory suffix="Test.php">test</directory>
        </testsuite>
     </testsuites>

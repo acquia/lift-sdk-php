@@ -4,7 +4,7 @@
  * HMAC Response Signer
  */
 
-namespace Acquia\ContentHubClient;
+namespace Acquia\LiftClient;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -209,7 +209,7 @@ class ResponseSigner extends Response {
     {
         $signature = $this->getSignature();
         $signedMessage = $this->provider . ' ' . $this->apiKey . ':' . $signature;
-        $this->headers->set('X-Acquia-Plexus-Authorization', $signedMessage);
+        $this->headers->set('X-Acquia-Lift-Authorization', $signedMessage);
     }
 
 }
