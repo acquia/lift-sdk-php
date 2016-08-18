@@ -34,3 +34,9 @@ $secretKey = 'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB';
 $client = new Lift($apiKey, $secretKey, '', ['base_url' => $url]);
 
 ```
+
+## Run tests
+
+```bash
+vendor/bin/phpunit
+```
