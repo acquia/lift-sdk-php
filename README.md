@@ -27,12 +27,26 @@ use Acquia\LiftClient\Lift;
 // might be replaced by a region that is within your geographic proximity.
 $url = 'https://us-east-1-decisionapi.lift.acquia.com';
 
+<?php
+
+use Acquia\LiftClient\Lift;
+
+$autoloadFile = __DIR__.'/vendor/autoload.php';
+require_once $autoloadFile;
+
+// The URL to the Lift instance, provided by Acquia. Note that us-east-1
+// might be replaced by a region that is within your geographic proximity.
+// Has to be HTTPS
+$url = 'https://nickdecision.ngrok.io';
+
 // The API key and secret key from your Acquia Lift User that are used to authenticate requests to Acquia Lift.
-$apiKey    = 'AAAAAAAAAAAAAAAAAAAA';
-$secretKey = 'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB';
+$apiKey    = 'XXXXXXX';
+$secretKey = 'YYYYYYYYYYYYY';
 
 $client = new Lift($apiKey, $secretKey, '', ['base_url' => $url]);
 
+$response = $client->ping();
+var_dump($response);
 ```
 
 ## Run tests
