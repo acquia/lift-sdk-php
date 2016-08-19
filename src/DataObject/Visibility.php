@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\LiftClient;
+namespace Acquia\LiftClient\DataObject;
 
 class Visibility extends \ArrayObject
 {
@@ -18,7 +18,7 @@ class Visibility extends \ArrayObject
      *   Example paths are http://mywebsite.com/user for the current user's page
      *   and http://mywebsite.com/user/* for every user page.
      *
-     * @return \Acquia\LiftClient\Visibility
+     * @return \Acquia\LiftClient\DataObject\Visibility
      */
     public function setPages(array $pages = [])
     {
@@ -42,7 +42,7 @@ class Visibility extends \ArrayObject
      *   Sets the condition of this visibility object. Can be 'show' or 'hide'.
      *   Any other option will be ignored.
      *
-     * @return \Acquia\LiftClient\Visibility
+     * @return \Acquia\LiftClient\DataObject\Visibility
      */
     public function setCondition($condition)
     {

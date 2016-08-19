@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\LiftClient;
+namespace Acquia\LiftClient\DataObject;
 
 use DateTime;
 use Symfony\Component\Serializer\Serializer;
@@ -23,7 +23,7 @@ class Slot extends \ArrayObject
      *
      * @param string $id
      *
-     * @return \Acquia\LiftClient\Slot
+     * @return \Acquia\LiftClient\DataObject\Slot
      */
     public function setId($id)
     {
@@ -37,7 +37,7 @@ class Slot extends \ArrayObject
      *
      * @return string
      */
-    public function getid()
+    public function getId()
     {
         return $this->getValue('id', '');
     }
@@ -47,7 +47,7 @@ class Slot extends \ArrayObject
      *
      * @param string $label
      *
-     * @return \Acquia\LiftClient\Slot
+     * @return \Acquia\LiftClient\DataObject\Slot
      */
     public function setLabel($label)
     {
@@ -71,7 +71,7 @@ class Slot extends \ArrayObject
      *
      * @param string $description
      *
-     * @return \Acquia\LiftClient\Slot
+     * @return \Acquia\LiftClient\DataObject\Slot
      */
     public function setDescription($description)
     {
@@ -95,7 +95,7 @@ class Slot extends \ArrayObject
      *
      * @param string $html
      *
-     * @return \Acquia\LiftClient\Slot
+     * @return \Acquia\LiftClient\DataObject\Slot
      */
     public function setHtml($html)
     {
@@ -119,7 +119,7 @@ class Slot extends \ArrayObject
      *
      * @param bool $status
      *
-     * @return \Acquia\LiftClient\Slot
+     * @return \Acquia\LiftClient\DataObject\Slot
      */
     public function setStatus($status)
     {
@@ -146,14 +146,14 @@ class Slot extends \ArrayObject
     /**
      * Sets the 'visibility' parameter.
      *
-     * @param \Acquia\LiftClient\Visibility $visibility
+     * @param \Acquia\LiftClient\DataObject\Visibility $visibility
      *
-     * @return \Acquia\LiftClient\Slot
+     * @return \Acquia\LiftClient\DataObject\Slot
      */
     public function setVisibility(Visibility $visibility)
     {
-        $this['visibility'] = $visibility;
-
+        // We need to 'normalize' so that we stay with arrays. Annoying stuff.
+        $this['visibility'] = $visibility->getArrayCopy();
         return $this;
     }
 
@@ -164,7 +164,8 @@ class Slot extends \ArrayObject
      */
     public function getVisibility()
     {
-        return $this->getValue('visibility', '');
+        $visibility = $this->getValue('visibility', '');
+        return new \Acquia\LiftClient\DataObject\Visibility($visibility);
     }
 
     /**
