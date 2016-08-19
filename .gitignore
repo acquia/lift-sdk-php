@@ -4,3 +4,4 @@ vendor
 composer.lock
 .idea
 nbproject
+example.php

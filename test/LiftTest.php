@@ -19,6 +19,18 @@ class LiftTest extends \PHPUnit_Framework_TestCase
     protected $authKey;
 
     /**
+     * @var string
+     *   The account we are using.
+     */
+    protected $accountId;
+
+    /**
+     * @var string
+     *   The site identifier we are using.
+     */
+    protected $siteId;
+
+    /**
      * {@inheritDoc}
      */
     protected function setUp()
@@ -27,6 +39,8 @@ class LiftTest extends \PHPUnit_Framework_TestCase
         $authSecret = 'W5PeGMxSItNerkNFqQMfYiJvH14WzVJMy54CPoTAYoI=';
 
         $this->authKey   = new Key($authId, $authSecret);
+        $this->accountId = 'TESTACCOUNTID';
+        $this->siteId = 'TESTSITEID';
     }
 
     /**
@@ -38,7 +52,7 @@ class LiftTest extends \PHPUnit_Framework_TestCase
     {
         $mock = new MockHandler($responses);
         $stack = HandlerStack::create($mock);
-        return new Lift($this->authKey->getId(), $this->authKey->getId(), 'Decision', ['handler' => $stack, 'auth_middleware' => FALSE]);
+        return new Lift($this->accountId, $this->siteId, $this->authKey->getId(), $this->authKey->getSecret(), ['handler' => $stack, 'auth_middleware' => FALSE]);
     }
 
     public function testPing()
