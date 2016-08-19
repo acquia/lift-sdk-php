@@ -2,6 +2,7 @@
 
 namespace Acquia\LiftClient\Route;
 
+use Acquia\LiftClient\DataObject\Slot;
 use GuzzleHttp\Psr7\Request;
 
 class Slots {
@@ -75,7 +76,7 @@ class Slots {
         // Now make the request.
         $request = new Request('GET', $url);
         $data = $this->client->getResponseJson($request);
-        return new \Acquia\LiftClient\DataObject\Slot($data);
+        return new Slot($data);
     }
 
     /**
@@ -88,13 +89,13 @@ class Slots {
      * @throws \GuzzleHttp\Exception\RequestException
 
      */
-    public function add(\Acquia\LiftClient\DataObject\Slot $slot)
+    public function add(Slot $slot)
     {
         $body = $slot->json();
         $url = "/slots";
         $request = new Request('POST', $url, [], $body);
         $data = $this->client->getResponseJson($request);
-        return new \Acquia\LiftClient\DataObject\Slot($data);
+        return new Slot($data);
     }
 
     /**

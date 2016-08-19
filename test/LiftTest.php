@@ -2,10 +2,11 @@
 
 namespace Acquia\LiftClient\test;
 
+use Acquia\LiftClient\DataObject\Slot;
+use Acquia\LiftClient\DataObject\Visibility;
 use Acquia\LiftClient\Lift;
 use Acquia\Hmac\Key;
 use DateTime;
-use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
@@ -97,14 +98,14 @@ class LiftTest extends \PHPUnit_Framework_TestCase
         $client = $this->getClient($responses);
 
         // Create a new slot object.
-        $slot = new \Acquia\LiftClient\DataObject\Slot();
+        $slot = new Slot();
         $slot->setDescription('test-description');
         $slot->setId('test-id');
         $slot->setLabel('test-label');
         $slot->setStatus(TRUE);
 
         // Add the visibility to the slot.
-        $visibility = new \Acquia\LiftClient\DataObject\Visibility();
+        $visibility = new Visibility();
         $visibility->setCondition('show');
         $visibility->setPages(['localhost/blog/*']);
         $slot->setVisibility($visibility);
