@@ -255,12 +255,18 @@ class LiftTest extends \PHPUnit_Framework_TestCase
             // Check if the timestamp for created is as expected.
             $this->assertEquals(
               $slotResponse->getCreated(),
-              DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z')
+              DateTime::createFromFormat(
+                DateTime::ISO8601,
+                '2016-08-19T15:15:41Z'
+              )
             );
             // Check if the timestamp for updated is as expected.
             $this->assertEquals(
               $slotResponse->getUpdated(),
-              DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z')
+              DateTime::createFromFormat(
+                DateTime::ISO8601,
+                '2016-08-19T15:15:41Z'
+              )
             );
             // Check if the visibility was set correctly.
             // Add the visibility to the slot.
@@ -290,6 +296,90 @@ class LiftTest extends \PHPUnit_Framework_TestCase
         $slotManager = $client->getSlotManager();
         try {
             $slotResponse = $slotManager->query();
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
+        }
+    }
+
+    public function testSlotGet()
+    {
+        // Setup
+        $data = [
+          'id' => 'test-id',
+          'label' => 'test-label',
+          'description' => 'test-description',
+          'html' => '',
+          'created' => '2016-08-19T15:15:41Z',
+          'updated' => '2016-08-19T15:15:41Z',
+          'status' => 'enabled',
+          'visibility' => array(
+            'pages' => ['localhost/blog/*'],
+            'condition' => 'show',
+          ),
+        ];
+
+        $response = new Response(200, [], json_encode($data));
+        $responses = [
+          $response,
+        ];
+
+        $client = $this->getClient($responses);
+
+        // Get Slot Manager
+        $slotManager = $client->getSlotManager();
+        $slotResponse = $slotManager->get('test-id');
+        // Check if the identifier is equal.
+        $this->assertEquals($slotResponse->getId(), 'test-id');
+        // Check if the description is equal.
+        $this->assertEquals(
+          $slotResponse->getDescription(),
+          'test-description'
+        );
+        // Check if the label is equal.
+        $this->assertEquals($slotResponse->getLabel(), 'test-label');
+        // Check if the timestamp for created is as expected.
+        $this->assertEquals(
+          $slotResponse->getCreated(),
+          DateTime::createFromFormat(
+            DateTime::ISO8601,
+            '2016-08-19T15:15:41Z'
+          )
+        );
+        // Check if the timestamp for updated is as expected.
+        $this->assertEquals(
+          $slotResponse->getUpdated(),
+          DateTime::createFromFormat(
+            DateTime::ISO8601,
+            '2016-08-19T15:15:41Z'
+          )
+        );
+        // Check if the visibility was set correctly.
+        // Add the visibility to the slot.
+        $visibility = new Visibility();
+        $visibility->setCondition('show');
+        $visibility->setPages(['localhost/blog/*']);
+
+        $this->assertEquals(
+          $slotResponse->getVisibility(),
+          $visibility
+        );
+        // Check if the status was set correctly.
+        $this->assertEquals($slotResponse->getStatus(), true);
+    }
+
+    public function testSlotGetFailed()
+    {
+        $response = new Response(400, []);
+        $responses = [
+          $response,
+        ];
+
+        $client = $this->getClient($responses);
+
+        // Get Slot Manager
+        $slotManager = $client->getSlotManager();
+        try {
+            $slotResponse = $slotManager->get('non-existing-slot');
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             $this->assertEquals($e->getResponse()->getStatusCode(), 400);
         }
