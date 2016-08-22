@@ -74,5 +74,4 @@ class Visibility extends \ArrayObject
     {
         return isset($this[$key]) ? $this[$key] : $default;
     }
-
 }

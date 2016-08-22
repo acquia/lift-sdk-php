@@ -64,7 +64,6 @@ class SlotManager
         }
 
         return $slots;
-
     }
 
 
@@ -81,8 +80,7 @@ class SlotManager
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public
-    function get(
+    public function get(
       $slotId
     ) {
         $url = "/slots/{$slotId}";
@@ -103,8 +101,7 @@ class SlotManager
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public
-    function add(
+    public function add(
       Slot $slot
     ) {
         $body = $slot->json();
@@ -125,8 +122,7 @@ class SlotManager
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public
-    function delete(
+    public function delete(
       $id
     ) {
         $url = "/slots/{$id}";
@@ -134,5 +130,4 @@ class SlotManager
 
         return true;
     }
-
 }

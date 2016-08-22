@@ -159,6 +159,5 @@ class Lift extends Client
         $response = $this->send($request);
         $body = (string)$response->getBody();
         return json_decode($body, true);
-
     }
 }
