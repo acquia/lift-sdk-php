@@ -37,10 +37,10 @@ class LiftTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $authId     = 'efdde334-fe7b-11e4-a322-1697f925ec7b';
+        $authId = 'efdde334-fe7b-11e4-a322-1697f925ec7b';
         $authSecret = 'W5PeGMxSItNerkNFqQMfYiJvH14WzVJMy54CPoTAYoI=';
 
-        $this->authKey   = new Key($authId, $authSecret);
+        $this->authKey = new Key($authId, $authSecret);
         $this->accountId = 'TESTACCOUNTID';
         $this->siteId = 'TESTSITEID';
     }
@@ -54,18 +54,25 @@ class LiftTest extends \PHPUnit_Framework_TestCase
     {
         $mock = new MockHandler($responses);
         $stack = HandlerStack::create($mock);
-        return new Lift($this->accountId, $this->siteId, $this->authKey->getId(), $this->authKey->getSecret(), ['handler' => $stack, 'auth_middleware' => FALSE]);
+
+        return new Lift(
+          $this->accountId,
+          $this->siteId,
+          $this->authKey->getId(),
+          $this->authKey->getSecret(),
+          ['handler' => $stack, 'auth_middleware' => false]
+        );
     }
 
     public function testPing()
     {
         // Setup
         $data = [
-            'success' => 1,
+          'success' => 1,
         ];
         $response = new Response(200, [], json_encode($data));
         $responses = [
-            $response,
+          $response,
         ];
         $client = $this->getClient($responses);
 
@@ -78,17 +85,17 @@ class LiftTest extends \PHPUnit_Framework_TestCase
     {
         // Setup
         $data = [
-            'id' => 'test-id',
-            'label' => 'test-label',
-            'description' => 'test-description',
-            'html' => '',
-            'created' => '2016-08-19T15:15:41Z',
-            'updated' => '2016-08-19T15:15:41Z',
-            'status' => 'enabled',
-            'visibility' => array(
-                'pages' => ['localhost/blog/*'],
-                'condition' => 'show',
-            ),
+          'id' => 'test-id',
+          'label' => 'test-label',
+          'description' => 'test-description',
+          'html' => '',
+          'created' => '2016-08-19T15:15:41Z',
+          'updated' => '2016-08-19T15:15:41Z',
+          'status' => 'enabled',
+          'visibility' => array(
+            'pages' => ['localhost/blog/*'],
+            'condition' => 'show',
+          ),
         ];
         $response = new Response(200, [], json_encode($data));
         $responses = [
@@ -102,28 +109,61 @@ class LiftTest extends \PHPUnit_Framework_TestCase
         $slot->setDescription('test-description');
         $slot->setId('test-id');
         $slot->setLabel('test-label');
-        $slot->setStatus(TRUE);
+        $slot->setStatus(true);
 
         // Add the visibility to the slot.
         $visibility = new Visibility();
         $visibility->setCondition('show');
         $visibility->setPages(['localhost/blog/*']);
         $slot->setVisibility($visibility);
-        $slot_response = $client->slots()->add($slot);
+
+        // Get Slot Manager
+        $slotManager = $client->getSlotManager();
+        $slotResponse = $slotManager->add($slot);
+
+        // Check the response code
+        $this->assertEquals($slotResponse->getResponse()->getStatusCode(),200);
 
         // Check if the identifier is equal.
-        $this->assertEquals($slot_response->getId(), $slot->getId());
+        $this->assertEquals($slotResponse->getSlots()[0]->getId(), $slot->getId());
         // Check if the description is equal.
-        $this->assertEquals($slot_response->getDescription(), $slot->getDescription());
+        $this->assertEquals(
+          $slotResponse->getSlots()[0]->getDescription(),
+          $slot->getDescription()
+        );
         // Check if the label is equal.
-        $this->assertEquals($slot_response->getLabel(), $slot->getLabel());
+        $this->assertEquals($slotResponse->getSlots()[0]->getLabel(), $slot->getLabel());
         // Check if the timestamp for created is as expected.
-        $this->assertEquals($slot_response->getCreated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z'));
+        $this->assertEquals(
+          $slotResponse->getSlots()[0]->getCreated(),
+          DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z')
+        );
         // Check if the timestamp for updated is as expected.
-        $this->assertEquals($slot_response->getUpdated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z'));
+        $this->assertEquals(
+          $slotResponse->getSlots()[0]->getUpdated(),
+          DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z')
+        );
         // Check if the visibility was set correctly.
-        $this->assertEquals($slot_response->getVisibility(), $slot->getVisibility());
+        $this->assertEquals(
+          $slotResponse->getSlots()[0]->getVisibility(),
+          $slot->getVisibility()
+        );
         // Check if the status was set correctly.
-        $this->assertEquals($slot_response->getStatus(), $slot->getStatus());
+        $this->assertEquals($slotResponse->getSlots()[0]->getStatus(), $slot->getStatus());
+    }
+
+    public function testSlotDelete()
+    {
+        $response = new Response(200, []);
+        $responses = [
+          $response,
+        ];
+
+        $client = $this->getClient($responses);
+
+        // Get Slot Manager
+        $slotManager = $client->getSlotManager();
+        $slotResponse = $slotManager->delete('slot-to-delete');
+        $this->assertEquals($slotResponse->getResponse()->getStatusCode(), 200);
     }
 }

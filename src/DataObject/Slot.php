@@ -123,10 +123,9 @@ class Slot extends \ArrayObject
      */
     public function setStatus($status)
     {
-        if ($status === TRUE) {
+        if ($status === true) {
             $this['status'] = 'enabled';
-        }
-        else {
+        } else {
             $this['status'] = 'disabled';
         }
 
@@ -154,6 +153,7 @@ class Slot extends \ArrayObject
     {
         // We need to 'normalize' so that we stay with arrays. Annoying stuff.
         $this['visibility'] = $visibility->getArrayCopy();
+
         return $this;
     }
 
@@ -165,6 +165,7 @@ class Slot extends \ArrayObject
     public function getVisibility()
     {
         $visibility = $this->getValue('visibility', '');
+
         return new \Acquia\LiftClient\DataObject\Visibility($visibility);
     }
 
@@ -177,6 +178,7 @@ class Slot extends \ArrayObject
     {
         $date = $this->getValue('created', '');
         $datetime = DateTime::createFromFormat(DateTime::ISO8601, $date);
+
         return $datetime;
     }
 
@@ -189,6 +191,7 @@ class Slot extends \ArrayObject
     {
         $date = $this->getValue('updated', '');
         $datetime = DateTime::createFromFormat(DateTime::ISO8601, $date);
+
         return $datetime;
     }
 
@@ -202,6 +205,7 @@ class Slot extends \ArrayObject
         $encoders = array(new JsonEncoder());
         $normalizers = array(new CustomNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
+
         return $serializer->serialize($this, 'json');
     }
 

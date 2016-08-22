@@ -30,22 +30,23 @@ require_once $autoloadFile;
 // might be replaced by a region that is within your geographic proximity.
 $url = 'https://us-east-1-decisionapi.lift.acquia.com';
 // The API key and secret key from your Acquia Lift User that are used to authenticate requests to Acquia Lift.
-$public_key    = 'XXXXXX';
-$secret_key = 'YYYYY';
+$publicKey    = 'XXXXX';
+$secretKey = 'YYYYYY';
 
 // The Lift Web Account Identifier
-$account_id = 'NICKD8TEST';
+$accountId = 'NICKD8TEST';
 
 // The Lift Web Site Identifier
-$site_id = 'nickdev';
+$siteId = 'nickdev';
 
-$client = new Lift($account_id, $site_id, $public_key, $secret_key, ['base_url' => $url]);
+$client = new Lift($accountId, $siteId, $publicKey, $secretKey, ['base_url' => $url]);
 
 // Check if the server is functional
 $pong = $client->ping();
 
 // Get all existing slots.
-$slots = $client->slots()->query();
+$slotManager = $client->getSlotManager();
+$slots = $slotManager->query();
 
 // Create a new slot object.
 $slot = new \Acquia\LiftClient\DataObject\Slot();
@@ -59,16 +60,16 @@ $visibility = new \Acquia\LiftClient\DataObject\Visibility();
 $visibility->setCondition('show');
 $visibility->setPages(['localhost/blog/*']);
 $slot->setVisibility($visibility);
-$slot = $client->slots()->add($slot);
+$slot = $slotManager->add($slot);
 
 // Get the slot again from the system.
-$slot = $client->slots()->get($slot->getId());
+$slot = $slotManager->get($slot->getId());
 
 // This now includes the created and updated date
 //print $slot->getCreated()->getTimestamp();
 
 // Delete the slot from the system.
-$client->slots()->delete($slot->getId());
+$slotManager->delete($slot->getId());
 ```
 
 ## Run tests

@@ -1,11 +1,12 @@
 <?php
 
-namespace Acquia\LiftClient\Route;
+namespace Acquia\LiftClient;
 
 use Acquia\LiftClient\DataObject\Slot;
 use GuzzleHttp\Psr7\Request;
 
-class Slots {
+class SlotManager
+{
 
     /**
      * @var \Acquia\LiftClient\Lift
@@ -17,7 +18,8 @@ class Slots {
      * @param \Acquia\LiftClient\Lift $client
      *   The Acquia Lift Client
      */
-    public function __construct($client) {
+    public function __construct($client)
+    {
         $this->client = $client;
     }
 
@@ -36,7 +38,7 @@ class Slots {
      *
      * @param array $options
      *
-     * @return array
+     * @return \Acquia\LiftClient\SlotResponse
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -53,8 +55,19 @@ class Slots {
 
         // Now make the request.
         $request = new Request('GET', $url);
-        return $this->client->getResponseJson($request);
+        $response = $this->client->getResponse($request);
+        $data = $this->client->getBodyJson($response);
+
+        // Get them as slot objects
+        $slots = [];
+        foreach ($data as $dataItem) {
+            $slots[] = new Slot($dataItem);
+        }
+
+        return new SlotResponse($response, $slots);
+
     }
+
 
     /**
      * Get a specific slot
@@ -65,18 +78,23 @@ class Slots {
      *
      * @param array $options
      *
-     * @return \Acquia\LiftClient\DataObject\Slot
+     * @return \Acquia\LiftClient\SlotResponse
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public function get($slot_id)
-    {
-        $url = "/slots/{$slot_id}";
+    public
+    function get(
+      $slotId
+    ) {
+        $url = "/slots/{$slotId}";
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
-        return new Slot($data);
+        $response = $this->client->getResponse($request);
+        $data = $this->client->getBodyJson($response);
+        $slot = new Slot($data);
+
+        return new SlotResponse($response, [$slot]);
     }
 
     /**
@@ -84,18 +102,22 @@ class Slots {
      *
      * @param \Acquia\LiftClient\DataObject\Slot $slot
      *
-     * @return \Acquia\LiftClient\DataObject\Slot
+     * @return \Acquia\LiftClient\SlotResponse
      *
      * @throws \GuzzleHttp\Exception\RequestException
-
      */
-    public function add(Slot $slot)
-    {
+    public
+    function add(
+      Slot $slot
+    ) {
         $body = $slot->json();
         $url = "/slots";
         $request = new Request('POST', $url, [], $body);
-        $data = $this->client->getResponseJson($request);
-        return new Slot($data);
+        $response = $this->client->getResponse($request);
+        $data = $this->client->getBodyJson($response);
+        $slot = new Slot($data);
+
+        return new SlotResponse($response, [$slot]);
     }
 
     /**
@@ -103,14 +125,18 @@ class Slots {
      *
      * @param  string $id
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Acquia\LiftClient\SlotResponse
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public function delete($id)
-    {
+    public
+    function delete(
+      $id
+    ) {
         $url = "/slots/{$id}";
-        return $this->client->delete($url);
+        $response = $this->client->delete($url);
+
+        return new SlotResponse($response);
     }
 
 }

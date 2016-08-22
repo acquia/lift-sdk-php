@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class Lift extends Client
 {
@@ -44,7 +45,13 @@ class Lift extends Client
      *   The Lift Web Secret Key belonging to the Public Key
      * @param array $config
      */
-    public function __construct($account_id, $site_id, $public_key, $secret_key, array $config = []) {
+    public function __construct(
+      $account_id,
+      $site_id,
+      $public_key,
+      $secret_key,
+      array $config = []
+    ) {
         // "base_url" parameter changed to "base_uri" in Guzzle6, so the following line
         // is there to make sure it does not disrupt previous configuration.
         if (!isset($config['base_uri']) && isset($config['base_url'])) {
@@ -96,14 +103,14 @@ class Lift extends Client
                 $query = $uri->getQuery();
                 if (empty($query)) {
                     $query = $auth_query;
-                }
-                else {
+                } else {
                     $query = $query . "&" . $auth_query;
                 }
                 $uri = $uri->withQuery($query);
                 $uri->withQuery($query);
 
                 $request = $request->withUri($uri);
+
                 return $handler($request, $options);
             };
         };
@@ -120,20 +127,40 @@ class Lift extends Client
     {
         // Now make the request.
         $request = new Request('GET', '/ping');
-        return $this->getResponseJson($request);
+        $response = $this->getResponse($request);
+        return $this->getBodyJson($response);
     }
 
     /**
-     * Allows actions in the slots route.
+     * Get the Slot Manager.
      *
-     * @return \Acquia\LiftClient\Route\Slots
+     * @return \Acquia\LiftClient\SlotManager
      */
-    public function slots() {
-        return new \Acquia\LiftClient\Route\Slots($this);
+    public function getSlotManager()
+    {
+        return new SlotManager($this);
     }
 
     /**
-     * Make the given Request and return the Response as a PHP Object.
+     * Get the JSON body from the request and return it as a PHP Object.
+     *
+     * @param ResponseInterface $response
+     *
+     * @return mixed the value encoded in <i>json</i> in appropriate
+     * PHP type. Values true, false and
+     * null (case-insensitive) are returned as <b>TRUE</b>, <b>FALSE</b>
+     * and <b>NULL</b> respectively. <b>NULL</b> is returned if the
+     * <i>json</i> cannot be decoded or if the encoded
+     * data is deeper than the recursion limit.
+     */
+    public function getBodyJson(ResponseInterface $response)
+    {
+        $body = (string)$response->getBody();
+        return json_decode($body, true);
+    }
+
+    /**
+     * Make the given Request and return the response.
      *
      * @param RequestInterface $request
      *
@@ -141,10 +168,9 @@ class Lift extends Client
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public function getResponseJson(RequestInterface $request)
+    public function getResponse(RequestInterface $request)
     {
-        $response = $this->send($request);
-        $body = (string) $response->getBody();
-        return json_decode($body, TRUE);
+        return $this->send($request);
+
     }
 }
