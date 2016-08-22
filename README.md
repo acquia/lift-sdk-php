@@ -1,6 +1,6 @@
 # Acquia Lift SDK for PHP
 
-[![Build Status](https://travis-ci.org/acquia/lift-sdk-php.svg)](https://travis-ci.org/acquia/lift-sdk-php)
+[![Build Status](https://travis-ci.org/acquia/lift-sdk-php.svg)](https://travis-ci.org/acquia/lift-sdk-php) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/acquia/lift-sdk-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/acquia/lift-sdk-php/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/acquia/lift-sdk-php/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/acquia/lift-sdk-php/?branch=master)
 
 A PHP Client library to consume the Acquia Lift API's.
 
