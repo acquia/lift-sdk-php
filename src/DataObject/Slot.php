@@ -135,11 +135,16 @@ class Slot extends \ArrayObject
     /**
      * Gets the 'status' parameter.
      *
-     * @return string
+     * @return bool
      */
     public function getStatus()
     {
-        return $this->getValue('status', '');
+        $status = $this->getValue('status', '');
+        if ($status == 'enabled') {
+            return true;
+        }
+
+        return false;
     }
 
     /**

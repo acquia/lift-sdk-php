@@ -63,7 +63,7 @@ class SlotManager
             $slots[] = new Slot($dataItem);
         }
 
-        return new $slots;
+        return $slots;
 
     }
 
