@@ -127,8 +127,7 @@ class Lift extends Client
     {
         // Now make the request.
         $request = new Request('GET', '/ping');
-        $response = $this->getResponse($request);
-        return $this->getBodyJson($response);
+        return $this->getResponseJson($request);
     }
 
     /**
@@ -142,9 +141,9 @@ class Lift extends Client
     }
 
     /**
-     * Get the JSON body from the request and return it as a PHP Object.
+     * Make the given Request and return as JSON Decoded PHP object.
      *
-     * @param ResponseInterface $response
+     * @param RequestInterface $request
      *
      * @return mixed the value encoded in <i>json</i> in appropriate
      * PHP type. Values true, false and
@@ -152,25 +151,14 @@ class Lift extends Client
      * and <b>NULL</b> respectively. <b>NULL</b> is returned if the
      * <i>json</i> cannot be decoded or if the encoded
      * data is deeper than the recursion limit.
-     */
-    public function getBodyJson(ResponseInterface $response)
-    {
-        $body = (string)$response->getBody();
-        return json_decode($body, true);
-    }
-
-    /**
-     * Make the given Request and return the response.
-     *
-     * @param RequestInterface $request
-     *
-     * @return mixed
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public function getResponse(RequestInterface $request)
+    public function getResponseJson(RequestInterface $request)
     {
-        return $this->send($request);
+        $response = $this->send($request);
+        $body = (string)$response->getBody();
+        return json_decode($body, true);
 
     }
 }

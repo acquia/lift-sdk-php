@@ -121,35 +121,32 @@ class LiftTest extends \PHPUnit_Framework_TestCase
         $slotManager = $client->getSlotManager();
         $slotResponse = $slotManager->add($slot);
 
-        // Check the response code
-        $this->assertEquals($slotResponse->getResponse()->getStatusCode(),200);
-
         // Check if the identifier is equal.
-        $this->assertEquals($slotResponse->getSlots()[0]->getId(), $slot->getId());
+        $this->assertEquals($slotResponse->getId(), $slot->getId());
         // Check if the description is equal.
         $this->assertEquals(
-          $slotResponse->getSlots()[0]->getDescription(),
+          $slotResponse->getDescription(),
           $slot->getDescription()
         );
         // Check if the label is equal.
-        $this->assertEquals($slotResponse->getSlots()[0]->getLabel(), $slot->getLabel());
+        $this->assertEquals($slotResponse->getLabel(), $slot->getLabel());
         // Check if the timestamp for created is as expected.
         $this->assertEquals(
-          $slotResponse->getSlots()[0]->getCreated(),
+          $slotResponse->getCreated(),
           DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z')
         );
         // Check if the timestamp for updated is as expected.
         $this->assertEquals(
-          $slotResponse->getSlots()[0]->getUpdated(),
+          $slotResponse->getUpdated(),
           DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z')
         );
         // Check if the visibility was set correctly.
         $this->assertEquals(
-          $slotResponse->getSlots()[0]->getVisibility(),
+          $slotResponse->getVisibility(),
           $slot->getVisibility()
         );
         // Check if the status was set correctly.
-        $this->assertEquals($slotResponse->getSlots()[0]->getStatus(), $slot->getStatus());
+        $this->assertEquals($slotResponse->getStatus(), $slot->getStatus());
     }
 
     public function testSlotDelete()
@@ -164,6 +161,26 @@ class LiftTest extends \PHPUnit_Framework_TestCase
         // Get Slot Manager
         $slotManager = $client->getSlotManager();
         $slotResponse = $slotManager->delete('slot-to-delete');
-        $this->assertEquals($slotResponse->getResponse()->getStatusCode(), 200);
+        $this->assertTrue($slotResponse, 'Slot Deletion succeeded');
+    }
+
+    public function testSlotDeleteFailed()
+    {
+        $response = new Response(400, []);
+        $responses = [
+          $response,
+        ];
+
+        $client = $this->getClient($responses);
+
+        // Get Slot Manager
+        $slotManager = $client->getSlotManager();
+        try {
+            $slotResponse = $slotManager->delete('slot-to-delete');
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
+        }
+
+
     }
 }

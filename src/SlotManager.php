@@ -38,7 +38,7 @@ class SlotManager
      *
      * @param array $options
      *
-     * @return \Acquia\LiftClient\SlotResponse
+     * @return \Acquia\LiftClient\DataObject\Slot[]
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -55,16 +55,15 @@ class SlotManager
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $response = $this->client->getResponse($request);
-        $data = $this->client->getBodyJson($response);
+        $data = $this->client->getResponseJson($request);
 
-        // Get them as slot objects
+        // Get them as Slot objects
         $slots = [];
         foreach ($data as $dataItem) {
             $slots[] = new Slot($dataItem);
         }
 
-        return new SlotResponse($response, $slots);
+        return new $slots;
 
     }
 
@@ -78,7 +77,7 @@ class SlotManager
      *
      * @param array $options
      *
-     * @return \Acquia\LiftClient\SlotResponse
+     * @return \Acquia\LiftClient\DataObject\Slot
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -90,11 +89,9 @@ class SlotManager
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $response = $this->client->getResponse($request);
-        $data = $this->client->getBodyJson($response);
-        $slot = new Slot($data);
+        $data = $this->client->getResponseJson($request);
 
-        return new SlotResponse($response, [$slot]);
+        return new Slot($data);
     }
 
     /**
@@ -102,7 +99,7 @@ class SlotManager
      *
      * @param \Acquia\LiftClient\DataObject\Slot $slot
      *
-     * @return \Acquia\LiftClient\SlotResponse
+     * @return \Acquia\LiftClient\DataObject\Slot
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -113,19 +110,18 @@ class SlotManager
         $body = $slot->json();
         $url = "/slots";
         $request = new Request('POST', $url, [], $body);
-        $response = $this->client->getResponse($request);
-        $data = $this->client->getBodyJson($response);
-        $slot = new Slot($data);
+        $data = $this->client->getResponseJson($request);
 
-        return new SlotResponse($response, [$slot]);
+        return new Slot($data);
     }
 
     /**
      * Deletes a slot by ID.
      *
-     * @param  string $id
+     * @param string $id
      *
-     * @return \Acquia\LiftClient\SlotResponse
+     * @return bool
+     *   returns TRUE if successful.
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -134,9 +130,9 @@ class SlotManager
       $id
     ) {
         $url = "/slots/{$id}";
-        $response = $this->client->delete($url);
+        $this->client->delete($url);
 
-        return new SlotResponse($response);
+        return true;
     }
 
 }
