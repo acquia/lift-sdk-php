@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\LiftClient\DataObject;
+namespace Acquia\LiftClient\Entity;
 
 use DateTime;
 use Symfony\Component\Serializer\Serializer;
@@ -23,7 +23,7 @@ class Slot extends \ArrayObject
      *
      * @param string $id
      *
-     * @return \Acquia\LiftClient\DataObject\Slot
+     * @return \Acquia\LiftClient\Entity\Slot
      */
     public function setId($id)
     {
@@ -47,7 +47,7 @@ class Slot extends \ArrayObject
      *
      * @param string $label
      *
-     * @return \Acquia\LiftClient\DataObject\Slot
+     * @return \Acquia\LiftClient\Entity\Slot
      */
     public function setLabel($label)
     {
@@ -71,7 +71,7 @@ class Slot extends \ArrayObject
      *
      * @param string $description
      *
-     * @return \Acquia\LiftClient\DataObject\Slot
+     * @return \Acquia\LiftClient\Entity\Slot
      */
     public function setDescription($description)
     {
@@ -95,7 +95,7 @@ class Slot extends \ArrayObject
      *
      * @param string $html
      *
-     * @return \Acquia\LiftClient\DataObject\Slot
+     * @return \Acquia\LiftClient\Entity\Slot
      */
     public function setHtml($html)
     {
@@ -119,7 +119,7 @@ class Slot extends \ArrayObject
      *
      * @param bool $status
      *
-     * @return \Acquia\LiftClient\DataObject\Slot
+     * @return \Acquia\LiftClient\Entity\Slot
      */
     public function setStatus($status)
     {
@@ -150,9 +150,9 @@ class Slot extends \ArrayObject
     /**
      * Sets the 'visibility' parameter.
      *
-     * @param \Acquia\LiftClient\DataObject\Visibility $visibility
+     * @param \Acquia\LiftClient\Entity\Visibility $visibility
      *
-     * @return \Acquia\LiftClient\DataObject\Slot
+     * @return \Acquia\LiftClient\Entity\Slot
      */
     public function setVisibility(Visibility $visibility)
     {
@@ -171,7 +171,7 @@ class Slot extends \ArrayObject
     {
         $visibility = $this->getValue('visibility', '');
 
-        return new \Acquia\LiftClient\DataObject\Visibility($visibility);
+        return new \Acquia\LiftClient\Entity\Visibility($visibility);
     }
 
     /**

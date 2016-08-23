@@ -2,8 +2,8 @@
 
 namespace Acquia\LiftClient\test;
 
-use Acquia\LiftClient\DataObject\Slot;
-use Acquia\LiftClient\DataObject\Visibility;
+use Acquia\LiftClient\Entity\Slot;
+use Acquia\LiftClient\Entity\Visibility;
 use Acquia\LiftClient\Lift;
 use Acquia\Hmac\Key;
 use DateTime;

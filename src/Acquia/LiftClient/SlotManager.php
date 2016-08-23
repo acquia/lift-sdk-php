@@ -2,7 +2,7 @@
 
 namespace Acquia\LiftClient;
 
-use Acquia\LiftClient\DataObject\Slot;
+use Acquia\LiftClient\Entity\Slot;
 use GuzzleHttp\Psr7\Request;
 
 class SlotManager
@@ -38,7 +38,7 @@ class SlotManager
      *
      * @param array $options
      *
-     * @return \Acquia\LiftClient\DataObject\Slot[]
+     * @return \Acquia\LiftClient\Entity\Slot[]
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -76,7 +76,7 @@ class SlotManager
      *
      * @param array $options
      *
-     * @return \Acquia\LiftClient\DataObject\Slot
+     * @return \Acquia\LiftClient\Entity\Slot
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -95,9 +95,9 @@ class SlotManager
     /**
      * Add a slot
      *
-     * @param \Acquia\LiftClient\DataObject\Slot $slot
+     * @param \Acquia\LiftClient\Entity\Slot $slot
      *
-     * @return \Acquia\LiftClient\DataObject\Slot
+     * @return \Acquia\LiftClient\Entity\Slot
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
