@@ -49,14 +49,14 @@ $slotManager = $client->getSlotManager();
 $slots = $slotManager->query();
 
 // Create a new slot object.
-$slot = new \Acquia\LiftClient\DataObject\Slot();
+$slot = new \Acquia\LiftClient\Entity\Slot();
 $slot->setDescription('test-description');
 $slot->setId('test-id');
 $slot->setLabel('test-label');
 $slot->setStatus(TRUE);
 
 // Add the visibility to the slot.
-$visibility = new \Acquia\LiftClient\DataObject\Visibility();
+$visibility = new \Acquia\LiftClient\Entity\Visibility();
 $visibility->setCondition('show');
 $visibility->setPages(['localhost/blog/*']);
 $slot->setVisibility($visibility);
