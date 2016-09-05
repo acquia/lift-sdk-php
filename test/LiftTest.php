@@ -5,7 +5,7 @@ namespace Acquia\LiftClient\test;
 use Acquia\LiftClient\Entity\Slot;
 use Acquia\LiftClient\Entity\Visibility;
 use Acquia\LiftClient\Lift;
-use Acquia\Hmac\Key;
+use NickVeenhof\Hmac\Key;
 use DateTime;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -15,7 +15,7 @@ class LiftTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var \Acquia\Hmac\KeyInterface
+     * @var \NickVeenhof\Hmac\KeyInterface
      *   A sample key.
      */
     protected $authKey;

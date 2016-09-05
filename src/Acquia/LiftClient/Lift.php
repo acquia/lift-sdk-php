@@ -2,19 +2,18 @@
 
 namespace Acquia\LiftClient;
 
-use Acquia\Hmac\Guzzle\HmacAuthMiddleware;
-use Acquia\Hmac\Key;
+use NickVeenhof\Hmac\Guzzle\HmacAuthMiddleware;
+use NickVeenhof\Hmac\Key;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
 class Lift extends Client
 {
 
     /**
-     * @var \Acquia\Hmac\KeyInterface
+     * @var \NickVeenhof\Hmac\KeyInterface
      *   A sample key.
      */
     protected $authKey;
