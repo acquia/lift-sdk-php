@@ -1,28 +1,12 @@
 <?php
 
-namespace Acquia\LiftClient;
+namespace Acquia\LiftClient\Manager;
 
 use Acquia\LiftClient\Entity\Slot;
 use GuzzleHttp\Psr7\Request;
 
-class SlotManager
+class SlotManager extends ManagerBase
 {
-
-    /**
-     * @var \Acquia\LiftClient\Lift
-     *   The Acquia Lift Client
-     */
-    protected $client;
-
-    /**
-     * @param \Acquia\LiftClient\Lift $client
-     *   The Acquia Lift Client
-     */
-    public function __construct($client)
-    {
-        $this->client = $client;
-    }
-
     /**
      * Get a list of slots.
      *
@@ -38,9 +22,9 @@ class SlotManager
      *
      * @param array $options
      *
-     * @return \Acquia\LiftClient\Entity\Slot[]
-     *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return \Acquia\LiftClient\Entity\Slot[]
      */
     public function query($options = [])
     {
@@ -49,7 +33,7 @@ class SlotManager
             'start' => 0,
           ];
 
-        $url = "/slots";
+        $url = '/slots';
         $url .= isset($variables['visible_on_page']) ? "&visible_on_page={$variables['visible_on_page']}" : '';
         $url .= isset($variables['status']) ? "&status={$variables['status']}" : '';
 
@@ -66,24 +50,21 @@ class SlotManager
         return $slots;
     }
 
-
     /**
-     * Get a specific slot
+     * Get a specific slot.
      *
      * Example of how to structure the $options parameter:
      *
      * @see http://docs.decision-api.acquia.com/#slots__slotId__get
      *
-     * @param array $options
-     *
-     * @return \Acquia\LiftClient\Entity\Slot
+     * @param array $id
      *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return \Acquia\LiftClient\Entity\Slot
      */
-    public function get(
-      $slotId
-    ) {
-        $url = "/slots/{$slotId}";
+    public function get($id) {
+        $url = "/slots/{$id}";
 
         // Now make the request.
         $request = new Request('GET', $url);
@@ -93,19 +74,17 @@ class SlotManager
     }
 
     /**
-     * Add a slot
+     * Add a slot.
      *
      * @param \Acquia\LiftClient\Entity\Slot $slot
      *
-     * @return \Acquia\LiftClient\Entity\Slot
-     *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return \Acquia\LiftClient\Entity\Slot
      */
-    public function add(
-      Slot $slot
-    ) {
+    public function add(Slot $slot) {
         $body = $slot->json();
-        $url = "/slots";
+        $url = '/slots';
         $request = new Request('POST', $url, [], $body);
         $data = $this->client->getResponseJson($request);
 
@@ -117,14 +96,11 @@ class SlotManager
      *
      * @param string $id
      *
-     * @return bool
-     *   returns TRUE if successful.
-     *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return bool
      */
-    public function delete(
-      $id
-    ) {
+    public function delete($id) {
         $url = "/slots/{$id}";
         $this->client->delete($url);
 

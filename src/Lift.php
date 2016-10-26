@@ -2,6 +2,8 @@
 
 namespace Acquia\LiftClient;
 
+use Acquia\LiftClient\Manager\SlotManager;
+use Acquia\LiftClient\Manager\GoalManager;
 use NickVeenhof\Hmac\Guzzle\HmacAuthMiddleware;
 use NickVeenhof\Hmac\Key;
 use GuzzleHttp\Client;
@@ -11,38 +13,32 @@ use Psr\Http\Message\RequestInterface;
 
 class Lift extends Client
 {
-
     /**
-     * @var \NickVeenhof\Hmac\KeyInterface
-     *   A sample key.
+     * @var \NickVeenhof\Hmac\KeyInterface A sample key
      */
     protected $authKey;
 
     /**
-     * @var string
-     *   The account we are using.
+     * @var string The account we are using
      */
     protected $accountId;
 
     /**
-     * @var string
-     *   The site identifier we are using.
+     * @var string The site identifier we are using
      */
     protected $siteId;
 
     /**
-     * Overrides \GuzzleHttp\Client::__construct()
+     * Overrides \GuzzleHttp\Client::__construct().
      *
-     * @param string $account_id
-     *   The Lift Web Account Identifier. Eg.: MYACCOUNT
-     * @param string $site_id
-     *   The Lift Web Site Identifier. Eg.: my-drupal-site
-     * @param string $public_key
-     *   The Lift Web Public Key. Not all API keys have the same permissions so be
-     *   mindful which key you are using.
-     * @param string $secret_key
-     *   The Lift Web Secret Key belonging to the Public Key
-     * @param array $config
+     * @param string $account_id The Lift Web Account Identifier. Eg.: MYACCOUNT
+     * @param string $site_id    The Lift Web Site Identifier. Eg.: my-drupal-site
+     * @param string $public_key The Lift Web Public Key. Not all API keys have
+     *                           the same permissions so be mindful which key
+     *                           you are using
+     * @param string $secret_key The Lift Web Secret Key belonging to the Public
+     *                           Key
+     * @param array  $config
      */
     public function __construct(
       $account_id,
@@ -103,7 +99,7 @@ class Lift extends Client
                 if (empty($query)) {
                     $query = $auth_query;
                 } else {
-                    $query = $query . "&" . $auth_query;
+                    $query = $query.'&'.$auth_query;
                 }
                 $uri = $uri->withQuery($query);
                 $uri->withQuery($query);
@@ -126,17 +122,28 @@ class Lift extends Client
     {
         // Now make the request.
         $request = new Request('GET', '/ping');
+
         return $this->getResponseJson($request);
     }
 
     /**
      * Get the Slot Manager.
      *
-     * @return \Acquia\LiftClient\SlotManager
+     * @return \Acquia\LiftClient\Manager\SlotManager
      */
     public function getSlotManager()
     {
         return new SlotManager($this);
+    }
+
+    /**
+     * Get the Slot Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\GoalManager
+     */
+    public function getGoalManager()
+    {
+        return new GoalManager($this);
     }
 
     /**
@@ -145,18 +152,19 @@ class Lift extends Client
      * @param RequestInterface $request
      *
      * @return mixed the value encoded in <i>json</i> in appropriate
-     * PHP type. Values true, false and
-     * null (case-insensitive) are returned as <b>TRUE</b>, <b>FALSE</b>
-     * and <b>NULL</b> respectively. <b>NULL</b> is returned if the
-     * <i>json</i> cannot be decoded or if the encoded
-     * data is deeper than the recursion limit.
+     *               PHP type. Values true, false and
+     *               null (case-insensitive) are returned as <b>TRUE</b>, <b>FALSE</b>
+     *               and <b>NULL</b> respectively. <b>NULL</b> is returned if the
+     *               <i>json</i> cannot be decoded or if the encoded
+     *               data is deeper than the recursion limit
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
     public function getResponseJson(RequestInterface $request)
     {
         $response = $this->send($request);
-        $body = (string)$response->getBody();
+        $body = (string) $response->getBody();
+
         return json_decode($body, true);
     }
 }
