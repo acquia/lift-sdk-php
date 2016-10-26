@@ -3,13 +3,10 @@
 namespace Acquia\LiftClient\Entity;
 
 use DateTime;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
 
 class Slot extends \ArrayObject
 {
-    use EntityValueTrait;
+    use EntityTrait;
 
     /**
      * @param array $array
@@ -199,30 +196,5 @@ class Slot extends \ArrayObject
         $datetime = DateTime::createFromFormat(DateTime::ISO8601, $date);
 
         return $datetime;
-    }
-
-    /**
-     * Returns the json representation of the current object.
-     *
-     * @return string
-     */
-    public function json()
-    {
-        $encoders = array(new JsonEncoder());
-        $normalizers = array(new CustomNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
-
-        return $serializer->serialize($this, 'json');
-    }
-
-    /**
-     * @param string $key
-     * @param string $default
-     *
-     * @return mixed
-     */
-    protected function getEntityValue($key, $default)
-    {
-        return isset($this[$key]) ? $this[$key] : $default;
     }
 }
