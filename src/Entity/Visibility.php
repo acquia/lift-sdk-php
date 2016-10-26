@@ -4,6 +4,8 @@ namespace Acquia\LiftClient\Entity;
 
 class Visibility extends \ArrayObject
 {
+    use EntityValueTrait;
+
     /**
      * @param array $array
      */
@@ -34,7 +36,7 @@ class Visibility extends \ArrayObject
      */
     public function getPages()
     {
-        return $this->getValue('pages', '');
+        return $this->getEntityValue('pages', '');
     }
 
     /**
@@ -60,7 +62,7 @@ class Visibility extends \ArrayObject
      */
     public function getCondition()
     {
-        return $this->getValue('condition', '');
+        return $this->getEntityValue('condition', '');
     }
 
     /**
@@ -70,7 +72,7 @@ class Visibility extends \ArrayObject
      *
      * @return mixed
      */
-    protected function getValue($key, $default)
+    protected function getEntityValue($key, $default)
     {
         return isset($this[$key]) ? $this[$key] : $default;
     }

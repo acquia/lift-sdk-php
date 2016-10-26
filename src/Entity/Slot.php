@@ -9,6 +9,7 @@ use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
 
 class Slot extends \ArrayObject
 {
+    use EntityValueTrait;
 
     /**
      * @param array $array
@@ -39,7 +40,7 @@ class Slot extends \ArrayObject
      */
     public function getId()
     {
-        return $this->getValue('id', '');
+        return $this->getEntityValue('id', '');
     }
 
     /**
@@ -63,7 +64,7 @@ class Slot extends \ArrayObject
      */
     public function getLabel()
     {
-        return $this->getValue('label', '');
+        return $this->getEntityValue('label', '');
     }
 
     /**
@@ -87,7 +88,7 @@ class Slot extends \ArrayObject
      */
     public function getDescription()
     {
-        return $this->getValue('description', '');
+        return $this->getEntityValue('description', '');
     }
 
     /**
@@ -111,7 +112,7 @@ class Slot extends \ArrayObject
      */
     public function getHtml()
     {
-        return $this->getValue('html', '');
+        return $this->getEntityValue('html', '');
     }
 
     /**
@@ -139,7 +140,7 @@ class Slot extends \ArrayObject
      */
     public function getStatus()
     {
-        $status = $this->getValue('status', '');
+        $status = $this->getEntityValue('status', '');
         if ($status == 'enabled') {
             return true;
         }
@@ -169,7 +170,7 @@ class Slot extends \ArrayObject
      */
     public function getVisibility()
     {
-        $visibility = $this->getValue('visibility', '');
+        $visibility = $this->getEntityValue('visibility', '');
 
         return new \Acquia\LiftClient\Entity\Visibility($visibility);
     }
@@ -181,7 +182,7 @@ class Slot extends \ArrayObject
      */
     public function getCreated()
     {
-        $date = $this->getValue('created', '');
+        $date = $this->getEntityValue('created', '');
         $datetime = DateTime::createFromFormat(DateTime::ISO8601, $date);
 
         return $datetime;
@@ -194,7 +195,7 @@ class Slot extends \ArrayObject
      */
     public function getUpdated()
     {
-        $date = $this->getValue('updated', '');
+        $date = $this->getEntityValue('updated', '');
         $datetime = DateTime::createFromFormat(DateTime::ISO8601, $date);
 
         return $datetime;
@@ -221,7 +222,7 @@ class Slot extends \ArrayObject
      *
      * @return mixed
      */
-    protected function getValue($key, $default)
+    protected function getEntityValue($key, $default)
     {
         return isset($this[$key]) ? $this[$key] : $default;
     }

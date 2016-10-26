@@ -2,6 +2,8 @@
 
 namespace Acquia\LiftClient;
 
+use Acquia\LiftClient\Manager\SlotManager;
+use Acquia\LiftClient\Manager\GoalManager;
 use NickVeenhof\Hmac\Guzzle\HmacAuthMiddleware;
 use NickVeenhof\Hmac\Key;
 use GuzzleHttp\Client;
@@ -132,11 +134,21 @@ class Lift extends Client
     /**
      * Get the Slot Manager.
      *
-     * @return \Acquia\LiftClient\SlotManager
+     * @return \Acquia\LiftClient\Manager\SlotManager
      */
     public function getSlotManager()
     {
         return new SlotManager($this);
+    }
+
+    /**
+     * Get the Slot Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\GoalManager
+     */
+    public function getGoalManager()
+    {
+        return new GoalManager($this);
     }
 
     /**

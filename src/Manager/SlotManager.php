@@ -1,27 +1,12 @@
 <?php
 
-namespace Acquia\LiftClient;
+namespace Acquia\LiftClient\Manager;
 
 use Acquia\LiftClient\Entity\Slot;
 use GuzzleHttp\Psr7\Request;
 
-class SlotManager
+class SlotManager extends ManagerBase
 {
-
-    /**
-     * @var \Acquia\LiftClient\Lift
-     *   The Acquia Lift Client
-     */
-    protected $client;
-
-    /**
-     * @param \Acquia\LiftClient\Lift $client
-     *   The Acquia Lift Client
-     */
-    public function __construct($client)
-    {
-        $this->client = $client;
-    }
 
     /**
      * Get a list of slots.
