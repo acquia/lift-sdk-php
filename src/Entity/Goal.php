@@ -71,8 +71,7 @@ class Goal extends \ArrayObject
     /**
      * Gets the 'name' parameter.
      *
-     * @return string
-     *                The Name of the Goal
+     * @return string The Name of the Goal
      */
     public function getName()
     {
@@ -154,7 +153,7 @@ class Goal extends \ArrayObject
             throw new LiftSdkException('site_ids argument is more than 1 level deep.');
         }
 
-        // Set only the array values to the rule_ids property.
+        // Set only the array values to the site_ids property.
         $this['site_ids'] = array_values($siteIds);
 
         return $this;

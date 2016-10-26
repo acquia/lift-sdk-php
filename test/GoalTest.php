@@ -48,29 +48,25 @@ class GoalTest extends TestBase
         $response = $manager->add($goal);
 
         // Check if the identifier is equal.
-        $this->assertEquals($response->getId(), $goal->getId());
-        // Check if the description is equal.
-        $this->assertEquals(
-          $response->getDescription(),
-          $goal->getDescription()
-        );
+        $this->assertEquals($response->getId(), 'test-id');
+
         // Check if the label is equal.
-        $this->assertEquals($response->getName(), $goal->getName());
+        $this->assertEquals($response->getName(), 'test-name');
 
         // Check if the description is equal.
-        $this->assertEquals($response->getDescription(), $goal->getDescription());
+        $this->assertEquals($response->getDescription(), 'test-description');
 
         // Check if the rule_ids is equal.
-        $this->assertEquals($response->getRuleIds(), $goal->getRuleIds());
+        $this->assertEquals($response->getRuleIds(), array('rule-id-1'));
 
         // Check if the site_ids is equal.
-        $this->assertEquals($response->getSiteIds(), $goal->getSiteIds());
+        $this->assertEquals($response->getSiteIds(), array('site-id-1'));
 
         // Check if the site_ids is equal.
-        $this->assertEquals($response->getEventNames(), $goal->getEventNames());
+        $this->assertEquals($response->getEventNames(), array('Click-Through'));
 
         // Check if the global was set correctly.
-        $this->assertEquals($response->getGlobal(), $goal->getGlobal());
+        $this->assertEquals($response->getGlobal(), false);
     }
 
     public function testGoalAddFailed()

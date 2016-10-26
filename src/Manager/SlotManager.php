@@ -63,9 +63,7 @@ class SlotManager extends ManagerBase
      *
      * @return \Acquia\LiftClient\Entity\Slot
      */
-    public function get(
-      $id
-    ) {
+    public function get($id) {
         $url = "/slots/{$id}";
 
         // Now make the request.
@@ -84,9 +82,7 @@ class SlotManager extends ManagerBase
      *
      * @return \Acquia\LiftClient\Entity\Slot
      */
-    public function add(
-      Slot $slot
-    ) {
+    public function add(Slot $slot) {
         $body = $slot->json();
         $url = '/slots';
         $request = new Request('POST', $url, [], $body);
@@ -104,9 +100,7 @@ class SlotManager extends ManagerBase
      *
      * @return bool
      */
-    public function delete(
-      $id
-    ) {
+    public function delete($id) {
         $url = "/slots/{$id}";
         $this->client->delete($url);
 
