@@ -7,7 +7,6 @@ use GuzzleHttp\Psr7\Request;
 
 class SlotManager extends ManagerBase
 {
-
     /**
      * Get a list of slots.
      *
@@ -34,7 +33,7 @@ class SlotManager extends ManagerBase
             'start' => 0,
           ];
 
-        $url = "/slots";
+        $url = '/slots';
         $url .= isset($variables['visible_on_page']) ? "&visible_on_page={$variables['visible_on_page']}" : '';
         $url .= isset($variables['status']) ? "&status={$variables['status']}" : '';
 
@@ -51,9 +50,8 @@ class SlotManager extends ManagerBase
         return $slots;
     }
 
-
     /**
-     * Get a specific slot
+     * Get a specific slot.
      *
      * Example of how to structure the $options parameter:
      *
@@ -78,7 +76,7 @@ class SlotManager extends ManagerBase
     }
 
     /**
-     * Add a slot
+     * Add a slot.
      *
      * @param \Acquia\LiftClient\Entity\Slot $slot
      *
@@ -90,7 +88,7 @@ class SlotManager extends ManagerBase
       Slot $slot
     ) {
         $body = $slot->json();
-        $url = "/slots";
+        $url = '/slots';
         $request = new Request('POST', $url, [], $body);
         $data = $this->client->getResponseJson($request);
 
@@ -103,7 +101,7 @@ class SlotManager extends ManagerBase
      * @param string $id
      *
      * @return bool
-     *   returns TRUE if successful.
+     *              returns TRUE if successful
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */

@@ -2,7 +2,6 @@
 
 namespace Acquia\LiftClient\Exception;
 
-
-class LiftSdkException extends \Exception {
-
+class LiftSdkException extends \Exception
+{
 }

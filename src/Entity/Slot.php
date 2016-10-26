@@ -216,7 +216,6 @@ class Slot extends \ArrayObject
     }
 
     /**
-     *
      * @param string $key
      * @param string $default
      *

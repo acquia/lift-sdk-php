@@ -4,8 +4,7 @@ namespace Acquia\LiftClient\Manager;
 
 abstract class ManagerBase
 {
-
-  /**
+    /**
    * @var \Acquia\LiftClient\Lift
    *   The Acquia Lift Client
    */
@@ -17,6 +16,6 @@ abstract class ManagerBase
    */
   public function __construct($client)
   {
-    $this->client = $client;
+      $this->client = $client;
   }
 }

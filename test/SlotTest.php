@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\LiftClient\Test;
+namespace Acquia\LiftClient\test;
 
 use Acquia\LiftClient\Entity\Slot;
 use Acquia\LiftClient\Entity\Visibility;
@@ -157,7 +157,7 @@ class SlotTest extends TestBase
               'pages' => ['localhost/blog/*'],
               'condition' => 'show',
             ),
-          ]
+          ],
         ];
 
         $response = new Response(200, [], json_encode($data));

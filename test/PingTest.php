@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\LiftClient\Test;
+namespace Acquia\LiftClient\test;
 
 use GuzzleHttp\Psr7\Response;
 
@@ -22,6 +22,4 @@ class PingTest extends TestBase
         $response = $client->ping();
         $this->assertEquals($data, $response);
     }
-
-
 }

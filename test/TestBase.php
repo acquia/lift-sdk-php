@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\LiftClient\Test;
+namespace Acquia\LiftClient\test;
 
 use Acquia\LiftClient\Lift;
 use NickVeenhof\Hmac\Key;
@@ -11,24 +11,24 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \NickVeenhof\Hmac\KeyInterface
-     *   A sample key.
+     *                                     A sample key
      */
     protected $authKey;
 
     /**
      * @var string
-     *   The account we are using.
+     *             The account we are using
      */
     protected $accountId;
 
     /**
      * @var string
-     *   The site identifier we are using.
+     *             The site identifier we are using
      */
     protected $siteId;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function setUp()
     {

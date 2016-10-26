@@ -2,10 +2,9 @@
 
 namespace Acquia\LiftClient\Entity;
 
-trait EntityValueTrait {
-
-  /**
-   *
+trait EntityValueTrait
+{
+    /**
    * @param string $key
    * @param string $default
    *
@@ -13,7 +12,6 @@ trait EntityValueTrait {
    */
   private function getEntityValue($key, $default)
   {
-    return isset($this[$key]) ? $this[$key] : $default;
+      return isset($this[$key]) ? $this[$key] : $default;
   }
-
 }

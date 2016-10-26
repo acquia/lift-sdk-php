@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\LiftClient\Test;
+namespace Acquia\LiftClient\test;
 
 use Acquia\LiftClient\Entity\Goal;
 use GuzzleHttp\Exception\RequestException;
@@ -25,7 +25,7 @@ class GoalTest extends TestBase
             'Click-Through',
           ],
           'global' => false,
-          'value' => 100
+          'value' => 100,
         ];
         $response = new Response(200, [], json_encode($data));
         $responses = [
@@ -150,8 +150,8 @@ class GoalTest extends TestBase
               'Click-Through',
             ],
             'global' => false,
-            'value' => 100
-          ]
+            'value' => 100,
+          ],
         ];
 
         $response = new Response(200, [], json_encode($data));
@@ -165,7 +165,7 @@ class GoalTest extends TestBase
         $manager = $client->getGoalManager();
         $responses = $manager->query();
         foreach ($responses as $response) {
-          // Check if the identifier is equal.
+            // Check if the identifier is equal.
           $this->assertEquals($response->getId(), 'test-id');
 
           // Check if the label is equal.
@@ -226,7 +226,7 @@ class GoalTest extends TestBase
             'Click-Through',
           ],
           'global' => false,
-          'value' => 100
+          'value' => 100,
         ];
 
         $response = new Response(200, [], json_encode($data));

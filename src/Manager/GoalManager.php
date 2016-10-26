@@ -3,12 +3,10 @@
 namespace Acquia\LiftClient\Manager;
 
 use Acquia\LiftClient\Entity\Goal;
-use Acquia\LiftClient\Entity\Slot;
 use GuzzleHttp\Psr7\Request;
 
 class GoalManager extends ManagerBase
 {
-
     /**
      * Get a list of Goals.
      *
@@ -29,8 +27,7 @@ class GoalManager extends ManagerBase
      */
     public function query($options = [])
     {
-
-        $url = "/goals";
+        $url = '/goals';
         $url .= isset($options['limit_by_site']) ? "&limit_by_site={$options['limit_by_site']}" : '';
 
         // Now make the request.
@@ -46,9 +43,8 @@ class GoalManager extends ManagerBase
         return $goals;
     }
 
-
     /**
-     * Get a specific goal
+     * Get a specific goal.
      *
      * @see http://docs.decision-api.acquia.com/#goals__goal_id__get
      *
@@ -71,7 +67,7 @@ class GoalManager extends ManagerBase
     }
 
     /**
-     * Add a goal
+     * Add a goal.
      *
      * @see http://docs.decision-api.acquia.com/#goals_post
      *
@@ -85,7 +81,7 @@ class GoalManager extends ManagerBase
       Goal $goal
     ) {
         $body = $goal->json();
-        $url = "/goals";
+        $url = '/goals';
         $request = new Request('POST', $url, [], $body);
         $data = $this->client->getResponseJson($request);
 
@@ -100,7 +96,7 @@ class GoalManager extends ManagerBase
      * @param string $id
      *
      * @return bool
-     *   returns TRUE if successful.
+     *              returns TRUE if successful
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */

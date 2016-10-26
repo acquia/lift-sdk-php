@@ -16,9 +16,9 @@ class Visibility extends \ArrayObject
 
     /**
      * @param array $pages
-     *   Specify pages by using their paths. The '*' character is a wildcard.
-     *   Example paths are http://mywebsite.com/user for the current user's page
-     *   and http://mywebsite.com/user/* for every user page.
+     *                     Specify pages by using their paths. The '*' character is a wildcard.
+     *                     Example paths are http://mywebsite.com/user for the current user's page
+     *                     and http://mywebsite.com/user/* for every user page
      *
      * @return \Acquia\LiftClient\Entity\Visibility
      */
@@ -41,8 +41,8 @@ class Visibility extends \ArrayObject
 
     /**
      * @param string $condition
-     *   Sets the condition of this visibility object. Can be 'show' or 'hide'.
-     *   Any other option will be ignored.
+     *                          Sets the condition of this visibility object. Can be 'show' or 'hide'.
+     *                          Any other option will be ignored
      *
      * @return \Acquia\LiftClient\Entity\Visibility
      */
@@ -66,7 +66,6 @@ class Visibility extends \ArrayObject
     }
 
     /**
-     *
      * @param string $key
      * @param string $default
      *
