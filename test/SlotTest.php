@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\LiftClient\test;
+namespace Acquia\LiftClient\Test;
 
 use Acquia\LiftClient\Entity\Slot;
 use Acquia\LiftClient\Entity\Visibility;

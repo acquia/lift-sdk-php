@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\LiftClient\test;
+namespace Acquia\LiftClient\Test;
 
 use GuzzleHttp\Psr7\Response;
 
