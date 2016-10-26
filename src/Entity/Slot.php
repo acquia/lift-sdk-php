@@ -154,7 +154,7 @@ class Slot extends \ArrayObject
      */
     public function setVisibility(Visibility $visibility)
     {
-        // We need to 'normalize' so that we stay with arrays. Annoying stuff.
+        // We need to 'normalize' the data.
         $this['visibility'] = $visibility->getArrayCopy();
 
         return $this;
@@ -169,7 +169,7 @@ class Slot extends \ArrayObject
     {
         $visibility = $this->getEntityValue('visibility', '');
 
-        return new \Acquia\LiftClient\Entity\Visibility($visibility);
+        return new Visibility($visibility);
     }
 
     /**

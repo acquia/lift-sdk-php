@@ -14,7 +14,7 @@ trait EntityTrait
    *
    * @return mixed
    */
-  private function getEntityValue($key, $default)
+  protected function getEntityValue($key, $default)
   {
       return isset($this[$key]) ? $this[$key] : $default;
   }

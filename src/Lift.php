@@ -2,6 +2,7 @@
 
 namespace Acquia\LiftClient;
 
+use Acquia\LiftClient\Manager\RuleManager;
 use Acquia\LiftClient\Manager\SegmentManager;
 use Acquia\LiftClient\Manager\SlotManager;
 use Acquia\LiftClient\Manager\GoalManager;
@@ -155,6 +156,16 @@ class Lift extends Client
     public function getSegmentManager()
     {
         return new SegmentManager($this);
+    }
+
+    /**
+     * Get the Rules Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\RuleManager
+     */
+    public function getRuleManager()
+    {
+        return new RuleManager($this);
     }
 
     /**
