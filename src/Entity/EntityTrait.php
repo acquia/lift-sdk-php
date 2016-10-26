@@ -8,9 +8,9 @@ use Symfony\Component\Serializer\Serializer;
 
 trait EntityTrait
 {
-    /**
+  /**
    * @param string $key
-   * @param string $default
+   * @param string|int|float|array $default
    *
    * @return mixed
    */

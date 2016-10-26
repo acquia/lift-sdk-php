@@ -167,7 +167,7 @@ class Slot extends \ArrayObject
      */
     public function getVisibility()
     {
-        $visibility = $this->getEntityValue('visibility', '');
+        $visibility = $this->getEntityValue('visibility', []);
 
         return new Visibility($visibility);
     }

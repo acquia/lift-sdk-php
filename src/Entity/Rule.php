@@ -305,13 +305,13 @@ class Rule extends \ArrayObject
         // Only allow one test type at a time.
         $this['testconfig'] = [];
         switch ($type) {
-            case 'TestConfigAb':
+            case 'Acquia\LiftClient\Entity\TestConfigAb':
                 $this['testconfig']['ab'] = $testConfig->getArrayCopy();
                 break;
-            case 'TestConfigMab':
+            case 'Acquia\LiftClient\Entity\TestConfigMab':
                 $this['testconfig']['mab'] = $testConfig->getArrayCopy();
                 break;
-            case 'TestConfigTarget':
+            case 'Acquia\LiftClient\Entity\TestConfigTarget':
                 $this['testconfig']['target'] = $testConfig->getArrayCopy();
                 break;
         }
@@ -326,7 +326,7 @@ class Rule extends \ArrayObject
      */
     public function getTestConfig()
     {
-        $testConfig = $this->getEntityValue('testconfig', '');
+        $testConfig = $this->getEntityValue('testconfig', []);
         // We know the array only has one possible set of options.
         // Get its key and value.
         reset($testConfig);

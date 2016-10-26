@@ -99,6 +99,31 @@ class Content extends \ArrayObject
       return $this->getEntityValue('base_url', '');
   }
 
+
+  /**
+   * @param ViewMode $viewMode
+   *
+   * @throws \Acquia\LiftClient\Exception\LiftSdkException
+   *
+   * @return \Acquia\LiftClient\Entity\Content
+   */
+  public function setViewMode(ViewMode $viewMode)
+  {
+    $this['view_mode'] = $viewMode->getArrayCopy();
+    return $this;
+  }
+
+  /**
+   * Gets the 'id' parameter.
+   *
+   * @return viewMode
+   */
+  public function getViewMode()
+  {
+    $viewMode = $this->getEntityValue('view_mode', []);
+    return new ViewMode($viewMode);
+  }
+
   /**
    * Gets the 'error' parameter.
    *

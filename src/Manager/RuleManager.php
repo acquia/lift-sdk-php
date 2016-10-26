@@ -2,7 +2,6 @@
 
 namespace Acquia\LiftClient\Manager;
 
-use Acquia\LiftClient\Entity\Goal;
 use Acquia\LiftClient\Entity\Rule;
 use GuzzleHttp\Psr7\Request;
 
@@ -47,7 +46,7 @@ class RuleManager extends ManagerBase
         $request = new Request('GET', $url);
         $data = $this->client->getResponseJson($request);
 
-        // Get them as Goal objects
+        // Get them as Rule objects
         $rules = [];
         foreach ($data as $dataItem) {
             $rules[] = new Rule($dataItem);
@@ -98,7 +97,7 @@ class RuleManager extends ManagerBase
         $request = new Request('POST', $url, [], $body);
         $data = $this->client->getResponseJson($request);
 
-        return new Goal($data);
+        return new Rule($data);
     }
 
     /**
