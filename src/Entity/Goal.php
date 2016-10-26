@@ -4,7 +4,6 @@ namespace Acquia\LiftClient\Entity;
 
 use Acquia\LiftClient\Exception\LiftSdkException;
 use Acquia\LiftClient\Utility\Utility;
-use foo\bar\Exception;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
@@ -25,14 +24,10 @@ class Goal extends \ArrayObject
      * Sets the 'id' parameter.
      *
      * @param string $id
-     *                   The identifier of the Goal
-     *
-     * @return \Acquia\LiftClient\Entity\Goal
-     *                                        The Goal Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *                                                       Throws an exception if the argument given does not match the expected set of
-     *                                                       values
+     *
+     * @return \Acquia\LiftClient\Entity\Goal
      */
     public function setId($id)
     {
@@ -47,8 +42,7 @@ class Goal extends \ArrayObject
     /**
      * Gets the 'id' parameter.
      *
-     * @return string
-     *                The Identifier of the Goal
+     * @return string The Identifier of the Goal
      */
     public function getId()
     {
@@ -59,14 +53,10 @@ class Goal extends \ArrayObject
      * Sets the 'name' parameter.
      *
      * @param string $name
-     *                     The Name of the Goal
-     *
-     * @return \Acquia\LiftClient\Entity\Goal
-     *                                        The Goal Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *                                                       Throws an exception if the argument given does not match the expected set of
-     *                                                       values
+     *
+     * @return \Acquia\LiftClient\Entity\Goal
      */
     public function setName($name)
     {
@@ -93,14 +83,10 @@ class Goal extends \ArrayObject
      * Sets the 'description' parameter.
      *
      * @param string $description
-     *                            The Description of the Goal
-     *
-     * @return \Acquia\LiftClient\Entity\Goal
-     *                                        The Goal Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *                                                       Throws an exception if the argument given does not match the expected set of
-     *                                                       values
+     *
+     * @return \Acquia\LiftClient\Entity\Goal
      */
     public function setDescription($description)
     {
@@ -115,8 +101,7 @@ class Goal extends \ArrayObject
     /**
      * Gets the 'description' parameter.
      *
-     * @return string
-     *                The Description of the Goal
+     * @return string The Description of the Goal
      */
     public function getDescription()
     {
@@ -127,14 +112,10 @@ class Goal extends \ArrayObject
      * Sets the 'rule_ids' parameter.
      *
      * @param array $ruleIds
-     *                       An array of rule identifiers
-     *
-     * @return \Acquia\LiftClient\Entity\Goal
-     *                                        The Goal Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *                                                       Throws an exception if the argument given does not match the expected set of
-     *                                                       values
+     *
+     * @return \Acquia\LiftClient\Entity\Goal
      */
     public function setRuleIds(array $ruleIds)
     {
@@ -151,8 +132,7 @@ class Goal extends \ArrayObject
     /**
      * Gets the 'rule_ids' parameter.
      *
-     * @return array
-     *               The Rule Identifiers
+     * @return array The Rule Identifiers
      */
     public function getRuleIds()
     {
@@ -163,14 +143,10 @@ class Goal extends \ArrayObject
      * Sets the 'site_ids' parameter.
      *
      * @param array $siteIds
-     *                       An array of site identifiers
-     *
-     * @return \Acquia\LiftClient\Entity\Goal
-     *                                        The Goal Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *                                                       Throws an exception if the argument given does not match the expected set of
-     *                                                       values
+     *
+     * @return \Acquia\LiftClient\Entity\Goal
      */
     public function setSiteIds(array $siteIds)
     {
@@ -187,8 +163,7 @@ class Goal extends \ArrayObject
     /**
      * Gets the 'site_ids' parameter.
      *
-     * @return array
-     *               The Site Identifiers
+     * @return array The Site Identifiers
      */
     public function getSiteIds()
     {
@@ -199,14 +174,10 @@ class Goal extends \ArrayObject
      * Sets the 'event_names' parameter.
      *
      * @param array $eventNames
-     *                          An array of event names
-     *
-     * @return \Acquia\LiftClient\Entity\Goal
-     *                                        The Goal Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *                                                       Throws an exception if the argument given does not match the expected set of
-     *                                                       values
+     *
+     * @return \Acquia\LiftClient\Entity\Goal
      */
     public function setEventNames(array $eventNames)
     {
@@ -223,8 +194,7 @@ class Goal extends \ArrayObject
     /**
      * Gets the 'rule_ids' parameter.
      *
-     * @return array
-     *               The Rule Identifiers
+     * @return array The Rule Identifiers
      */
     public function getEventNames()
     {
@@ -259,14 +229,10 @@ class Goal extends \ArrayObject
      * Sets the 'value' parameter.
      *
      * @param float|int $value
-     *                         The value of the Goal
-     *
-     * @return \Acquia\LiftClient\Entity\Goal
-     *                                        The Goal Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *                                                       Throws an exception if the argument given does not match the expected set of
-     *                                                       values
+     *
+     * @return \Acquia\LiftClient\Entity\Goal
      */
     public function setValue($value)
     {

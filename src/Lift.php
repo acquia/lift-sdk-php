@@ -14,35 +14,30 @@ use Psr\Http\Message\RequestInterface;
 class Lift extends Client
 {
     /**
-     * @var \NickVeenhof\Hmac\KeyInterface
-     *                                     A sample key
+     * @var \NickVeenhof\Hmac\KeyInterface A sample key
      */
     protected $authKey;
 
     /**
-     * @var string
-     *             The account we are using
+     * @var string The account we are using
      */
     protected $accountId;
 
     /**
-     * @var string
-     *             The site identifier we are using
+     * @var string The site identifier we are using
      */
     protected $siteId;
 
     /**
      * Overrides \GuzzleHttp\Client::__construct().
      *
-     * @param string $account_id
-     *                           The Lift Web Account Identifier. Eg.: MYACCOUNT
-     * @param string $site_id
-     *                           The Lift Web Site Identifier. Eg.: my-drupal-site
-     * @param string $public_key
-     *                           The Lift Web Public Key. Not all API keys have the same permissions so be
-     *                           mindful which key you are using
-     * @param string $secret_key
-     *                           The Lift Web Secret Key belonging to the Public Key
+     * @param string $account_id The Lift Web Account Identifier. Eg.: MYACCOUNT
+     * @param string $site_id    The Lift Web Site Identifier. Eg.: my-drupal-site
+     * @param string $public_key The Lift Web Public Key. Not all API keys have
+     *                           the same permissions so be mindful which key
+     *                           you are using
+     * @param string $secret_key The Lift Web Secret Key belonging to the Public
+     *                           Key
      * @param array  $config
      */
     public function __construct(

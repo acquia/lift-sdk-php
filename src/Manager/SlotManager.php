@@ -22,9 +22,9 @@ class SlotManager extends ManagerBase
      *
      * @param array $options
      *
-     * @return \Acquia\LiftClient\Entity\Slot[]
-     *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return \Acquia\LiftClient\Entity\Slot[]
      */
     public function query($options = [])
     {
@@ -57,16 +57,16 @@ class SlotManager extends ManagerBase
      *
      * @see http://docs.decision-api.acquia.com/#slots__slotId__get
      *
-     * @param array $options
-     *
-     * @return \Acquia\LiftClient\Entity\Slot
+     * @param array $id
      *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return \Acquia\LiftClient\Entity\Slot
      */
     public function get(
-      $slotId
+      $id
     ) {
-        $url = "/slots/{$slotId}";
+        $url = "/slots/{$id}";
 
         // Now make the request.
         $request = new Request('GET', $url);
@@ -80,9 +80,9 @@ class SlotManager extends ManagerBase
      *
      * @param \Acquia\LiftClient\Entity\Slot $slot
      *
-     * @return \Acquia\LiftClient\Entity\Slot
-     *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return \Acquia\LiftClient\Entity\Slot
      */
     public function add(
       Slot $slot
@@ -100,10 +100,9 @@ class SlotManager extends ManagerBase
      *
      * @param string $id
      *
-     * @return bool
-     *              returns TRUE if successful
-     *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return bool
      */
     public function delete(
       $id

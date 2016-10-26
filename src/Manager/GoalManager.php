@@ -21,9 +21,9 @@ class GoalManager extends ManagerBase
      *
      * @param array $options
      *
-     * @return \Acquia\LiftClient\Entity\Goal[]
-     *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return \Acquia\LiftClient\Entity\Goal[]
      */
     public function query($options = [])
     {
@@ -50,9 +50,9 @@ class GoalManager extends ManagerBase
      *
      * @param array $id
      *
-     * @return \Acquia\LiftClient\Entity\Goal
-     *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return \Acquia\LiftClient\Entity\Goal
      */
     public function get(
       $id
@@ -73,9 +73,9 @@ class GoalManager extends ManagerBase
      *
      * @param \Acquia\LiftClient\Entity\Goal $goal
      *
-     * @return \Acquia\LiftClient\Entity\Goal
-     *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return \Acquia\LiftClient\Entity\Goal
      */
     public function add(
       Goal $goal
@@ -95,10 +95,9 @@ class GoalManager extends ManagerBase
      *
      * @param string $id
      *
-     * @return bool
-     *              returns TRUE if successful
-     *
      * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return bool
      */
     public function delete(
       $id
