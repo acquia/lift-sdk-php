@@ -2,13 +2,11 @@
 
 namespace Acquia\LiftClient\Test;
 
-use Acquia\LiftClient\Entity\Goal;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Response;
 
 class SegmentTest extends TestBase
 {
-
     public function testSegmentQuery()
     {
         $data = [
@@ -58,5 +56,4 @@ class SegmentTest extends TestBase
             $this->assertEquals($e->getResponse()->getStatusCode(), 400);
         }
     }
-
 }

@@ -2,7 +2,6 @@
 
 namespace Acquia\LiftClient\Manager;
 
-use Acquia\LiftClient\Entity\Goal;
 use Acquia\LiftClient\Entity\Segment;
 use GuzzleHttp\Psr7\Request;
 

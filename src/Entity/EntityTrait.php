@@ -26,9 +26,10 @@ trait EntityTrait
    */
   public function json()
   {
-    $encoders = array(new JsonEncoder());
-    $normalizers = array(new CustomNormalizer());
-    $serializer = new Serializer($normalizers, $encoders);
-    return $serializer->serialize($this, 'json');
+      $encoders = array(new JsonEncoder());
+      $normalizers = array(new CustomNormalizer());
+      $serializer = new Serializer($normalizers, $encoders);
+
+      return $serializer->serialize($this, 'json');
   }
 }
