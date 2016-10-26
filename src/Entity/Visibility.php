@@ -4,7 +4,7 @@ namespace Acquia\LiftClient\Entity;
 
 class Visibility extends \ArrayObject
 {
-    use EntityValueTrait;
+    use EntityTrait;
 
     /**
      * @param array $array
@@ -62,16 +62,5 @@ class Visibility extends \ArrayObject
     public function getCondition()
     {
         return $this->getEntityValue('condition', '');
-    }
-
-    /**
-     * @param string $key
-     * @param string $default
-     *
-     * @return mixed
-     */
-    protected function getEntityValue($key, $default)
-    {
-        return isset($this[$key]) ? $this[$key] : $default;
     }
 }

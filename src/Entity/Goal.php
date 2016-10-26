@@ -4,13 +4,10 @@ namespace Acquia\LiftClient\Entity;
 
 use Acquia\LiftClient\Exception\LiftSdkException;
 use Acquia\LiftClient\Utility\Utility;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
 
 class Goal extends \ArrayObject
 {
-    use EntityValueTrait;
+    use EntityTrait;
 
     /**
      * @param array $array
@@ -251,19 +248,5 @@ class Goal extends \ArrayObject
     public function getValue()
     {
         return $this->getEntityValue('value', '');
-    }
-
-    /**
-     * Returns the json representation of the current object.
-     *
-     * @return string
-     */
-    public function json()
-    {
-        $encoders = array(new JsonEncoder());
-        $normalizers = array(new CustomNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
-
-        return $serializer->serialize($this, 'json');
     }
 }

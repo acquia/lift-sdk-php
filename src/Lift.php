@@ -2,6 +2,7 @@
 
 namespace Acquia\LiftClient;
 
+use Acquia\LiftClient\Manager\SegmentManager;
 use Acquia\LiftClient\Manager\SlotManager;
 use Acquia\LiftClient\Manager\GoalManager;
 use NickVeenhof\Hmac\Guzzle\HmacAuthMiddleware;
@@ -144,6 +145,16 @@ class Lift extends Client
     public function getGoalManager()
     {
         return new GoalManager($this);
+    }
+
+    /**
+     * Get the Segment Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\SegmentManager
+     */
+    public function getSegmentManager()
+    {
+        return new SegmentManager($this);
     }
 
     /**
