@@ -2,10 +2,8 @@
 
 namespace Acquia\LiftClient\Entity;
 
-class Segment extends \ArrayObject
+class Segment extends Entity
 {
-    use EntityTrait;
-
     /**
      * @param array $array
      */

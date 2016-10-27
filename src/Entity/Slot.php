@@ -4,10 +4,8 @@ namespace Acquia\LiftClient\Entity;
 
 use DateTime;
 
-class Slot extends \ArrayObject
+class Slot extends Entity
 {
-    use EntityTrait;
-
     /**
      * @param array $array
      */
@@ -154,7 +152,7 @@ class Slot extends \ArrayObject
      */
     public function setVisibility(Visibility $visibility)
     {
-        // We need to 'normalize' so that we stay with arrays. Annoying stuff.
+        // We need to 'normalize' the data.
         $this['visibility'] = $visibility->getArrayCopy();
 
         return $this;
@@ -163,19 +161,19 @@ class Slot extends \ArrayObject
     /**
      * Gets the 'visibility' parameter.
      *
-     * @return string
+     * @return Visibility
      */
     public function getVisibility()
     {
-        $visibility = $this->getEntityValue('visibility', '');
+        $visibility = $this->getEntityValue('visibility', []);
 
-        return new \Acquia\LiftClient\Entity\Visibility($visibility);
+        return new Visibility($visibility);
     }
 
     /**
      * Gets the 'created' parameter.
      *
-     * @return DateTime
+     * @return DateTime|false
      */
     public function getCreated()
     {
@@ -188,7 +186,7 @@ class Slot extends \ArrayObject
     /**
      * Gets the 'updated' parameter.
      *
-     * @return DateTime
+     * @return DateTime|false
      */
     public function getUpdated()
     {

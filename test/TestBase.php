@@ -10,20 +10,17 @@ use GuzzleHttp\HandlerStack;
 abstract class TestBase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \NickVeenhof\Hmac\KeyInterface
-     *                                     A sample key
+     * @var \NickVeenhof\Hmac\KeyInterface A sample key
      */
     protected $authKey;
 
     /**
-     * @var string
-     *             The account we are using
+     * @var string The account we are using
      */
     protected $accountId;
 
     /**
-     * @var string
-     *             The site identifier we are using
+     * @var string The site identifier we are using
      */
     protected $siteId;
 

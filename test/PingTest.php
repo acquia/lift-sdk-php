@@ -10,7 +10,7 @@ class PingTest extends TestBase
     {
         // Setup
         $data = [
-          'success' => 1,
+          'success' => true,
         ];
         $response = new Response(200, [], json_encode($data));
         $responses = [
