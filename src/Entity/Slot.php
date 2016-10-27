@@ -173,7 +173,7 @@ class Slot extends Entity
     /**
      * Gets the 'created' parameter.
      *
-     * @return DateTime
+     * @return DateTime|false
      */
     public function getCreated()
     {
@@ -186,7 +186,7 @@ class Slot extends Entity
     /**
      * Gets the 'updated' parameter.
      *
-     * @return DateTime
+     * @return DateTime|false
      */
     public function getUpdated()
     {

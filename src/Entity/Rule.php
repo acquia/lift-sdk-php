@@ -260,11 +260,11 @@ class Rule extends Entity
     /**
      * Gets the 'created' parameter.
      *
-     * @return DateTime
+     * @return DateTime|false
      */
     public function getCreated()
     {
-        $date = $this->getEntityValue('created', '');
+        $date = $this->getEntityValue('created', 0);
         $datetime = DateTime::createFromFormat(DateTime::ISO8601, $date);
 
         return $datetime;
@@ -273,11 +273,11 @@ class Rule extends Entity
     /**
      * Gets the 'updated' parameter.
      *
-     * @return DateTime
+     * @return DateTime|false
      */
     public function getUpdated()
     {
-        $date = $this->getEntityValue('updated', '');
+        $date = $this->getEntityValue('updated', 0);
         $datetime = DateTime::createFromFormat(DateTime::ISO8601, $date);
 
         return $datetime;
@@ -336,10 +336,8 @@ class Rule extends Entity
                 return new TestConfigAb($testConfig[$key]);
             case 'mab':
                 return new TestConfigMab($testConfig[$key]);
-                break;
             case 'target':
                 return new TestConfigTarget($testConfig[$key]);
-                break;
         }
 
         return null;
