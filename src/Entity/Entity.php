@@ -9,8 +9,8 @@ use Symfony\Component\Serializer\Serializer;
 class Entity extends \ArrayObject
 {
     /**
-     * @param string                 $key
-     * @param string|int|float|array $default
+     * @param string                      $key
+     * @param string|int|float|array|bool $default
      *
      * @return mixed
      */
