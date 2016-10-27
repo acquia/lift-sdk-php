@@ -2,15 +2,13 @@
 
 namespace Acquia\LiftClient\Entity;
 
-class TestConfigBase extends \ArrayObject implements TestConfigInterface
+class TestConfigBase extends Entity implements TestConfigInterface
 {
-    use EntityTrait;
-
-  /**
-   * @param array $array
-   */
-  public function __construct(array $array = [])
-  {
-      parent::__construct($array);
-  }
+    /**
+     * @param array $array
+     */
+    public function __construct(array $array = [])
+    {
+        parent::__construct($array);
+    }
 }

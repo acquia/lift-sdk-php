@@ -5,10 +5,8 @@ namespace Acquia\LiftClient\Entity;
 use Acquia\LiftClient\Exception\LiftSdkException;
 use Acquia\LiftClient\Utility\Utility;
 
-class Goal extends \ArrayObject
+class Goal extends Entity
 {
-    use EntityTrait;
-
     /**
      * @param array $array
      */

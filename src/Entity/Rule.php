@@ -5,10 +5,8 @@ namespace Acquia\LiftClient\Entity;
 use Acquia\LiftClient\Exception\LiftSdkException;
 use DateTime;
 
-class Rule extends \ArrayObject
+class Rule extends Entity
 {
-    use EntityTrait;
-
     /**
      * @param array $array
      */
@@ -335,12 +333,12 @@ class Rule extends \ArrayObject
         // Based on the config, we load the different objects.
         switch ($key) {
             case 'ab':
-                return new TestConfigAb($testConfig);
+                return new TestConfigAb($testConfig[$key]);
             case 'mab':
-                return new TestConfigMab($testConfig);
+                return new TestConfigMab($testConfig[$key]);
                 break;
             case 'target':
-                return new TestConfigTarget($testConfig);
+                return new TestConfigTarget($testConfig[$key]);
                 break;
         }
 

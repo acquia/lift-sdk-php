@@ -2,10 +2,8 @@
 
 namespace Acquia\LiftClient\Entity;
 
-class Visibility extends \ArrayObject
+class Visibility extends Entity
 {
-    use EntityTrait;
-
     /**
      * @param array $array
      */

@@ -66,9 +66,8 @@ class RuleManager extends ManagerBase
      *
      * @return \Acquia\LiftClient\Entity\Rule
      */
-    public function get(
-      $id
-    ) {
+    public function get($id)
+    {
         $url = "/rules/{$id}";
 
         // Now make the request.
@@ -89,9 +88,8 @@ class RuleManager extends ManagerBase
      *
      * @return \Acquia\LiftClient\Entity\Rule
      */
-    public function add(
-      Rule $rule
-    ) {
+    public function add(Rule $rule)
+    {
         $body = $rule->json();
         $url = '/rules';
         $request = new Request('POST', $url, [], $body);
@@ -111,9 +109,8 @@ class RuleManager extends ManagerBase
      *
      * @return bool
      */
-    public function delete(
-      $id
-    ) {
+    public function delete($id)
+    {
         $url = "/rules/{$id}";
         $this->client->delete($url);
 

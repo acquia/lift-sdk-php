@@ -4,10 +4,8 @@ namespace Acquia\LiftClient\Entity;
 
 use DateTime;
 
-class Slot extends \ArrayObject
+class Slot extends Entity
 {
-    use EntityTrait;
-
     /**
      * @param array $array
      */

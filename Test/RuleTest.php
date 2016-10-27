@@ -13,8 +13,30 @@ use GuzzleHttp\Psr7\Response;
 
 class RuleTest extends TestBase
 {
+    /**
+     * @var Rule
+     */
+    private $rule;
 
-    public function getRuleTestObject() {
+    /**
+     * @var array
+     */
+    private $ruleResponseData;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->setTestRule();
+        $this->setTestRuleResponseData();
+    }
+
+    /**
+     * Sets the rule object we are testing with.
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     */
+    private function setTestRule()
+    {
         $viewMode1 = new ViewMode();
         $viewMode1->setId('banner-wide-1');
 
@@ -65,10 +87,10 @@ class RuleTest extends TestBase
           ->setContent([$contentPiece1, $contentPiece2])
           ->setTestConfig($testConfig);
 
-        return $rule;
+        $this->rule = $rule;
     }
 
-    public function testRuleAdd()
+    private function setTestRuleResponseData()
     {
         $contentList = [
           [
@@ -79,9 +101,9 @@ class RuleTest extends TestBase
               'id' => 'banner-wide-1',
               'label' => 'Wide Banner Version 1',
               'preview_image' => 'http://mysite.dev/preview-image-1.png',
-              'url' => 'http://mysite.dev/render/front-banner-1/banner-wide-1',
-              'html'=> '<img src="http://mysite.dev/preview-image-1.png"/>',
-            ]
+              'url' => 'http://mysite.dev/render/front-banner/banner-wide-1',
+              'html' => '<img src="http://mysite.dev/preview-image-1.png"/>',
+            ],
           ],
           [
             'id' => 'front-banner',
@@ -91,94 +113,105 @@ class RuleTest extends TestBase
               'id' => 'banner-wide-2',
               'label' => 'Wide Banner Version 2',
               'preview_image' => 'http://mysite.dev/preview-image-2.png',
-              'url' => 'http://mysite.dev/render/front-banner-1/banner-wide-2',
-              'html'=> '<img src="http://mysite.dev/preview-image-2.png"/>',
-            ]
+              'url' => 'http://mysite.dev/render/front-banner/banner-wide-2',
+              'html' => '<img src="http://mysite.dev/preview-image-2.png"/>',
+            ],
           ],
         ];
         // Setup
-        $data = [
-            'id' => 'rule-1',
-            'label' => 'Banner for Belgians',
-            'description' => 'Front page banner personalization for Belgians',
-            'slot_id' => 'slot-1',
-            'updated' => '2016-01-05T22:04:39Z',
-            'created' => '2016-01-05T22:04:39Z',
-            'status' => 'published',
-            'segment' => 'belgians',
-            'weight' => 10,
-            'content' => $contentList,
-            'testconfig' => [
-                'ab' => [
-                    'probabilities' => [
-                        [
-                            'id' => 'front-banner',
-                            'content_connector_id' => 'content_hub',
-                            'content_view_id' => 'banner-wide-1',
-                            'fraction' => 0.3
-                        ],
-                        [
-                            'id' => 'front-banner',
-                            'content_connector_id' => 'content_hub',
-                            'content_view_id' => 'banner-wide-2',
-                            'fraction' => 0.7
-                        ]
-                    ]
-                ]
-            ]
+        $this->ruleResponseData = [
+          'id' => 'rule-1',
+          'label' => 'Banner for Belgians',
+          'description' => 'Front page banner personalization for Belgians',
+          'slot_id' => 'slot-1',
+          'updated' => '2016-01-05T22:04:39Z',
+          'created' => '2016-01-05T22:04:39Z',
+          'status' => 'published',
+          'segment' => 'belgians',
+          'weight' => 10,
+          'content' => $contentList,
+          'testconfig' => [
+            'ab' => [
+              'probabilities' => [
+                [
+                  'id' => 'front-banner',
+                  'content_connector_id' => 'content_hub',
+                  'content_view_id' => 'banner-wide-1',
+                  'fraction' => 0.3,
+                ],
+                [
+                  'id' => 'front-banner',
+                  'content_connector_id' => 'content_hub',
+                  'content_view_id' => 'banner-wide-2',
+                  'fraction' => 0.7,
+                ],
+              ],
+            ],
+          ],
         ];
+    }
 
-        $response = new Response(200, [], json_encode($data));
+    public function testRuleAdd()
+    {
+        $response = new Response(200, [], json_encode($this->ruleResponseData));
+
         $responses = [
           $response,
         ];
-
         $client = $this->getClient($responses);
 
-
-
-        // Get Slot Manager
-        $rule = $this->getRuleTestObject();
+        // Get Rule Manager
         $manager = $client->getRuleManager();
-        $response = $manager->add($rule);
+        $response = $manager->add($this->rule);
 
-        // Do the validation
-        $this->assertEquals($response->getId(), $rule->getId());
-        $this->assertEquals($response->getLabel(), $rule->getLabel());
-        $this->assertEquals($response->getDescription(), $rule->getDescription());
-        $this->assertEquals($response->getSlotId(), $rule->getSlotId());
-        $this->assertEquals($response->getStatus(), $rule->getStatus());
-        $this->assertEquals($response->getSegment(), $rule->getSegment());
-        $this->assertEquals($response->getWeight(), $rule->getWeight());
-
-        // Verify if the Rule that we added came back from the response
-        $responseContent = $response->getContent();
-        $this->assertEquals($responseContent[0]->getId(), $contentPiece1->getId());
-        $this->assertEquals($responseContent[0]->getBaseUrl(), $contentPiece1->getBaseUrl());
-        $this->assertEquals($responseContent[0]->getContentConnectorId(), $contentPiece1->getContentConnectorId());
-        $this->assertEquals($responseContent[0]->getViewMode()->getId(), $viewMode1->getId());
-
-        $this->assertEquals($responseContent[1]->getId(), $contentPiece2->getId());
-        $this->assertEquals($responseContent[1]->getBaseUrl(), $contentPiece2->getBaseUrl());
-        $this->assertEquals($responseContent[1]->getContentConnectorId(), $contentPiece2->getContentConnectorId());
-        $this->assertEquals($responseContent[1]->getViewMode()->getId(), $viewMode2->getId());
-
-        // Verify if the TestConfig was stored correctly
-        $this->assertEquals($response->getTestConfig(), $rule->getTestConfig());
+        // Check for basic fields
+        $this->assertEquals($response->getId(), 'rule-1');
+        $this->assertEquals($response->getLabel(), 'Banner for Belgians');
+        $this->assertEquals($response->getDescription(), 'Front page banner personalization for Belgians');
+        $this->assertEquals($response->getSlotId(), 'slot-1');
+        $this->assertEquals($response->getStatus(), 'published');
+        $this->assertEquals($response->getSegment(), 'belgians');
+        $this->assertEquals($response->getWeight(), 10);
 
         // Check if the timestamp for created is as expected.
-        $this->assertEquals(
-          $response->getCreated(),
-          DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z')
-        );
+        $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
 
         // Check if the timestamp for updated is as expected.
-        $this->assertEquals(
-          $response->getUpdated(),
-          DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z')
-        );
+        $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
 
+        // Check for the response content
+        $responseContent = $response->getContent();
+        $this->assertEquals($responseContent[0]->getId(), 'front-banner');
+        $this->assertEquals($responseContent[0]->getBaseUrl(), 'http://mysite.dev');
+        $this->assertEquals($responseContent[0]->getContentConnectorId(), 'content_hub');
+        $this->assertEquals($responseContent[0]->getViewMode()->getId(), 'banner-wide-1');
+        $this->assertEquals($responseContent[0]->getViewMode()->getHtml(), '<img src="http://mysite.dev/preview-image-1.png"/>');
+        $this->assertEquals($responseContent[0]->getViewMode()->getLabel(), 'Wide Banner Version 1');
+        $this->assertEquals($responseContent[0]->getViewMode()->getPreviewImage(), 'http://mysite.dev/preview-image-1.png');
+        $this->assertEquals($responseContent[0]->getViewMode()->getUrl(), 'http://mysite.dev/render/front-banner/banner-wide-1');
 
+        $this->assertEquals($responseContent[1]->getId(), 'front-banner');
+        $this->assertEquals($responseContent[1]->getBaseUrl(), 'http://mysite.dev');
+        $this->assertEquals($responseContent[1]->getContentConnectorId(), 'content_hub');
+        $this->assertEquals($responseContent[1]->getViewMode()->getId(), 'banner-wide-2');
+        $this->assertEquals($responseContent[1]->getViewMode()->getHtml(), '<img src="http://mysite.dev/preview-image-2.png"/>');
+        $this->assertEquals($responseContent[1]->getViewMode()->getLabel(), 'Wide Banner Version 2');
+        $this->assertEquals($responseContent[1]->getViewMode()->getPreviewImage(), 'http://mysite.dev/preview-image-2.png');
+        $this->assertEquals($responseContent[1]->getViewMode()->getUrl(), 'http://mysite.dev/render/front-banner/banner-wide-2');
+
+        // Verify if the TestConfig was stored correctly. We know it was an ab
+        // test so we help our typehinting system here.
+        /** @var \Acquia\LiftClient\Entity\TestConfigAb $testConfig */
+        $testConfig = $response->getTestConfig();
+        $this->assertEquals($testConfig->getProbabilities()[0]->getContentConnectorId(), 'content_hub');
+        $this->assertEquals($testConfig->getProbabilities()[0]->getContentId(), 'front-banner');
+        $this->assertEquals($testConfig->getProbabilities()[0]->getContentViewId(), 'banner-wide-1');
+        $this->assertEquals($testConfig->getProbabilities()[0]->getFraction(), 0.3);
+
+        $this->assertEquals($testConfig->getProbabilities()[1]->getContentConnectorId(), 'content_hub');
+        $this->assertEquals($testConfig->getProbabilities()[1]->getContentId(), 'front-banner');
+        $this->assertEquals($testConfig->getProbabilities()[1]->getContentViewId(), 'banner-wide-2');
+        $this->assertEquals($testConfig->getProbabilities()[1]->getFraction(), 0.7);
     }
 
     public function testRuleAddFailed()
@@ -190,18 +223,16 @@ class RuleTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        $rule = $this->getRuleTestObject();
-
         // Get Rule Manager
         $manager = $client->getRuleManager();
         try {
-            $manager->add($rule);
+            $manager->add($this->rule);
         } catch (RequestException $e) {
             $this->assertEquals($e->getResponse()->getStatusCode(), 400);
         }
     }
 
-    /*public function testRuleDelete()
+    public function testRuleDelete()
     {
         $response = new Response(200, []);
         $responses = [
@@ -211,9 +242,9 @@ class RuleTest extends TestBase
         $client = $this->getClient($responses);
 
         // Get Manager
-        $manager = $client->getGoalManager();
-        $response = $manager->delete('goal-to-delete');
-        $this->assertTrue($response, 'Goal Deletion succeeded');
+        $manager = $client->getRuleManager();
+        $response = $manager->delete('rule-to-delete');
+        $this->assertTrue($response, 'Rule Deletion succeeded');
     }
 
     public function testRuleDeleteFailed()
@@ -226,9 +257,9 @@ class RuleTest extends TestBase
         $client = $this->getClient($responses);
 
         // Get Manager
-        $manager = $client->getGoalManager();
+        $manager = $client->getRuleManager();
         try {
-            $manager->delete('goal-to-delete');
+            $manager->delete('rule-to-delete');
         } catch (RequestException $e) {
             $this->assertEquals($e->getResponse()->getStatusCode(), 400);
         }
@@ -237,25 +268,10 @@ class RuleTest extends TestBase
     public function testRuleQuery()
     {
         $data = [
-          [
-            'id' => 'test-id',
-            'name' => 'test-name',
-            'description' => 'test-description',
-            'rule_ids' => [
-              'rule-id-1',
-            ],
-            'site_ids' => [
-              'site-id-1',
-            ],
-            'event_names' => [
-              'Click-Through',
-            ],
-            'global' => false,
-            'value' => 100,
-          ],
+          $this->ruleResponseData,
         ];
-
         $response = new Response(200, [], json_encode($data));
+
         $responses = [
           $response,
         ];
@@ -263,32 +279,57 @@ class RuleTest extends TestBase
         $client = $this->getClient($responses);
 
         // Get manager
-        $manager = $client->getGoalManager();
+        $manager = $client->getRuleManager();
         $responses = $manager->query();
         foreach ($responses as $response) {
-            // Check if the identifier is equal.
-          $this->assertEquals($response->getId(), 'test-id');
+            // Check for basic fields
+            $this->assertEquals($response->getId(), 'rule-1');
+            $this->assertEquals($response->getLabel(), 'Banner for Belgians');
+            $this->assertEquals($response->getDescription(), 'Front page banner personalization for Belgians');
+            $this->assertEquals($response->getSlotId(), 'slot-1');
+            $this->assertEquals($response->getStatus(), 'published');
+            $this->assertEquals($response->getSegment(), 'belgians');
+            $this->assertEquals($response->getWeight(), 10);
 
-          // Check if the label is equal.
-          $this->assertEquals($response->getName(), 'test-name');
+            // Check if the timestamp for created is as expected.
+            $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
 
-          // Check if the description is equal.
-          $this->assertEquals($response->getDescription(), 'test-description');
+            // Check if the timestamp for updated is as expected.
+            $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
 
-          // Check if the rule_ids is equal.
-          $this->assertEquals($response->getRuleIds(), ['rule-id-1']);
+            // Check for the response content
+            $responseContent = $response->getContent();
+            $this->assertEquals($responseContent[0]->getId(), 'front-banner');
+            $this->assertEquals($responseContent[0]->getBaseUrl(), 'http://mysite.dev');
+            $this->assertEquals($responseContent[0]->getContentConnectorId(), 'content_hub');
+            $this->assertEquals($responseContent[0]->getViewMode()->getId(), 'banner-wide-1');
+            $this->assertEquals($responseContent[0]->getViewMode()->getHtml(), '<img src="http://mysite.dev/preview-image-1.png"/>');
+            $this->assertEquals($responseContent[0]->getViewMode()->getLabel(), 'Wide Banner Version 1');
+            $this->assertEquals($responseContent[0]->getViewMode()->getPreviewImage(), 'http://mysite.dev/preview-image-1.png');
+            $this->assertEquals($responseContent[0]->getViewMode()->getUrl(), 'http://mysite.dev/render/front-banner/banner-wide-1');
 
-          // Check if the site_ids is equal.
-          $this->assertEquals($response->getSiteIds(),  ['site-id-1']);
+            $this->assertEquals($responseContent[1]->getId(), 'front-banner');
+            $this->assertEquals($responseContent[1]->getBaseUrl(), 'http://mysite.dev');
+            $this->assertEquals($responseContent[1]->getContentConnectorId(), 'content_hub');
+            $this->assertEquals($responseContent[1]->getViewMode()->getId(), 'banner-wide-2');
+            $this->assertEquals($responseContent[1]->getViewMode()->getHtml(), '<img src="http://mysite.dev/preview-image-2.png"/>');
+            $this->assertEquals($responseContent[1]->getViewMode()->getLabel(), 'Wide Banner Version 2');
+            $this->assertEquals($responseContent[1]->getViewMode()->getPreviewImage(), 'http://mysite.dev/preview-image-2.png');
+            $this->assertEquals($responseContent[1]->getViewMode()->getUrl(), 'http://mysite.dev/render/front-banner/banner-wide-2');
 
-          // Check if the event_names is equal.
-          $this->assertEquals($response->getEventNames(),  ['Click-Through']);
+            // Verify if the TestConfig was stored correctly. We know it was an ab
+            // test so we help our typehinting system here.
+            /** @var \Acquia\LiftClient\Entity\TestConfigAb $testConfig */
+            $testConfig = $response->getTestConfig();
+            $this->assertEquals($testConfig->getProbabilities()[0]->getContentConnectorId(), 'content_hub');
+            $this->assertEquals($testConfig->getProbabilities()[0]->getContentId(), 'front-banner');
+            $this->assertEquals($testConfig->getProbabilities()[0]->getContentViewId(), 'banner-wide-1');
+            $this->assertEquals($testConfig->getProbabilities()[0]->getFraction(), 0.3);
 
-          // Check if the value is equal.
-          $this->assertEquals($response->getValue(),  100);
-
-          // Check if the global was set correctly.
-          $this->assertEquals($response->getGlobal(), false);
+            $this->assertEquals($testConfig->getProbabilities()[1]->getContentConnectorId(), 'content_hub');
+            $this->assertEquals($testConfig->getProbabilities()[1]->getContentId(), 'front-banner');
+            $this->assertEquals($testConfig->getProbabilities()[1]->getContentViewId(), 'banner-wide-2');
+            $this->assertEquals($testConfig->getProbabilities()[1]->getFraction(), 0.7);
         }
     }
 
@@ -301,8 +342,8 @@ class RuleTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Slot Manager
-        $manager = $client->getGoalManager();
+        // Get Rule Manager
+        $manager = $client->getRuleManager();
         try {
             $manager->query();
         } catch (RequestException $e) {
@@ -312,25 +353,7 @@ class RuleTest extends TestBase
 
     public function testRuleGet()
     {
-        // Setup
-        $data = [
-          'id' => 'test-id',
-          'name' => 'test-name',
-          'description' => 'test-description',
-          'rule_ids' => [
-            'rule-id-1',
-          ],
-          'site_ids' => [
-            'site-id-1',
-          ],
-          'event_names' => [
-            'Click-Through',
-          ],
-          'global' => false,
-          'value' => 100,
-        ];
-
-        $response = new Response(200, [], json_encode($data));
+        $response = new Response(200, [], json_encode($this->ruleResponseData));
         $responses = [
           $response,
         ];
@@ -338,32 +361,57 @@ class RuleTest extends TestBase
         $client = $this->getClient($responses);
 
         // Get Manager
-        $manager = $client->getGoalManager();
-        $response = $manager->get('test-id');
+        $manager = $client->getRuleManager();
+        $response = $manager->get('rule-1');
 
-        // Check if the identifier is equal.
-        $this->assertEquals($response->getId(), 'test-id');
+        // Check for basic fields
+        $this->assertEquals($response->getId(), 'rule-1');
+        $this->assertEquals($response->getLabel(), 'Banner for Belgians');
+        $this->assertEquals($response->getDescription(), 'Front page banner personalization for Belgians');
+        $this->assertEquals($response->getSlotId(), 'slot-1');
+        $this->assertEquals($response->getStatus(), 'published');
+        $this->assertEquals($response->getSegment(), 'belgians');
+        $this->assertEquals($response->getWeight(), 10);
 
-        // Check if the label is equal.
-        $this->assertEquals($response->getName(), 'test-name');
+        // Check if the timestamp for created is as expected.
+        $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
 
-        // Check if the description is equal.
-        $this->assertEquals($response->getDescription(), 'test-description');
+        // Check if the timestamp for updated is as expected.
+        $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
 
-        // Check if the rule_ids is equal.
-        $this->assertEquals($response->getRuleIds(), ['rule-id-1']);
+        // Check for the response content
+        $responseContent = $response->getContent();
+        $this->assertEquals($responseContent[0]->getId(), 'front-banner');
+        $this->assertEquals($responseContent[0]->getBaseUrl(), 'http://mysite.dev');
+        $this->assertEquals($responseContent[0]->getContentConnectorId(), 'content_hub');
+        $this->assertEquals($responseContent[0]->getViewMode()->getId(), 'banner-wide-1');
+        $this->assertEquals($responseContent[0]->getViewMode()->getHtml(), '<img src="http://mysite.dev/preview-image-1.png"/>');
+        $this->assertEquals($responseContent[0]->getViewMode()->getLabel(), 'Wide Banner Version 1');
+        $this->assertEquals($responseContent[0]->getViewMode()->getPreviewImage(), 'http://mysite.dev/preview-image-1.png');
+        $this->assertEquals($responseContent[0]->getViewMode()->getUrl(), 'http://mysite.dev/render/front-banner/banner-wide-1');
 
-        // Check if the site_ids is equal.
-        $this->assertEquals($response->getSiteIds(),  ['site-id-1']);
+        $this->assertEquals($responseContent[1]->getId(), 'front-banner');
+        $this->assertEquals($responseContent[1]->getBaseUrl(), 'http://mysite.dev');
+        $this->assertEquals($responseContent[1]->getContentConnectorId(), 'content_hub');
+        $this->assertEquals($responseContent[1]->getViewMode()->getId(), 'banner-wide-2');
+        $this->assertEquals($responseContent[1]->getViewMode()->getHtml(), '<img src="http://mysite.dev/preview-image-2.png"/>');
+        $this->assertEquals($responseContent[1]->getViewMode()->getLabel(), 'Wide Banner Version 2');
+        $this->assertEquals($responseContent[1]->getViewMode()->getPreviewImage(), 'http://mysite.dev/preview-image-2.png');
+        $this->assertEquals($responseContent[1]->getViewMode()->getUrl(), 'http://mysite.dev/render/front-banner/banner-wide-2');
 
-        // Check if the event_names is equal.
-        $this->assertEquals($response->getEventNames(),  ['Click-Through']);
+        // Verify if the TestConfig was stored correctly. We know it was an ab
+        // test so we help our typehinting system here.
+        /** @var \Acquia\LiftClient\Entity\TestConfigAb $testConfig */
+        $testConfig = $response->getTestConfig();
+        $this->assertEquals($testConfig->getProbabilities()[0]->getContentConnectorId(), 'content_hub');
+        $this->assertEquals($testConfig->getProbabilities()[0]->getContentId(), 'front-banner');
+        $this->assertEquals($testConfig->getProbabilities()[0]->getContentViewId(), 'banner-wide-1');
+        $this->assertEquals($testConfig->getProbabilities()[0]->getFraction(), 0.3);
 
-        // Check if the value is equal.
-        $this->assertEquals($response->getValue(),  100);
-
-        // Check if the global was set correctly.
-        $this->assertEquals($response->getGlobal(), false);
+        $this->assertEquals($testConfig->getProbabilities()[1]->getContentConnectorId(), 'content_hub');
+        $this->assertEquals($testConfig->getProbabilities()[1]->getContentId(), 'front-banner');
+        $this->assertEquals($testConfig->getProbabilities()[1]->getContentViewId(), 'banner-wide-2');
+        $this->assertEquals($testConfig->getProbabilities()[1]->getFraction(), 0.7);
     }
 
     public function testRuleGetFailed()
@@ -375,12 +423,12 @@ class RuleTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Slot Manager
-        $manager = $client->getGoalManager();
+        // Get Rule Manager
+        $manager = $client->getRuleManager();
         try {
-            $manager->get('non-existing-slot');
+            $manager->get('non-existing-rule');
         } catch (RequestException $e) {
             $this->assertEquals($e->getResponse()->getStatusCode(), 400);
         }
-    }*/
+    }
 }
