@@ -161,7 +161,7 @@ class Slot extends Entity
     /**
      * Gets the 'visibility' parameter.
      *
-     * @return string
+     * @return Visibility
      */
     public function getVisibility()
     {
