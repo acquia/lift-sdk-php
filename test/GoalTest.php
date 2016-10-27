@@ -12,7 +12,7 @@ class GoalTest extends TestBase
     {
         // Setup
         $data = [
-          'status' => 'SUCCESS'
+          'status' => 'SUCCESS',
         ];
         $response = new Response(200, [], json_encode($data));
         $responses = [
@@ -47,9 +47,9 @@ class GoalTest extends TestBase
             'errors' => [
                 [
                     'code' => '400',
-                    'message' => 'Resource had an internal error.'
-                ]
-            ]
+                    'message' => 'Resource had an internal error.',
+                ],
+            ],
         ];
 
         $response = new Response(200, [], json_encode($data));

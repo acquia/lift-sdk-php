@@ -2,9 +2,6 @@
 
 namespace Acquia\LiftClient\Entity;
 
-use Acquia\LiftClient\Exception\LiftSdkException;
-use Acquia\LiftClient\Utility\Utility;
-
 class GoalAddResponse extends Entity
 {
     /**
@@ -28,18 +25,19 @@ class GoalAddResponse extends Entity
     /**
      * Gets the 'status' parameter.
      *
-     * @return Error[]|NULL The errors, if there were any
+     * @return Error[]|null The errors, if there were any
      */
     public function getErrors()
     {
         $ret = [];
         $errors = $this->getEntityValue('errors', []);
         if (empty($errors)) {
-            return NULL;
+            return null;
         }
         foreach ($errors as $error) {
             $ret[] = new Error($error);
         }
+
         return $ret;
     }
 }

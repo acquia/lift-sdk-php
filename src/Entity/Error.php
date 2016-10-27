@@ -2,7 +2,6 @@
 
 namespace Acquia\LiftClient\Entity;
 
-
 class Error extends Entity
 {
     /**
@@ -24,5 +23,4 @@ class Error extends Entity
     {
         return $this->getEntityValue('message', '');
     }
-
 }

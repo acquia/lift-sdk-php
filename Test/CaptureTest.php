@@ -4,7 +4,6 @@ namespace Acquia\LiftClient\Test;
 
 use Acquia\LiftClient\Entity\Capture;
 use Acquia\LiftClient\Entity\Captures;
-use Acquia\LiftClient\Entity\CapturesResponse;
 use Acquia\LiftClient\Entity\Segment;
 use DateTime;
 use GuzzleHttp\Exception\RequestException;
@@ -38,14 +37,14 @@ class CaptureTest extends TestBase
     {
         $capture = new Capture();
         // Set Person and Event UDF Fields.
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 50; ++$i) {
             $capture
-                ->setPersonUdf($i, 'person_udf' . $i)
-                ->setEventUdf($i, 'event_udf' . $i);
+                ->setPersonUdf($i, 'person_udf'.$i)
+                ->setEventUdf($i, 'event_udf'.$i);
         }
         // Set Touch fields
-        for ($i = 1; $i <= 20; $i++) {
-            $capture->setTouchUdf($i, 'touch_udf' . $i);
+        for ($i = 1; $i <= 20; ++$i) {
+            $capture->setTouchUdf($i, 'touch_udf'.$i);
         }
 
         $eventDate = DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z');
@@ -114,7 +113,7 @@ class CaptureTest extends TestBase
     {
         // Setup
         $this->capturesResponseData = [
-            'errors' => NULL,
+            'errors' => null,
             'touch_identifier' => 'my-custom-touch-identifier',
             'identity' => 'my-custom-identity-string',
             'identity_source' => 'php-unit-test',
@@ -122,14 +121,14 @@ class CaptureTest extends TestBase
                 [
                     'id' => 'segment-1',
                     'name' => 'Segment 1',
-                    'description' => 'First Segment for the unit test'
+                    'description' => 'First Segment for the unit test',
                 ],
                 [
                     'id' => 'segment-2',
                     'name' => 'Segment 2',
-                    'description' => 'Second Segment for the unit test'
-                ]
-            ]
+                    'description' => 'Second Segment for the unit test',
+                ],
+            ],
         ];
     }
 
@@ -147,7 +146,7 @@ class CaptureTest extends TestBase
         $response = $manager->add($this->captures);
 
         // Check for basic fields
-        $this->assertEquals($response->getErrors(), NULL);
+        $this->assertEquals($response->getErrors(), null);
         $this->assertEquals($response->getTouchIdentifier(), 'my-custom-touch-identifier');
         $this->assertEquals($response->getIdentity(), 'my-custom-identity-string');
         $this->assertEquals($response->getIdentitySource(), 'php-unit-test');
@@ -169,12 +168,12 @@ class CaptureTest extends TestBase
             'errors' => [
                 [
                     'code' => '400',
-                    'message' => 'Resource had an internal error.'
-                ]
+                    'message' => 'Resource had an internal error.',
+                ],
             ],
             'touch_identifier' => 'my-custom-touch-identifier',
             'identity' => 'my-custom-identity-string',
-            'identity_source' => 'php-unit-test'
+            'identity_source' => 'php-unit-test',
         ];
 
         $response = new Response(200, [], json_encode($data));
@@ -197,7 +196,6 @@ class CaptureTest extends TestBase
 
     public function testCaptureAddDecisionAPIError()
     {
-
         $response = new Response(400, []);
         $responses = [
             $response,
