@@ -2,6 +2,7 @@
 
 namespace Acquia\LiftClient;
 
+use Acquia\LiftClient\Manager\CaptureManager;
 use Acquia\LiftClient\Manager\RuleManager;
 use Acquia\LiftClient\Manager\SegmentManager;
 use Acquia\LiftClient\Manager\SlotManager;
@@ -166,6 +167,16 @@ class Lift extends Client
     public function getRuleManager()
     {
         return new RuleManager($this);
+    }
+
+    /**
+     * Get the Capture Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\CaptureManager
+     */
+    public function getCaptureManager()
+    {
+        return new CaptureManager($this);
     }
 
     /**

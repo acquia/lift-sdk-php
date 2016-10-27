@@ -17,7 +17,7 @@ class CaptureManager extends ManagerBase
      *
      * @throws \GuzzleHttp\Exception\RequestException
      *
-     * @return \Acquia\LiftClient\Entity\Rule
+     * @return \Acquia\LiftClient\Entity\CapturesResponse
      */
     public function add(Captures $captures)
     {

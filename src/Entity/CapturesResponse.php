@@ -5,13 +5,21 @@ namespace Acquia\LiftClient\Entity;
 class CapturesResponse extends CapturesBase
 {
     /**
-     * Gets the 'error' parameter.
+     * Gets the 'status' parameter.
      *
-     * @return string
+     * @return Error[]|NULL The errors, if there were any
      */
-    public function getError()
+    public function getErrors()
     {
-        return $this->getEntityValue('error', '');
+        $ret = [];
+        $errors = $this->getEntityValue('errors', []);
+        if (empty($errors)) {
+            return NULL;
+        }
+        foreach ($errors as $error) {
+            $ret[] = new Error($error);
+        }
+        return $ret;
     }
 
     /**

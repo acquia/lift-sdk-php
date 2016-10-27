@@ -2,7 +2,9 @@
 
 namespace Acquia\LiftClient\Manager;
 
+use Acquia\LiftClient\Entity\Entity;
 use Acquia\LiftClient\Entity\Goal;
+use Acquia\LiftClient\Entity\GoalAddResponse;
 use GuzzleHttp\Psr7\Request;
 
 class GoalManager extends ManagerBase
@@ -74,16 +76,19 @@ class GoalManager extends ManagerBase
      *
      * @throws \GuzzleHttp\Exception\RequestException
      *
-     * @return \Acquia\LiftClient\Entity\Goal
+     * @return \Acquia\LiftClient\Entity\GoalAddResponse
      */
     public function add(Goal $goal)
     {
-        $body = $goal->json();
+        // goals only supports adding a list of goals
+        // we do not want to support that in the SDK for consistency reasons, so we convert it to an array here.
+        $goals = new Entity([$goal->getArrayCopy()]);
+        $body = $goals->json();
         $url = '/goals';
         $request = new Request('POST', $url, [], $body);
         $data = $this->client->getResponseJson($request);
 
-        return new Goal($data);
+        return new GoalAddResponse($data);
     }
 
     /**

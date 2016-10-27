@@ -15,13 +15,13 @@ abstract class CapturesBase extends Entity
     }
 
     /**
-     * Gets the 'identity' parameter.
+     * Gets the 'identifier' parameter.
      *
      * @return string
      */
     public function getIdentity()
     {
-        return $this->getEntityValue('touch_identifier', '');
+        return $this->getEntityValue('identity', '');
     }
 
     /**
