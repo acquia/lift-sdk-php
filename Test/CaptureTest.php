@@ -55,7 +55,6 @@ class CaptureTest extends TestBase
             ->setEventDate($eventDate)
             ->setIdentities(['myemail@acquia.dev' => 'email'])
             ->setUrl('http://localhost.dev')
-            ->setSiteId('site-id')
             ->setReferralUrl('referral-url')
             ->setContentTitle('content-title')
             ->setUserAgent('user-agent')
@@ -102,7 +101,6 @@ class CaptureTest extends TestBase
             ->setIdentity('my-custom-identity-string')
             ->setIdentitySource('php-unit-test')
             ->setReturnSegments(true)
-            ->setSiteId('my-site-id')
             ->setTouchIdentifier('my-custom-touch-identifier');
 
         $this->captures = $captures;

@@ -7,7 +7,6 @@ use DateTime;
 
 class CaptureTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testPersonUdf()
     {
         $entity = new Capture();
@@ -193,23 +192,6 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
     {
         $entity = new Capture();
         $entity->setUrl(123);
-    }
-
-    public function testSiteId()
-    {
-        $entity = new Capture();
-        $entity->setSiteId('test-site-id');
-        $this->assertEquals($entity->json(), '{"site_id":"test-site-id"}');
-    }
-
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
-    public function testSiteIdNoString()
-    {
-        $entity = new Capture();
-        $entity->setSiteId(123);
     }
 
     public function testReferralUrl()
@@ -771,7 +753,4 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
         $entity->setPublishedDate($date);
         $this->assertEquals($entity->json(), '{"published_date":"2016-01-05T22:04:39+00:00"}');
     }
-
-
-
 }

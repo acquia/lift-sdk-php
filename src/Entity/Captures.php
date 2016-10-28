@@ -104,27 +104,6 @@ class Captures extends CapturesBase
     }
 
     /**
-     * Sets the 'site_id' parameter.
-     *
-     * @param string $siteId The customer site matching external_site_id in the configuration database. Used for
-     *                       filtering segments to evaluate and the default site_id for captures. If not specified then
-     *                       the last capture is used to calculate the site_id for filtering segments
-     *
-     * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *
-     * @return \Acquia\LiftClient\Entity\Captures
-     */
-    public function setSiteId($siteId)
-    {
-        if (!is_string($siteId)) {
-            throw new LiftSdkException('Argument must be an instance of string.');
-        }
-        $this['site_id'] = $siteId;
-
-        return $this;
-    }
-
-    /**
      * Sets the 'captures' parameter.
      *
      * @param Capture[] $captures List of captures

@@ -197,25 +197,6 @@ class Capture extends Entity
     }
 
     /**
-     * Sets the 'site_id' parameter.
-     *
-     * @param string $siteId The customer site matching external_site_id in the configuration database
-     *
-     * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *
-     * @return \Acquia\LiftClient\Entity\Capture
-     */
-    public function setSiteId($siteId)
-    {
-        if (!is_string($siteId)) {
-            throw new LiftSdkException('Argument must be an instance of string.');
-        }
-        $this['site_id'] = $siteId;
-
-        return $this;
-    }
-
-    /**
      * Sets the 'referral_url' parameter.
      *
      * @param string $referralUrl Referrer's URL
