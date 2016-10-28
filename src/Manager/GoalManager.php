@@ -54,7 +54,8 @@ class GoalManager extends ManagerBase
      *
      * @return \Acquia\LiftClient\Entity\Goal
      */
-    public function get($id) {
+    public function get($id)
+    {
         $url = "/goals/{$id}";
 
         // Now make the request.
@@ -75,7 +76,8 @@ class GoalManager extends ManagerBase
      *
      * @return \Acquia\LiftClient\Entity\Goal
      */
-    public function add(Goal $goal) {
+    public function add(Goal $goal)
+    {
         $body = $goal->json();
         $url = '/goals';
         $request = new Request('POST', $url, [], $body);
@@ -95,7 +97,8 @@ class GoalManager extends ManagerBase
      *
      * @return bool
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         $url = "/goals/{$id}";
         $this->client->delete($url);
 
