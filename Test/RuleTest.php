@@ -173,10 +173,10 @@ class RuleTest extends TestBase
         $this->assertEquals($response->getWeight(), 10);
 
         // Check if the timestamp for created is as expected.
-        $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
+        $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z'));
 
         // Check if the timestamp for updated is as expected.
-        $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
+        $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z'));
 
         // Check for the response content
         $responseContent = $response->getContent();
@@ -291,10 +291,10 @@ class RuleTest extends TestBase
             $this->assertEquals($response->getWeight(), 10);
 
             // Check if the timestamp for created is as expected.
-            $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
+            $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z'));
 
             // Check if the timestamp for updated is as expected.
-            $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
+            $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z'));
 
             // Check for the response content
             $responseContent = $response->getContent();
@@ -373,10 +373,10 @@ class RuleTest extends TestBase
         $this->assertEquals($response->getWeight(), 10);
 
         // Check if the timestamp for created is as expected.
-        $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
+        $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z'));
 
         // Check if the timestamp for updated is as expected.
-        $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-01-05T22:04:39Z'));
+        $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z'));
 
         // Check for the response content
         $responseContent = $response->getContent();

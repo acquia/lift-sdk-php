@@ -25,13 +25,13 @@ class Capture extends Entity
     public function setPersonUdf($num, $value)
     {
         if (!is_int($num)) {
-            throw new LiftSdkException('Argument must be an instance of integer.');
+            throw new LiftSdkException('Argument $num must be an instance of integer.');
         }
         if ($num < 1 || $num > self::PERSON_UDF_COUNT) {
-            throw new LiftSdkException('Argument must be greater than 0 and smaller or equal to 50.');
+            throw new LiftSdkException('Argument $num must be greater than 0 and smaller or equal to 50.');
         }
         if (!is_string($value)) {
-            throw new LiftSdkException('Argument must be an instance of string.');
+            throw new LiftSdkException('Argument $value must be an instance of string.');
         }
         $this['person_udf'.$num] = $value;
 
@@ -51,13 +51,13 @@ class Capture extends Entity
     public function setEventUdf($num, $value)
     {
         if (!is_int($num)) {
-            throw new LiftSdkException('Argument must be an instance of integer.');
+            throw new LiftSdkException('Argument $num must be an instance of integer.');
         }
         if ($num < 1 || $num > self::EVENT_UDF_COUNT) {
-            throw new LiftSdkException('Argument must be greater than 0 and smaller or equal to 50.');
+            throw new LiftSdkException('Argument $num must be greater than 0 and smaller or equal to 50.');
         }
         if (!is_string($value)) {
-            throw new LiftSdkException('Argument must be an instance of string.');
+            throw new LiftSdkException('Argument $value must be an instance of string.');
         }
         $this['event_udf'.$num] = $value;
 
@@ -77,13 +77,13 @@ class Capture extends Entity
     public function setTouchUdf($num, $value)
     {
         if (!is_int($num)) {
-            throw new LiftSdkException('Argument must be an instance of integer.');
+            throw new LiftSdkException('Argument $num must be an instance of integer.');
         }
         if ($num < 1 || $num > self::TOUCH_UDF_COUNT) {
-            throw new LiftSdkException('Argument must be greater than 0 and smaller or equal to 50.');
+            throw new LiftSdkException('Argument $num must be greater than 0 and smaller or equal to 20.');
         }
         if (!is_string($value)) {
-            throw new LiftSdkException('Argument must be an instance of string.');
+            throw new LiftSdkException('Argument $value must be an instance of string.');
         }
         $this['event_udf'.$num] = $value;
 
@@ -142,7 +142,10 @@ class Capture extends Entity
      */
     public function setEventDate(DateTime $eventDate)
     {
-        $this['event_date'] = $eventDate->format('Y-m-d H:i:s.u');
+        // The ISO8601 DateTime format is not compatible with ISO-8601, but is left this way for backward compatibility
+        // reasons. Use DateTime::ATOM or DATE_ATOM for compatibility with ISO-8601 instead.
+        // See http://php.net/manual/en/class.datetime.php
+        $this['event_date'] = $eventDate->format(DateTime::ATOM);
 
         return $this;
     }
@@ -923,7 +926,10 @@ class Capture extends Entity
      */
     public function setPublishedDate(DateTime $publishedDate)
     {
-        $this['published_date'] = $publishedDate->format('Y-m-d H:i:s.u');
+        // The ISO8601 DateTime format is not compatible with ISO-8601, but is left this way for backward compatibility
+        // reasons. Use DateTime::ATOM or DATE_ATOM for compatibility with ISO-8601 instead.
+        // See http://php.net/manual/en/class.datetime.php
+        $this['published_date'] = $publishedDate->format(DateTime::ATOM);
 
         return $this;
     }

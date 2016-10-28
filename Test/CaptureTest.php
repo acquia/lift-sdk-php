@@ -46,8 +46,8 @@ class CaptureTest extends TestBase
             $capture->setTouchUdf($i, 'touch_udf'.$i);
         }
 
-        $eventDate = DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z');
-        $publishedDate = DateTime::createFromFormat(DateTime::ISO8601, '2016-07-19T15:15:41Z');
+        $eventDate = DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z');
+        $publishedDate = DateTime::createFromFormat(DateTime::ATOM, '2016-07-19T15:15:41Z');
 
         $capture
             ->setEventName('event-name')
