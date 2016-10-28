@@ -70,6 +70,10 @@ class SlotTest extends TestBase
         $this->assertEquals($slotResponse->getStatus(), $slot->getStatus());
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testSlotAddFailed()
     {
         $response = new Response(400, []);
@@ -94,11 +98,7 @@ class SlotTest extends TestBase
 
         // Get Slot Manager
         $slotManager = $client->getSlotManager();
-        try {
-            $slotResponse = $slotManager->add($slot);
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $slotResponse = $slotManager->add($slot);
     }
 
     public function testSlotDelete()
@@ -116,6 +116,10 @@ class SlotTest extends TestBase
         $this->assertTrue($slotResponse, 'Slot Deletion succeeded');
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testSlotDeleteFailed()
     {
         $response = new Response(400, []);
@@ -127,11 +131,7 @@ class SlotTest extends TestBase
 
         // Get Slot Manager
         $slotManager = $client->getSlotManager();
-        try {
-            $slotResponse = $slotManager->delete('slot-to-delete');
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $slotResponse = $slotManager->delete('slot-to-delete');
     }
 
     public function testSlotQuery()
@@ -187,6 +187,10 @@ class SlotTest extends TestBase
         }
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testSlotQueryFailed()
     {
         $response = new Response(400, []);
@@ -198,11 +202,7 @@ class SlotTest extends TestBase
 
         // Get Slot Manager
         $slotManager = $client->getSlotManager();
-        try {
-            $slotResponse = $slotManager->query();
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $slotResponse = $slotManager->query();
     }
 
     public function testSlotGet()
@@ -254,6 +254,10 @@ class SlotTest extends TestBase
         $this->assertEquals($slotResponse->getStatus(), true);
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testSlotGetFailed()
     {
         $response = new Response(400, []);
@@ -265,10 +269,6 @@ class SlotTest extends TestBase
 
         // Get Slot Manager
         $slotManager = $client->getSlotManager();
-        try {
-            $slotResponse = $slotManager->get('non-existing-slot');
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $slotResponse = $slotManager->get('non-existing-slot');
     }
 }

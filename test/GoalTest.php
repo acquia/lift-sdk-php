@@ -3,7 +3,6 @@
 namespace Acquia\LiftClient\Test;
 
 use Acquia\LiftClient\Entity\Goal;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Response;
 
 class GoalTest extends TestBase
@@ -12,20 +11,7 @@ class GoalTest extends TestBase
     {
         // Setup
         $data = [
-          'id' => 'test-id',
-          'name' => 'test-name',
-          'description' => 'test-description',
-          'rule_ids' => [
-            'rule-id-1',
-          ],
-          'site_ids' => [
-            'site-id-1',
-          ],
-          'event_names' => [
-            'Click-Through',
-          ],
-          'global' => false,
-          'value' => 100,
+          'status' => 'SUCCESS',
         ];
         $response = new Response(200, [], json_encode($data));
         $responses = [
@@ -48,28 +34,52 @@ class GoalTest extends TestBase
         $response = $manager->add($goal);
 
         // Check if the identifier is equal.
-        $this->assertEquals($response->getId(), 'test-id');
-
-        // Check if the label is equal.
-        $this->assertEquals($response->getName(), 'test-name');
-
-        // Check if the description is equal.
-        $this->assertEquals($response->getDescription(), 'test-description');
-
-        // Check if the rule_ids is equal.
-        $this->assertEquals($response->getRuleIds(), array('rule-id-1'));
-
-        // Check if the site_ids is equal.
-        $this->assertEquals($response->getSiteIds(), array('site-id-1'));
-
-        // Check if the site_ids is equal.
-        $this->assertEquals($response->getEventNames(), array('Click-Through'));
-
-        // Check if the global was set correctly.
-        $this->assertEquals($response->getGlobal(), false);
+        $this->assertEquals($response->getStatus(), 'SUCCESS');
     }
 
-    public function testGoalAddFailed()
+    public function testGoalAddLiftWebFailed()
+    {
+
+        // Setup
+        $data = [
+            'status' => 'FAILURE',
+            'errors' => [
+                [
+                    'code' => '400',
+                    'message' => 'Resource had an internal error.',
+                ],
+            ],
+        ];
+
+        $response = new Response(200, [], json_encode($data));
+        $responses = [
+            $response,
+        ];
+
+        $client = $this->getClient($responses);
+
+        // Create a new Goal object.
+        $goal = new Goal();
+        $goal->setName('test-name');
+        $goal->setId('test-id');
+        $goal->setDescription('test-description');
+        $goal->setRuleIds(array('rule-id-1'));
+        $goal->setSiteIds(array('site-id-1'));
+        $goal->setEventNames(array('Click-Through'));
+
+        // Get Goal Manager
+        $manager = $client->getGoalManager();
+        $response = $manager->add($goal);
+        $this->assertEquals($response->getStatus(), 'FAILURE');
+        $this->assertEquals($response->getErrors()[0]->getCode(), '400');
+        $this->assertEquals($response->getErrors()[0]->getMessage(), 'Resource had an internal error.');
+    }
+
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
+    public function testGoalAddDecisionAPIFailed()
     {
         $response = new Response(400, []);
         $responses = [
@@ -89,11 +99,7 @@ class GoalTest extends TestBase
 
         // Get Goal Manager
         $manager = $client->getGoalManager();
-        try {
-            $manager->add($goal);
-        } catch (RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $manager->add($goal);
     }
 
     public function testGoalDelete()
@@ -111,6 +117,10 @@ class GoalTest extends TestBase
         $this->assertTrue($response, 'Goal Deletion succeeded');
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testGoalDeleteFailed()
     {
         $response = new Response(400, []);
@@ -122,11 +132,7 @@ class GoalTest extends TestBase
 
         // Get Manager
         $manager = $client->getGoalManager();
-        try {
-            $manager->delete('goal-to-delete');
-        } catch (RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $manager->delete('goal-to-delete');
     }
 
     public function testGoalQuery()
@@ -187,6 +193,10 @@ class GoalTest extends TestBase
         }
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testGoalQueryFailed()
     {
         $response = new Response(400, []);
@@ -198,11 +208,7 @@ class GoalTest extends TestBase
 
         // Get Slot Manager
         $manager = $client->getGoalManager();
-        try {
-            $manager->query();
-        } catch (RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $manager->query();
     }
 
     public function testGoalGet()
@@ -261,6 +267,10 @@ class GoalTest extends TestBase
         $this->assertEquals($response->getGlobal(), false);
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testGoalGetFailed()
     {
         $response = new Response(400, []);
@@ -272,10 +282,6 @@ class GoalTest extends TestBase
 
         // Get Slot Manager
         $manager = $client->getGoalManager();
-        try {
-            $manager->get('non-existing-slot');
-        } catch (RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $manager->get('non-existing-slot');
     }
 }
