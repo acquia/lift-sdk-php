@@ -2,7 +2,6 @@
 
 namespace Acquia\LiftClient\Test;
 
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Response;
 
 class SegmentTest extends TestBase
@@ -39,6 +38,10 @@ class SegmentTest extends TestBase
         }
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testSegmentQueryFailed()
     {
         $response = new Response(400, []);
@@ -50,10 +53,6 @@ class SegmentTest extends TestBase
 
         // Get Manager
         $manager = $client->getSegmentManager();
-        try {
-            $manager->query();
-        } catch (RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $manager->query();
     }
 }

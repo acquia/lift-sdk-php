@@ -8,7 +8,6 @@ use Acquia\LiftClient\Entity\Rule;
 use Acquia\LiftClient\Entity\TestConfigAb;
 use Acquia\LiftClient\Entity\ViewMode;
 use DateTime;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Response;
 
 class RuleTest extends TestBase
@@ -214,6 +213,10 @@ class RuleTest extends TestBase
         $this->assertEquals($testConfig->getProbabilities()[1]->getFraction(), 0.7);
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testRuleAddFailed()
     {
         $response = new Response(400, []);
@@ -225,11 +228,7 @@ class RuleTest extends TestBase
 
         // Get Rule Manager
         $manager = $client->getRuleManager();
-        try {
-            $manager->add($this->rule);
-        } catch (RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $manager->add($this->rule);
     }
 
     public function testRuleDelete()
@@ -247,6 +246,10 @@ class RuleTest extends TestBase
         $this->assertTrue($response, 'Rule Deletion succeeded');
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testRuleDeleteFailed()
     {
         $response = new Response(400, []);
@@ -258,11 +261,7 @@ class RuleTest extends TestBase
 
         // Get Manager
         $manager = $client->getRuleManager();
-        try {
-            $manager->delete('rule-to-delete');
-        } catch (RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $manager->delete('rule-to-delete');
     }
 
     public function testRuleQuery()
@@ -333,6 +332,10 @@ class RuleTest extends TestBase
         }
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testRuleQueryFailed()
     {
         $response = new Response(400, []);
@@ -344,11 +347,7 @@ class RuleTest extends TestBase
 
         // Get Rule Manager
         $manager = $client->getRuleManager();
-        try {
-            $manager->query();
-        } catch (RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $manager->query();
     }
 
     public function testRuleGet()
@@ -414,6 +413,10 @@ class RuleTest extends TestBase
         $this->assertEquals($testConfig->getProbabilities()[1]->getFraction(), 0.7);
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testRuleGetFailed()
     {
         $response = new Response(400, []);
@@ -425,10 +428,6 @@ class RuleTest extends TestBase
 
         // Get Rule Manager
         $manager = $client->getRuleManager();
-        try {
-            $manager->get('non-existing-rule');
-        } catch (RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $manager->get('non-existing-rule');
     }
 }
