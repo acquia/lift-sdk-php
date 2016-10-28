@@ -78,7 +78,9 @@ class RuleManager extends ManagerBase
     }
 
     /**
-     * Add a rule.
+     * Add or update a rule.
+     *
+     * To Update a rule, use a Rule object with an existing identifier.
      *
      * @see http://docs.decision-api.acquia.com/#rules_post
      *

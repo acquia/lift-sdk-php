@@ -122,7 +122,7 @@ class Rule extends Entity
     }
 
     /**
-     * Gets the 'description' parameter.
+     * Gets the 'slot_id' parameter.
      *
      * @return string The Description of the Rule
      */
@@ -151,9 +151,9 @@ class Rule extends Entity
     }
 
     /**
-     * Gets the 'description' parameter.
+     * Gets the 'weight' parameter.
      *
-     * @return int The Description of the Rule
+     * @return int The weight of the Rule
      */
     public function getWeight()
     {
