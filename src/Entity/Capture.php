@@ -8,8 +8,12 @@ use DateTime;
 
 class Capture extends Entity
 {
+    const PERSON_UDF_COUNT = 50;
+    const EVENT_UDF_COUNT = 50;
+    const TOUCH_UDF_COUNT = 20;
+
     /**
-     * Set the 'person_udf$' field.
+     * Set the 'person_udf#' field.
      *
      * @param int    $num   Which field to fetch. Can be from 1 till 50
      * @param string $value Custom fields for the Acquia Lift Person Capture Phase
@@ -23,7 +27,7 @@ class Capture extends Entity
         if (!is_int($num)) {
             throw new LiftSdkException('Argument must be an instance of integer.');
         }
-        if ($num < 1 || $num > 50) {
+        if ($num < 1 || $num > self::PERSON_UDF_COUNT) {
             throw new LiftSdkException('Argument must be greater than 0 and smaller or equal to 50.');
         }
         if (!is_string($value)) {
@@ -35,7 +39,7 @@ class Capture extends Entity
     }
 
     /**
-     * Set the 'event_udf$' field.
+     * Set the 'event_udf#' field.
      *
      * @param int    $num   Which field to fetch. Can be from 1 till 50
      * @param string $value Custom fields for the Acquia Lift Event Capture Phase
@@ -49,7 +53,7 @@ class Capture extends Entity
         if (!is_int($num)) {
             throw new LiftSdkException('Argument must be an instance of integer.');
         }
-        if ($num < 1 || $num > 50) {
+        if ($num < 1 || $num > self::EVENT_UDF_COUNT) {
             throw new LiftSdkException('Argument must be greater than 0 and smaller or equal to 50.');
         }
         if (!is_string($value)) {
@@ -61,7 +65,7 @@ class Capture extends Entity
     }
 
     /**
-     * Set the 'touch_udf$' field.
+     * Set the 'touch_udf#' field.
      *
      * @param int    $num   Which field to fetch. Can be from 1 till 20
      * @param string $value Custom fields for the Acquia Lift Touch Capture Phase
@@ -75,7 +79,7 @@ class Capture extends Entity
         if (!is_int($num)) {
             throw new LiftSdkException('Argument must be an instance of integer.');
         }
-        if ($num < 1 || $num > 20) {
+        if ($num < 1 || $num > self::TOUCH_UDF_COUNT) {
             throw new LiftSdkException('Argument must be greater than 0 and smaller or equal to 50.');
         }
         if (!is_string($value)) {
@@ -122,7 +126,7 @@ class Capture extends Entity
         if (!is_string($eventSource)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
-        $this['event_name'] = $eventSource;
+        $this['event_source'] = $eventSource;
 
         return $this;
     }
@@ -138,7 +142,7 @@ class Capture extends Entity
      */
     public function setEventDate(DateTime $eventDate)
     {
-        $this['event_name'] = $eventDate->format('Y-m-d H:i:s.u');
+        $this['event_date'] = $eventDate->format('Y-m-d H:i:s.u');
 
         return $this;
     }

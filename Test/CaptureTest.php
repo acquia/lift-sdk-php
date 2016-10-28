@@ -6,7 +6,6 @@ use Acquia\LiftClient\Entity\Capture;
 use Acquia\LiftClient\Entity\Captures;
 use Acquia\LiftClient\Entity\Segment;
 use DateTime;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Response;
 
 class CaptureTest extends TestBase
@@ -194,6 +193,10 @@ class CaptureTest extends TestBase
         $this->assertEquals($response->getErrors()[0]->getMessage(), 'Resource had an internal error.');
     }
 
+    /**
+     * @expectedException     \GuzzleHttp\Exception\RequestException
+     * @expectedExceptionCode 400
+     */
     public function testCaptureAddDecisionAPIError()
     {
         $response = new Response(400, []);
@@ -205,10 +208,6 @@ class CaptureTest extends TestBase
 
         // Get Capture Manager
         $manager = $client->getCaptureManager();
-        try {
-            $manager->add($this->captures);
-        } catch (RequestException $e) {
-            $this->assertEquals($e->getResponse()->getStatusCode(), 400);
-        }
+        $manager->add($this->captures);
     }
 }
