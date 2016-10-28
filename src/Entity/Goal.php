@@ -145,7 +145,7 @@ class Goal extends Entity
     public function setSiteIds(array $siteIds)
     {
         if (Utility::arrayDepth($siteIds) > 1) {
-            throw new LiftSdkException('site_ids argument is more than 1 level deep.');
+            throw new LiftSdkException('Site Ids argument is more than 1 level deep.');
         }
 
         // Set only the array values to the site_ids property.
@@ -204,6 +204,9 @@ class Goal extends Entity
      */
     public function setGlobal($global)
     {
+        if (!is_bool($global)) {
+            throw new LiftSdkException('Argument must be an instance of boolean.');
+        }
         $this['global'] = $global;
 
         return $this;
