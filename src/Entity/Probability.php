@@ -28,7 +28,7 @@ class Probability extends Entity
         if (!is_string($contentId)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
-        $this['content_id'] = $contentId;
+        $this['id'] = $contentId;
 
         return $this;
     }

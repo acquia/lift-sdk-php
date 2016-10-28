@@ -57,10 +57,10 @@ class SlotTest extends TestBase
         $this->assertEquals($slotResponse->getLabel(), 'test-label');
 
         // Check if the timestamp for created is as expected.
-        $this->assertEquals($slotResponse->getCreated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z'));
+        $this->assertEquals($slotResponse->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
 
         // Check if the timestamp for updated is as expected.
-        $this->assertEquals($slotResponse->getUpdated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z'));
+        $this->assertEquals($slotResponse->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
 
         // Check if the visibility was set correctly.
         $this->assertEquals($slotResponse->getVisibility()->getCondition(), 'show');
@@ -174,9 +174,9 @@ class SlotTest extends TestBase
             // Check if the label is equal.
             $this->assertEquals($slotResponse->getLabel(), 'test-label');
             // Check if the timestamp for created is as expected.
-            $this->assertEquals($slotResponse->getCreated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z'));
+            $this->assertEquals($slotResponse->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
             // Check if the timestamp for updated is as expected.
-            $this->assertEquals($slotResponse->getUpdated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z'));
+            $this->assertEquals($slotResponse->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
 
             // Check if the visibility was set correctly.
             $this->assertEquals($slotResponse->getVisibility()->getCondition(), 'show');
@@ -242,9 +242,9 @@ class SlotTest extends TestBase
         // Check if the label is equal.
         $this->assertEquals($slotResponse->getLabel(), 'test-label');
         // Check if the timestamp for created is as expected.
-        $this->assertEquals($slotResponse->getCreated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z'));
+        $this->assertEquals($slotResponse->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
         // Check if the timestamp for updated is as expected.
-        $this->assertEquals($slotResponse->getUpdated(), DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z'));
+        $this->assertEquals($slotResponse->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
 
         // Check if the visibility was set correctly.
         $this->assertEquals($slotResponse->getVisibility()->getCondition(), 'show');

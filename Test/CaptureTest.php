@@ -46,8 +46,8 @@ class CaptureTest extends TestBase
             $capture->setTouchUdf($i, 'touch_udf'.$i);
         }
 
-        $eventDate = DateTime::createFromFormat(DateTime::ISO8601, '2016-08-19T15:15:41Z');
-        $publishedDate = DateTime::createFromFormat(DateTime::ISO8601, '2016-07-19T15:15:41Z');
+        $eventDate = DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z');
+        $publishedDate = DateTime::createFromFormat(DateTime::ATOM, '2016-07-19T15:15:41Z');
 
         $capture
             ->setEventName('event-name')
@@ -55,7 +55,6 @@ class CaptureTest extends TestBase
             ->setEventDate($eventDate)
             ->setIdentities(['myemail@acquia.dev' => 'email'])
             ->setUrl('http://localhost.dev')
-            ->setSiteId('site-id')
             ->setReferralUrl('referral-url')
             ->setContentTitle('content-title')
             ->setUserAgent('user-agent')
@@ -102,7 +101,6 @@ class CaptureTest extends TestBase
             ->setIdentity('my-custom-identity-string')
             ->setIdentitySource('php-unit-test')
             ->setReturnSegments(true)
-            ->setSiteId('my-site-id')
             ->setTouchIdentifier('my-custom-touch-identifier');
 
         $this->captures = $captures;

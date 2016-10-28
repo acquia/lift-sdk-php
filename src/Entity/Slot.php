@@ -178,7 +178,10 @@ class Slot extends Entity
     public function getCreated()
     {
         $date = $this->getEntityValue('created', '');
-        $datetime = DateTime::createFromFormat(DateTime::ISO8601, $date);
+        // The ISO8601 DateTime format is not compatible with ISO-8601, but is left this way for backward compatibility
+        // reasons. Use DateTime::ATOM or DATE_ATOM for compatibility with ISO-8601 instead.
+        // See http://php.net/manual/en/class.datetime.php
+        $datetime = DateTime::createFromFormat(DateTime::ATOM, $date);
 
         return $datetime;
     }
@@ -191,7 +194,10 @@ class Slot extends Entity
     public function getUpdated()
     {
         $date = $this->getEntityValue('updated', '');
-        $datetime = DateTime::createFromFormat(DateTime::ISO8601, $date);
+        // The ISO8601 DateTime format is not compatible with ISO-8601, but is left this way for backward compatibility
+        // reasons. Use DateTime::ATOM or DATE_ATOM for compatibility with ISO-8601 instead.
+        // See http://php.net/manual/en/class.datetime.php
+        $datetime = DateTime::createFromFormat(DateTime::ATOM, $date);
 
         return $datetime;
     }

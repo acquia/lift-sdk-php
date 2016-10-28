@@ -7,11 +7,11 @@ class Error extends Entity
     /**
      * Gets the 'code' parameter.
      *
-     * @return string The error code
+     * @return int The error code
      */
     public function getCode()
     {
-        return $this->getEntityValue('code', '');
+        return $this->getEntityValue('code', 0);
     }
 
     /**
