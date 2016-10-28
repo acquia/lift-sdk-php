@@ -124,12 +124,17 @@ class Content extends Entity
     }
 
     /**
-     * Gets the 'error' parameter.
+     * Gets the 'errors' parameter.
      *
-     * @return string
+     * @return Error|null The errors, if there were any
      */
     public function getError()
     {
-        return $this->getEntityValue('error', '');
+        $error = $this->getEntityValue('error', null);
+        if ($error == null) {
+            return null;
+        }
+
+        return new Error($error);
     }
 }

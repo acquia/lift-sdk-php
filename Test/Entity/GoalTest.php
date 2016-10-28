@@ -8,20 +8,26 @@ class GoalTest extends \PHPUnit_Framework_TestCase
 {
     public function testId()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setId('test-id');
-        // Check if the identifier is equal.
-        $this->assertEquals($goal->getId(), 'test-id');
+        $entity = new Goal();
+        $entity->setId('test-id');
+        $this->assertEquals($entity->getId(), 'test-id');
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testIdNoString()
+    {
+        $entity = new Goal();
+        $entity->setId(123);
     }
 
     public function testName()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setName('test-name');
-        // Check if the identifier is equal.
-        $this->assertEquals($goal->getName(), 'test-name');
+        $entity = new Goal();
+        $entity->setName('test-name');
+        $this->assertEquals($entity->getName(), 'test-name');
     }
 
     /**
@@ -30,19 +36,15 @@ class GoalTest extends \PHPUnit_Framework_TestCase
      */
     public function testNameNoString()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setName(123);
-        $goal->getName();
+        $entity = new Goal();
+        $entity->setName(123);
     }
 
     public function testDescription()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setDescription('test-description');
-        // Check if the identifier is equal.
-        $this->assertEquals($goal->getDescription(), 'test-description');
+        $entity = new Goal();
+        $entity->setDescription('test-description');
+        $this->assertEquals($entity->getDescription(), 'test-description');
     }
 
     /**
@@ -51,19 +53,15 @@ class GoalTest extends \PHPUnit_Framework_TestCase
      */
     public function testDescriptionNoString()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setDescription(123);
-        $goal->getDescription();
+        $entity = new Goal();
+        $entity->setDescription(123);
     }
 
     public function testRuleIds()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setRuleIds(['test-rule-id']);
-        // Check if the identifier is equal.
-        $this->assertEquals($goal->getRuleIds(), ['test-rule-id']);
+        $entity = new Goal();
+        $entity->setRuleIds(['test-rule-id']);
+        $this->assertEquals($entity->getRuleIds(), ['test-rule-id']);
     }
 
     /**
@@ -72,19 +70,15 @@ class GoalTest extends \PHPUnit_Framework_TestCase
      */
     public function testRuleIdsArrayTwoLevels()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setRuleIds(['test-rule-id' => ['another-level']]);
-        $goal->getRuleIds();
+        $entity = new Goal();
+        $entity->setRuleIds(['test-rule-id' => ['another-level']]);
     }
 
     public function testSiteIds()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setSiteIds(['test-site-id']);
-        // Check if the identifier is equal.
-        $this->assertEquals($goal->getSiteIds(), ['test-site-id']);
+        $entity = new Goal();
+        $entity->setSiteIds(['test-site-id']);
+        $this->assertEquals($entity->getSiteIds(), ['test-site-id']);
     }
 
     /**
@@ -93,19 +87,15 @@ class GoalTest extends \PHPUnit_Framework_TestCase
      */
     public function testSiteIdsArrayTwoLevels()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setSiteIds(['test-site-id' => ['another-level']]);
-        $goal->getSiteIds();
+        $entity = new Goal();
+        $entity->setSiteIds(['test-site-id' => ['another-level']]);
     }
 
     public function testEventNames()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setEventNames(['test-event-id']);
-        // Check if the identifier is equal.
-        $this->assertEquals($goal->getEventNames(), ['test-event-id']);
+        $entity = new Goal();
+        $entity->setEventNames(['test-event-id']);
+        $this->assertEquals($entity->getEventNames(), ['test-event-id']);
     }
 
     /**
@@ -114,19 +104,15 @@ class GoalTest extends \PHPUnit_Framework_TestCase
      */
     public function testEventNamesArrayTwoLevels()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setEventNames(['test-event-id' => ['another-level']]);
-        $goal->getEventNames();
+        $entity = new Goal();
+        $entity->setEventNames(['test-event-id' => ['another-level']]);
     }
 
     public function testGlobal()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setGlobal(true);
-        // Check if the identifier is equal.
-        $this->assertEquals($goal->getGlobal(), true);
+        $entity = new Goal();
+        $entity->setGlobal(true);
+        $this->assertEquals($entity->getGlobal(), true);
     }
 
     /**
@@ -135,19 +121,15 @@ class GoalTest extends \PHPUnit_Framework_TestCase
      */
     public function testGlobalNoBoolean()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setGlobal('string');
-        $goal->getGlobal();
+        $entity = new Goal();
+        $entity->setGlobal('string');
     }
 
     public function testValue()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setValue(10);
-        // Check if the identifier is equal.
-        $this->assertEquals($goal->getValue(), 10);
+        $entity = new Goal();
+        $entity->setValue(10);
+        $this->assertEquals($entity->getValue(), 10);
     }
 
     /**
@@ -156,9 +138,7 @@ class GoalTest extends \PHPUnit_Framework_TestCase
      */
     public function testValueNoNumeric()
     {
-        // Create a new Goal object.
-        $goal = new Goal();
-        $goal->setValue('string');
-        $goal->getValue();
+        $entity = new Goal();
+        $entity->setValue('string');
     }
 }

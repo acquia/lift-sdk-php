@@ -7,7 +7,7 @@ class CapturesResponse extends CapturesBase
     /**
      * Gets the 'status' parameter.
      *
-     * @return Error[]|null The errors, if there were any
+     * @return LiftError[]|null The errors, if there were any
      */
     public function getErrors()
     {
