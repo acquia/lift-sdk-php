@@ -96,7 +96,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     public function testWeightNoInteger()
     {
         $entity = new Rule();
-        $entity->setWeight("string");
+        $entity->setWeight('string');
     }
 
     public function testContent()
@@ -171,7 +171,8 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($entity->getCreated(), $date);
     }
 
-    public function testTestConfig() {
+    public function testTestConfig()
+    {
         $testConfigAb = new TestConfigAb();
         $probability1 = new Probability();
         $probability1->setContentId('test-content-id-1');
@@ -190,14 +191,14 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         /** @var TestConfigAb $testConfigToVerify */
         $testConfigToVerify = $entity->getTestConfig();
 
-        $this->assertEquals($testConfigToVerify->getProbabilities()[0]->getContentId(),'test-content-id-1');
-        $this->assertEquals($testConfigToVerify->getProbabilities()[1]->getContentId(),'test-content-id-2');
+        $this->assertEquals($testConfigToVerify->getProbabilities()[0]->getContentId(), 'test-content-id-1');
+        $this->assertEquals($testConfigToVerify->getProbabilities()[1]->getContentId(), 'test-content-id-2');
 
-        $this->assertEquals($testConfigToVerify->getProbabilities()[0]->getContentViewId(),'test-view-mode-id-1');
-        $this->assertEquals($testConfigToVerify->getProbabilities()[1]->getContentViewId(),'test-view-mode-id-2');
+        $this->assertEquals($testConfigToVerify->getProbabilities()[0]->getContentViewId(), 'test-view-mode-id-1');
+        $this->assertEquals($testConfigToVerify->getProbabilities()[1]->getContentViewId(), 'test-view-mode-id-2');
 
-        $this->assertEquals($testConfigToVerify->getProbabilities()[0]->getFraction(),0.5);
-        $this->assertEquals($testConfigToVerify->getProbabilities()[1]->getFraction(),0.5);
+        $this->assertEquals($testConfigToVerify->getProbabilities()[0]->getFraction(), 0.5);
+        $this->assertEquals($testConfigToVerify->getProbabilities()[1]->getFraction(), 0.5);
 
         $this->assertEquals($entity->json(), '{"testconfig":{"ab":{"probabilities":[{"id":"test-content-id-1","content_view_id":"test-view-mode-id-1","fraction":0.5},{"id":"test-content-id-2","content_view_id":"test-view-mode-id-2","fraction":0.5}]}}}');
 
@@ -211,5 +212,4 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $entity->setTestConfig($testConfigTarget);
         $this->assertEquals($entity->json(), '{"testconfig":{"target":[]}}');
     }
-
 }
