@@ -3,6 +3,7 @@
 namespace Acquia\LiftClient;
 
 use Acquia\LiftClient\Manager\CaptureManager;
+use Acquia\LiftClient\Manager\DecideManager;
 use Acquia\LiftClient\Manager\RuleManager;
 use Acquia\LiftClient\Manager\SegmentManager;
 use Acquia\LiftClient\Manager\SlotManager;
@@ -177,6 +178,16 @@ class Lift extends Client
     public function getCaptureManager()
     {
         return new CaptureManager($this);
+    }
+
+    /**
+     * Get the Decide Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\DecideManager
+     */
+    public function getDecideManager()
+    {
+        return new DecideManager($this);
     }
 
     /**

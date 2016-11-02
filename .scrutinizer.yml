@@ -18,4 +18,4 @@ tools:
         config: { level: psr2 }
     external_code_coverage:
         runs: 3
-        timeout: 600
+        timeout: 1800

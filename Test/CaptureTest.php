@@ -3,17 +3,16 @@
 namespace Acquia\LiftClient\Test;
 
 use Acquia\LiftClient\Entity\Capture;
-use Acquia\LiftClient\Entity\Captures;
-use Acquia\LiftClient\Entity\Segment;
+use Acquia\LiftClient\Entity\CapturePayload;
 use DateTime;
 use GuzzleHttp\Psr7\Response;
 
 class CaptureTest extends TestBase
 {
     /**
-     * @var Captures
+     * @var CapturePayload
      */
-    private $captures;
+    private $capturePayload;
 
     /**
      * @var array
@@ -94,8 +93,8 @@ class CaptureTest extends TestBase
             ->setThumbnailUrl('localhost.dev/thumbmail.png')
             ->setPublishedDate($publishedDate);
 
-        $captures = new Captures();
-        $captures
+        $capturePayload = new CapturePayload();
+        $capturePayload
             ->setCaptures([$capture])
             ->setDoNotTrack(false)
             ->setIdentity('my-custom-identity-string')
@@ -103,7 +102,7 @@ class CaptureTest extends TestBase
             ->setReturnSegments(true)
             ->setTouchIdentifier('my-custom-touch-identifier');
 
-        $this->captures = $captures;
+        $this->capturePayload = $capturePayload;
     }
 
     private function setTestCapturesResponseData()
@@ -140,7 +139,7 @@ class CaptureTest extends TestBase
 
         // Get Rule Manager
         $manager = $client->getCaptureManager();
-        $response = $manager->add($this->captures);
+        $response = $manager->add($this->capturePayload);
 
         // Check for basic fields
         $this->assertEquals($response->getErrors(), null);
@@ -182,7 +181,7 @@ class CaptureTest extends TestBase
 
         // Get Rule Manager
         $manager = $client->getCaptureManager();
-        $response = $manager->add($this->captures);
+        $response = $manager->add($this->capturePayload);
 
         $this->assertEquals($response->getTouchIdentifier(), 'my-custom-touch-identifier');
         $this->assertEquals($response->getIdentity(), 'my-custom-identity-string');
@@ -206,6 +205,6 @@ class CaptureTest extends TestBase
 
         // Get Capture Manager
         $manager = $client->getCaptureManager();
-        $manager->add($this->captures);
+        $manager->add($this->capturePayload);
     }
 }

@@ -3,16 +3,15 @@
 namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Capture;
-use Acquia\LiftClient\Entity\Captures;
+use Acquia\LiftClient\Entity\Decide;
 
-class CapturesTest extends \PHPUnit_Framework_TestCase
+class DecideTest extends \PHPUnit_Framework_TestCase
 {
     public function testTouchIdentifier()
     {
-        $entity = new Captures();
+        $entity = new Decide();
         $entity->setTouchIdentifier('test-touch-identifier');
         $this->assertEquals($entity->json(), '{"touch_identifier":"test-touch-identifier"}');
-        $this->assertEquals($entity->getTouchIdentifier(), 'test-touch-identifier');
     }
 
     /**
@@ -21,16 +20,15 @@ class CapturesTest extends \PHPUnit_Framework_TestCase
      */
     public function testTouchIdentifierIsString()
     {
-        $entity = new Captures();
+        $entity = new Decide();
         $entity->setTouchIdentifier(100);
     }
 
     public function testIdentity()
     {
-        $entity = new Captures();
+        $entity = new Decide();
         $entity->setIdentity('test-identity');
         $this->assertEquals($entity->json(), '{"identity":"test-identity"}');
-        $this->assertEquals($entity->getIdentity(), 'test-identity');
     }
 
     /**
@@ -39,13 +37,13 @@ class CapturesTest extends \PHPUnit_Framework_TestCase
      */
     public function testIdentityIsString()
     {
-        $entity = new Captures();
+        $entity = new Decide();
         $entity->setIdentity(100);
     }
 
     public function testIdentitySource()
     {
-        $entity = new Captures();
+        $entity = new Decide();
         $entity->setIdentitySource('test-identity-source');
         $this->assertEquals($entity->json(), '{"identity_source":"test-identity-source"}');
     }
@@ -56,13 +54,13 @@ class CapturesTest extends \PHPUnit_Framework_TestCase
      */
     public function testIdentitySourceIsString()
     {
-        $entity = new Captures();
+        $entity = new Decide();
         $entity->setIdentitySource(100);
     }
 
     public function testDoNotTrack()
     {
-        $entity = new Captures();
+        $entity = new Decide();
         $entity->setDoNotTrack(true);
         $this->assertEquals($entity->json(), '{"do_not_track":true}');
     }
@@ -73,25 +71,8 @@ class CapturesTest extends \PHPUnit_Framework_TestCase
      */
     public function testDoNotTrackIsBoolean()
     {
-        $entity = new Captures();
+        $entity = new Decide();
         $entity->setDoNotTrack(100);
-    }
-
-    public function testReturnSegments()
-    {
-        $entity = new Captures();
-        $entity->setReturnSegments(true);
-        $this->assertEquals($entity->json(), '{"return_segments":true}');
-    }
-
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of boolean.
-     */
-    public function testReturnSegmentsIsBoolean()
-    {
-        $entity = new Captures();
-        $entity->setReturnSegments(100);
     }
 
     public function testCapture()
@@ -100,8 +81,42 @@ class CapturesTest extends \PHPUnit_Framework_TestCase
         $capture
             ->setAuthor('nick');
 
-        $entity = new Captures();
+        $entity = new Decide();
         $entity->setCaptures([$capture]);
         $this->assertEquals($entity->json(), '{"captures":[{"author":"nick"}]}');
+    }
+
+    public function testUrl()
+    {
+        $entity = new Decide();
+        $entity->setUrl('test-url');
+        $this->assertEquals($entity->json(), '{"url":"test-url"}');
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testUrlIsString()
+    {
+        $entity = new Decide();
+        $entity->setUrl(100);
+    }
+
+    public function testSlots()
+    {
+        $entity = new Decide();
+        $entity->setSlots(['test-slot-id']);
+        $this->assertEquals($entity->json(), '{"slots":["test-slot-id"]}');
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Slot Ids argument is more than 1 level deep.
+     */
+    public function testSlotsArrayDepth()
+    {
+        $entity = new Decide();
+        $entity->setSlots(['test-slot-id' => ['too-deep']]);
     }
 }
