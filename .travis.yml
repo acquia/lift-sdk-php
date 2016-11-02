@@ -1,5 +1,10 @@
 language: php
 
+## Cache composer bits
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 php:
   - 7.0
   - 5.6
