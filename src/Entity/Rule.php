@@ -169,7 +169,7 @@ class Rule extends Entity
      *
      * @return \Acquia\LiftClient\Entity\Rule
      */
-    public function setContent(array $contentList)
+    public function setContentList(array $contentList)
     {
         $this['content'] = [];
         foreach ($contentList as $content) {
@@ -185,7 +185,7 @@ class Rule extends Entity
      *
      * @return Content[] The list of content this rule applies to
      */
-    public function getContent()
+    public function getContentList()
     {
         $contentList = $this->getEntityValue('content', '');
         $ret = [];
@@ -205,10 +205,10 @@ class Rule extends Entity
      *
      * @return \Acquia\LiftClient\Entity\Rule
      */
-    public function setSegment($segment)
+    public function setSegmentId($segment)
     {
         if (!is_string($segment)) {
-            throw new LiftSdkException('Argument must be an instance of integer.');
+            throw new LiftSdkException('Argument must be an instance of string.');
         }
         $this['segment'] = $segment;
 
@@ -220,7 +220,7 @@ class Rule extends Entity
      *
      * @return string
      */
-    public function getSegment()
+    public function getSegmentId()
     {
         return $this->getEntityValue('segment', '');
     }
@@ -237,10 +237,10 @@ class Rule extends Entity
     public function setStatus($status)
     {
         if (!is_string($status)) {
-            throw new LiftSdkException('Argument must be an instance of integer.');
+            throw new LiftSdkException('Argument must be an instance of string.');
         }
         if ($status !== 'published' && $status !== 'unpublished' && $status !== 'archived') {
-            throw new LiftSdkException('Status much be either published, unpublished or archived');
+            throw new LiftSdkException('Status much be either published, unpublished or archived.');
         }
         $this['status'] = $status;
 

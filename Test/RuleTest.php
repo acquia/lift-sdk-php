@@ -81,9 +81,9 @@ class RuleTest extends TestBase
           ->setDescription('Front page banner personalization for Belgians')
           ->setSlotId('slot-1')
           ->setStatus('published')
-          ->setSegment('belgians')
+          ->setSegmentId('belgians')
           ->setWeight(10)
-          ->setContent([$contentPiece1, $contentPiece2])
+          ->setContentList([$contentPiece1, $contentPiece2])
           ->setTestConfig($testConfig);
 
         $this->rule = $rule;
@@ -169,7 +169,7 @@ class RuleTest extends TestBase
         $this->assertEquals($response->getDescription(), 'Front page banner personalization for Belgians');
         $this->assertEquals($response->getSlotId(), 'slot-1');
         $this->assertEquals($response->getStatus(), 'published');
-        $this->assertEquals($response->getSegment(), 'belgians');
+        $this->assertEquals($response->getSegmentId(), 'belgians');
         $this->assertEquals($response->getWeight(), 10);
 
         // Check if the timestamp for created is as expected.
@@ -179,7 +179,7 @@ class RuleTest extends TestBase
         $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z'));
 
         // Check for the response content
-        $responseContent = $response->getContent();
+        $responseContent = $response->getContentList();
         $this->assertEquals($responseContent[0]->getId(), 'front-banner');
         $this->assertEquals($responseContent[0]->getBaseUrl(), 'http://mysite.dev');
         $this->assertEquals($responseContent[0]->getContentConnectorId(), 'content_hub');
@@ -287,7 +287,7 @@ class RuleTest extends TestBase
             $this->assertEquals($response->getDescription(), 'Front page banner personalization for Belgians');
             $this->assertEquals($response->getSlotId(), 'slot-1');
             $this->assertEquals($response->getStatus(), 'published');
-            $this->assertEquals($response->getSegment(), 'belgians');
+            $this->assertEquals($response->getSegmentId(), 'belgians');
             $this->assertEquals($response->getWeight(), 10);
 
             // Check if the timestamp for created is as expected.
@@ -297,7 +297,7 @@ class RuleTest extends TestBase
             $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z'));
 
             // Check for the response content
-            $responseContent = $response->getContent();
+            $responseContent = $response->getContentList();
             $this->assertEquals($responseContent[0]->getId(), 'front-banner');
             $this->assertEquals($responseContent[0]->getBaseUrl(), 'http://mysite.dev');
             $this->assertEquals($responseContent[0]->getContentConnectorId(), 'content_hub');
@@ -369,7 +369,7 @@ class RuleTest extends TestBase
         $this->assertEquals($response->getDescription(), 'Front page banner personalization for Belgians');
         $this->assertEquals($response->getSlotId(), 'slot-1');
         $this->assertEquals($response->getStatus(), 'published');
-        $this->assertEquals($response->getSegment(), 'belgians');
+        $this->assertEquals($response->getSegmentId(), 'belgians');
         $this->assertEquals($response->getWeight(), 10);
 
         // Check if the timestamp for created is as expected.
@@ -379,7 +379,7 @@ class RuleTest extends TestBase
         $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z'));
 
         // Check for the response content
-        $responseContent = $response->getContent();
+        $responseContent = $response->getContentList();
         $this->assertEquals($responseContent[0]->getId(), 'front-banner');
         $this->assertEquals($responseContent[0]->getBaseUrl(), 'http://mysite.dev');
         $this->assertEquals($responseContent[0]->getContentConnectorId(), 'content_hub');

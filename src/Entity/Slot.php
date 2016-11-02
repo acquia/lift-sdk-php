@@ -2,6 +2,7 @@
 
 namespace Acquia\LiftClient\Entity;
 
+use Acquia\LiftClient\Exception\LiftSdkException;
 use DateTime;
 
 class Slot extends Entity
@@ -19,10 +20,15 @@ class Slot extends Entity
      *
      * @param string $id
      *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
      * @return \Acquia\LiftClient\Entity\Slot
      */
     public function setId($id)
     {
+        if (!is_string($id)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
         $this['id'] = $id;
 
         return $this;
@@ -43,10 +49,15 @@ class Slot extends Entity
      *
      * @param string $label
      *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
      * @return \Acquia\LiftClient\Entity\Slot
      */
     public function setLabel($label)
     {
+        if (!is_string($label)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
         $this['label'] = $label;
 
         return $this;
@@ -67,10 +78,15 @@ class Slot extends Entity
      *
      * @param string $description
      *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
      * @return \Acquia\LiftClient\Entity\Slot
      */
     public function setDescription($description)
     {
+        if (!is_string($description)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
         $this['description'] = $description;
 
         return $this;
@@ -87,39 +103,20 @@ class Slot extends Entity
     }
 
     /**
-     * Sets the 'html' parameter.
-     *
-     * @param string $html
-     *
-     * @return \Acquia\LiftClient\Entity\Slot
-     */
-    public function setHtml($html)
-    {
-        $this['html'] = $html;
-
-        return $this;
-    }
-
-    /**
-     * Gets the 'html' parameter.
-     *
-     * @return string
-     */
-    public function getHtml()
-    {
-        return $this->getEntityValue('html', '');
-    }
-
-    /**
      * Sets the 'status' parameter.
      *
      * @param bool $status
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
      * @return \Acquia\LiftClient\Entity\Slot
      */
     public function setStatus($status)
     {
-        if ($status === true) {
+        if (!is_bool($status)) {
+            throw new LiftSdkException('Argument must be an instance of boolean.');
+        }
+        if ($status) {
             $this['status'] = 'enabled';
         } else {
             $this['status'] = 'disabled';
@@ -129,7 +126,7 @@ class Slot extends Entity
     }
 
     /**
-     * Gets the 'status' parameter.
+     * Gets the 'status' parameter. True if the slot is published. False is it is not.
      *
      * @return bool
      */
