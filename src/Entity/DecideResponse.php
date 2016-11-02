@@ -2,7 +2,7 @@
 
 namespace Acquia\LiftClient\Entity;
 
-class DecideResponse extends CapturesBase
+class DecideResponse extends Entity
 {
     /**
      * Gets the 'touch_identifier' parameter.
@@ -13,7 +13,13 @@ class DecideResponse extends CapturesBase
      */
     public function getTouchIdentifier()
     {
-        return $this->getEntityValue('touch_identifier', '');
+        $lwr = $this->getLiftWebResponse();
+        return $lwr->getEntityValue('touch_identifier', '');
+    }
+
+    private function getLiftWebResponse() {
+        $lwr = $this->getEntityValue('lift_web_response', []);
+        return new Entity($lwr);
     }
 
     /**
@@ -25,7 +31,8 @@ class DecideResponse extends CapturesBase
      */
     public function getIdentity()
     {
-        return $this->getEntityValue('identity', '');
+        $lwr = $this->getLiftWebResponse();
+        return $lwr->getEntityValue('identity', '');
     }
 
     /**
@@ -36,11 +43,12 @@ class DecideResponse extends CapturesBase
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return string
+     * @return int
      */
-    public function getIdentitySource()
+    public function getIdentityExpiry()
     {
-        return $this->getEntityValue('identity_source', '');
+        $lwr = $this->getLiftWebResponse();
+        return $lwr->getEntityValue('identity_expiry', 0);
     }
 
     /**
@@ -50,8 +58,9 @@ class DecideResponse extends CapturesBase
      */
     public function getMatchedSegments()
     {
+        $lwr = $this->getLiftWebResponse();
         $ret = [];
-        $segments = $this->getEntityValue('segments', []);
+        $segments = $lwr->getEntityValue('segments', []);
         foreach ($segments as $segment) {
             $ret[] = new Segment($segment);
         }

@@ -3,6 +3,7 @@
 namespace Acquia\LiftClient\Manager;
 
 use Acquia\LiftClient\Entity\Decide;
+use Acquia\LiftClient\Entity\DecideResponse;
 use GuzzleHttp\Psr7\Request;
 
 class DecideManager extends ManagerBase
@@ -18,7 +19,7 @@ class DecideManager extends ManagerBase
      *
      * @return \Acquia\LiftClient\Entity\DecideResponse
      */
-    public function add(Decide $decide)
+    public function decide(Decide $decide)
     {
         $body = $decide->json();
         $url = '/capture';

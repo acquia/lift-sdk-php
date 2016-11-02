@@ -4,7 +4,7 @@ namespace Acquia\LiftClient\Entity;
 
 use Acquia\LiftClient\Exception\LiftSdkException;
 
-class Captures extends CapturesBase
+class CapturePayload extends CaptureBase
 {
     /**
      * Sets the 'touch_identifier' parameter.
@@ -14,7 +14,7 @@ class Captures extends CapturesBase
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Captures
+     * @return \Acquia\LiftClient\Entity\CapturePayload
      */
     public function setTouchIdentifier($touchIdentifier)
     {
@@ -33,7 +33,7 @@ class Captures extends CapturesBase
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Captures
+     * @return \Acquia\LiftClient\Entity\CapturePayload
      */
     public function setIdentity($identity)
     {
@@ -53,7 +53,7 @@ class Captures extends CapturesBase
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Captures
+     * @return \Acquia\LiftClient\Entity\CapturePayload
      */
     public function setIdentitySource($identitySource)
     {
@@ -72,7 +72,7 @@ class Captures extends CapturesBase
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Captures
+     * @return \Acquia\LiftClient\Entity\CapturePayload
      */
     public function setDoNotTrack($doNotTrack)
     {
@@ -91,7 +91,7 @@ class Captures extends CapturesBase
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Captures
+     * @return \Acquia\LiftClient\Entity\CapturePayload
      */
     public function setReturnSegments($returnSegments)
     {
@@ -110,7 +110,7 @@ class Captures extends CapturesBase
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Captures
+     * @return \Acquia\LiftClient\Entity\CapturePayload
      */
     public function setCaptures($captures)
     {

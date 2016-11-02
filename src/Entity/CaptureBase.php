@@ -2,7 +2,7 @@
 
 namespace Acquia\LiftClient\Entity;
 
-abstract class CapturesBase extends Entity
+abstract class CaptureBase extends Entity
 {
     /**
      * Gets the 'touch_identifier' parameter.

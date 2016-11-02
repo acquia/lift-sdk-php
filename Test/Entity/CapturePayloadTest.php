@@ -3,13 +3,13 @@
 namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Capture;
-use Acquia\LiftClient\Entity\Captures;
+use Acquia\LiftClient\Entity\CapturePayload;
 
-class CapturesTest extends \PHPUnit_Framework_TestCase
+class CapturePayloadTest extends \PHPUnit_Framework_TestCase
 {
     public function testTouchIdentifier()
     {
-        $entity = new Captures();
+        $entity = new CapturePayload();
         $entity->setTouchIdentifier('test-touch-identifier');
         $this->assertEquals($entity->json(), '{"touch_identifier":"test-touch-identifier"}');
         $this->assertEquals($entity->getTouchIdentifier(), 'test-touch-identifier');
@@ -21,13 +21,13 @@ class CapturesTest extends \PHPUnit_Framework_TestCase
      */
     public function testTouchIdentifierIsString()
     {
-        $entity = new Captures();
+        $entity = new CapturePayload();
         $entity->setTouchIdentifier(100);
     }
 
     public function testIdentity()
     {
-        $entity = new Captures();
+        $entity = new CapturePayload();
         $entity->setIdentity('test-identity');
         $this->assertEquals($entity->json(), '{"identity":"test-identity"}');
         $this->assertEquals($entity->getIdentity(), 'test-identity');
@@ -39,13 +39,13 @@ class CapturesTest extends \PHPUnit_Framework_TestCase
      */
     public function testIdentityIsString()
     {
-        $entity = new Captures();
+        $entity = new CapturePayload();
         $entity->setIdentity(100);
     }
 
     public function testIdentitySource()
     {
-        $entity = new Captures();
+        $entity = new CapturePayload();
         $entity->setIdentitySource('test-identity-source');
         $this->assertEquals($entity->json(), '{"identity_source":"test-identity-source"}');
     }
@@ -56,13 +56,13 @@ class CapturesTest extends \PHPUnit_Framework_TestCase
      */
     public function testIdentitySourceIsString()
     {
-        $entity = new Captures();
+        $entity = new CapturePayload();
         $entity->setIdentitySource(100);
     }
 
     public function testDoNotTrack()
     {
-        $entity = new Captures();
+        $entity = new CapturePayload();
         $entity->setDoNotTrack(true);
         $this->assertEquals($entity->json(), '{"do_not_track":true}');
     }
@@ -73,13 +73,13 @@ class CapturesTest extends \PHPUnit_Framework_TestCase
      */
     public function testDoNotTrackIsBoolean()
     {
-        $entity = new Captures();
+        $entity = new CapturePayload();
         $entity->setDoNotTrack(100);
     }
 
     public function testReturnSegments()
     {
-        $entity = new Captures();
+        $entity = new CapturePayload();
         $entity->setReturnSegments(true);
         $this->assertEquals($entity->json(), '{"return_segments":true}');
     }
@@ -90,7 +90,7 @@ class CapturesTest extends \PHPUnit_Framework_TestCase
      */
     public function testReturnSegmentsIsBoolean()
     {
-        $entity = new Captures();
+        $entity = new CapturePayload();
         $entity->setReturnSegments(100);
     }
 
@@ -100,7 +100,7 @@ class CapturesTest extends \PHPUnit_Framework_TestCase
         $capture
             ->setAuthor('nick');
 
-        $entity = new Captures();
+        $entity = new CapturePayload();
         $entity->setCaptures([$capture]);
         $this->assertEquals($entity->json(), '{"captures":[{"author":"nick"}]}');
     }

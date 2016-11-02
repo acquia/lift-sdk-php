@@ -130,7 +130,7 @@ class Decide extends Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Captures
+     * @return \Acquia\LiftClient\Entity\Decide
      */
     public function setCaptures($captures)
     {

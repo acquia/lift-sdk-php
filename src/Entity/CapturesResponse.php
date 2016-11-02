@@ -2,7 +2,7 @@
 
 namespace Acquia\LiftClient\Entity;
 
-class CapturesResponse extends CapturesBase
+class CapturesResponse extends CaptureBase
 {
     /**
      * Gets the 'status' parameter.
