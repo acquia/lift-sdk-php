@@ -200,7 +200,7 @@ class Goal extends Entity
      *
      * @param bool $global
      *
-     * @return \Acquia\LiftClient\Entity\Slot
+     * @return \Acquia\LiftClient\Entity\Goal
      */
     public function setGlobal($global)
     {

@@ -88,9 +88,9 @@ class DecideResponse extends Entity
     }
 
     /**
-     * Gets the 'matched_segments' parameter.
+     * Gets the 'decisions' parameter.
      *
-     * @return Segment[]
+     * @return Decision[]
      */
     public function getDecisions()
     {
