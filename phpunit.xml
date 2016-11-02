@@ -7,11 +7,11 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="Test/bootstrap.php">
+         bootstrap="test/bootstrap.php">
 
     <testsuites>
        <testsuite name="Lift">
-         <directory suffix="Test.php">Test</directory>
+         <directory suffix="Test.php">test</directory>
        </testsuite>
     </testsuites>
 
