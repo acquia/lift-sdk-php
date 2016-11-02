@@ -21,6 +21,8 @@ class Visibility extends Entity
      *                     http://mywebsite.com/user for the current user's page
      *                     and http://mywebsite.com/user/* for every user page
      *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
      * @return \Acquia\LiftClient\Entity\Visibility
      */
     public function setPages(array $pages = [])
