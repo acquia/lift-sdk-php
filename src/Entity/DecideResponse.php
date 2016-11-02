@@ -14,11 +14,14 @@ class DecideResponse extends Entity
     public function getTouchIdentifier()
     {
         $lwr = $this->getLiftWebResponse();
+
         return $lwr->getEntityValue('touch_identifier', '');
     }
 
-    private function getLiftWebResponse() {
+    private function getLiftWebResponse()
+    {
         $lwr = $this->getEntityValue('lift_web_response', []);
+
         return new Entity($lwr);
     }
 
@@ -32,6 +35,7 @@ class DecideResponse extends Entity
     public function getIdentity()
     {
         $lwr = $this->getLiftWebResponse();
+
         return $lwr->getEntityValue('identity', '');
     }
 
@@ -48,6 +52,7 @@ class DecideResponse extends Entity
     public function getIdentityExpiry()
     {
         $lwr = $this->getLiftWebResponse();
+
         return $lwr->getEntityValue('identity_expiry', 0);
     }
 

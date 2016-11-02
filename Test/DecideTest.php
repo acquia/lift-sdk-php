@@ -3,10 +3,8 @@
 namespace Acquia\LiftClient\Test;
 
 use Acquia\LiftClient\Entity\Capture;
-use Acquia\LiftClient\Entity\Captures;
 use Acquia\LiftClient\Entity\Decide;
 use Acquia\LiftClient\Entity\Segment;
-use DateTime;
 use GuzzleHttp\Psr7\Response;
 
 class DecideTest extends TestBase
@@ -45,22 +43,22 @@ class DecideTest extends TestBase
             ],
             'decisions' => [
                 'slot_id' => 'slot-1',
-                'slot_name'=> 'my slot',
-                'content'=> [
-                    'id'=> 'front-banner-2',
-                    'title'=> 'Front Banner 2',
-                    'content_connector_id'=> 'nicks_content_hub_identifier',
-                    'view_mode'=> [
-                        'id'=> 'banner-wide',
-                        'preview_image'=> 'http://nickveenhof.be/sites/all/default/files/preview-banner-wide-2.png',
-                        'url'=> 'http://nickveenhof.be/liftv3/render/front-banner-2/banner-wide',
-                        'html'=> '<img src=\"nickveenhof.be/sites/all/files/banner-something-something-2.png\"/>'
-                    ]
+                'slot_name' => 'my slot',
+                'content' => [
+                    'id' => 'front-banner-2',
+                    'title' => 'Front Banner 2',
+                    'content_connector_id' => 'nicks_content_hub_identifier',
+                    'view_mode' => [
+                        'id' => 'banner-wide',
+                        'preview_image' => 'http://nickveenhof.be/sites/all/default/files/preview-banner-wide-2.png',
+                        'url' => 'http://nickveenhof.be/liftv3/render/front-banner-2/banner-wide',
+                        'html' => '<img src=\"nickveenhof.be/sites/all/files/banner-something-something-2.png\"/>',
+                    ],
                 ],
-                'policy'=> 'explore',
-                'rule_id'=> 'rule-1',
-                'rule_name'=> 'My Rule'
-            ]
+                'policy' => 'explore',
+                'rule_id' => 'rule-1',
+                'rule_name' => 'My Rule',
+            ],
         ];
     }
 
