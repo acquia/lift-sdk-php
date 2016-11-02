@@ -35,17 +35,13 @@ class Decision extends Entity
     /**
      * Gets the 'content' parameter.
      *
-     * @return string
+     * @return Content
      */
-    public function getContentList()
+    public function getContent()
     {
-        $contentList = $this->getEntityValue('content', '');
-        $ret = [];
-        foreach ($contentList as $content) {
-            $ret[] = new Content($content);
-        }
+        $content = $this->getEntityValue('content', []);
 
-        return $ret;
+        return new Content($content);
     }
 
     /**
