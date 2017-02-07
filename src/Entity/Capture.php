@@ -142,10 +142,9 @@ class Capture extends Entity
      */
     public function setEventDate(DateTime $eventDate)
     {
-        // The ISO8601 DateTime format is not compatible with ISO-8601, but is left this way for backward compatibility
-        // reasons. Use DateTime::ATOM or DATE_ATOM for compatibility with ISO-8601 instead.
-        // See http://php.net/manual/en/class.datetime.php
-        $this['event_date'] = $eventDate->format(DateTime::ATOM);
+        // Lift Profile Manager is currently accepting this ISO 8601 format:
+        // "2017-02-07T19:59:53.123456Z".
+        $this['event_date'] = $eventDate->format('Y-m-d\TH:i:s.u\Z');
 
         return $this;
     }
@@ -907,10 +906,9 @@ class Capture extends Entity
      */
     public function setPublishedDate(DateTime $publishedDate)
     {
-        // The ISO8601 DateTime format is not compatible with ISO-8601, but is left this way for backward compatibility
-        // reasons. Use DateTime::ATOM or DATE_ATOM for compatibility with ISO-8601 instead.
-        // See http://php.net/manual/en/class.datetime.php
-        $this['published_date'] = $publishedDate->format(DateTime::ATOM);
+        // Lift Profile Manager is currently accepting this ISO 8601 format:
+        // "2017-02-07T19:59:53.123456Z".
+        $this['published_date'] = $publishedDate->format('Y-m-d\TH:i:s.u\Z');
 
         return $this;
     }

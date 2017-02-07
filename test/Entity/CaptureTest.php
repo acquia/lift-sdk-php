@@ -157,7 +157,7 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
         $date = DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z');
         $entity = new Capture();
         $entity->setEventDate($date);
-        $this->assertEquals($entity->json(), '{"event_date":"2016-01-05T22:04:39+00:00"}');
+        $this->assertEquals($entity->json(), '{"event_date":"2016-01-05T22:04:39.000000Z"}');
     }
 
     public function testIdentities()
@@ -751,6 +751,6 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
         $date = DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z');
         $entity = new Capture();
         $entity->setPublishedDate($date);
-        $this->assertEquals($entity->json(), '{"published_date":"2016-01-05T22:04:39+00:00"}');
+        $this->assertEquals($entity->json(), '{"published_date":"2016-01-05T22:04:39.000000Z"}');
     }
 }
