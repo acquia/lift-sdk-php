@@ -24,7 +24,7 @@ class CaptureManager extends ManagerBase
         $body = $capturePayload->json();
         $url = '/capture';
         $request = new Request('POST', $url, [], $body);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new CapturesResponse($data);
     }

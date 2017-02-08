@@ -44,7 +44,7 @@ class RuleManager extends ManagerBase
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         // Get them as Rule objects
         $rules = [];
@@ -72,7 +72,7 @@ class RuleManager extends ManagerBase
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new Rule($data);
     }
@@ -95,7 +95,7 @@ class RuleManager extends ManagerBase
         $body = $rule->json();
         $url = '/rules';
         $request = new Request('POST', $url, [], $body);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new Rule($data);
     }

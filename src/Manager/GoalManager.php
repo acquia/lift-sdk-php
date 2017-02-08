@@ -34,7 +34,7 @@ class GoalManager extends ManagerBase
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         // Get them as Goal objects
         $goals = [];
@@ -62,7 +62,7 @@ class GoalManager extends ManagerBase
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new Goal($data);
     }
@@ -86,7 +86,7 @@ class GoalManager extends ManagerBase
         $body = $goals->json();
         $url = '/goals';
         $request = new Request('POST', $url, [], $body);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new GoalAddResponse($data);
     }

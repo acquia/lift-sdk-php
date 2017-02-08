@@ -39,7 +39,7 @@ class SlotManager extends ManagerBase
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         // Get them as Slot objects
         $slots = [];
@@ -69,7 +69,7 @@ class SlotManager extends ManagerBase
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new Slot($data);
     }
@@ -88,7 +88,7 @@ class SlotManager extends ManagerBase
         $body = $slot->json();
         $url = '/slots';
         $request = new Request('POST', $url, [], $body);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new Slot($data);
     }
