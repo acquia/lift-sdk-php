@@ -150,6 +150,27 @@ class RuleTest extends TestBase
         ];
     }
 
+    public function testHandlerStack() {
+        $response = new Response(200, [], json_encode([]));
+
+        $responses = [
+          $response,
+        ];
+        $client = $this->getClient($responses);
+
+        // Get Rule Manager
+        $manager = $client->getRuleManager();
+
+        // Check if the client has already have expected handlers.
+        // To check, to insert a dummy function after the expected handler, and
+        // hope it finds the expected handler without throwing an Exception.
+        $handler = $manager->getClient()->getConfig('handler');
+        $testFunction = function () {};
+        $handler->after('acquia_lift_account_and_site_ids', $testFunction);
+        // Does not throw Exception because this handler is authenticated.
+        $handler->after('acquia_lift_hmac_auth', $testFunction);
+    }
+
     public function testRuleAdd()
     {
         $response = new Response(200, [], json_encode($this->ruleResponseData));
@@ -162,8 +183,16 @@ class RuleTest extends TestBase
         // Get Rule Manager
         $manager = $client->getRuleManager();
         $response = $manager->add($this->rule);
+        $request = $this->mockHandler->getLastRequest();
 
-        // Check for basic fields
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'POST');
+        $this->assertEquals((string) $request->getUri(), '/rules?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         $this->assertEquals($response->getId(), 'rule-1');
         $this->assertEquals($response->getLabel(), 'Banner for Belgians');
         $this->assertEquals($response->getDescription(), 'Front page banner personalization for Belgians');
@@ -240,9 +269,19 @@ class RuleTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Manager
+        // Get Rule Manager
         $manager = $client->getRuleManager();
         $response = $manager->delete('rule-to-delete');
+        $request = $this->mockHandler->getLastRequest();
+
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'DELETE');
+        $this->assertEquals((string) $request->getUri(), '/rules/rule-to-delete?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         $this->assertTrue($response, 'Rule Deletion succeeded');
     }
 
@@ -259,7 +298,7 @@ class RuleTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Manager
+        // Get Rule Manager
         $manager = $client->getRuleManager();
         $manager->delete('rule-to-delete');
     }
@@ -277,9 +316,29 @@ class RuleTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get manager
+        // Get Rule Manager
         $manager = $client->getRuleManager();
-        $responses = $manager->query();
+        $option = [
+            'visible_on_page' => 'my_page',
+            'prefetch' => 'true',
+            'sort' => 'desc',
+            'start' => '4',
+            'rows' => '20',
+            'sort_field' => 'updated',
+            'status' => 'unpublished',
+            'unrelated_option_name' => 'unrelated_option_value',
+        ];
+        $responses = $manager->query($option);
+        $request = $this->mockHandler->getLastRequest();
+
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'GET');
+        $this->assertEquals((string) $request->getUri(), '/rules?visible_on_page=my_page&prefetch=true&sort=desc&start=4&rows=20&sort_field=updated&status=unpublished&account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         foreach ($responses as $response) {
             // Check for basic fields
             $this->assertEquals($response->getId(), 'rule-1');
@@ -359,11 +418,19 @@ class RuleTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Manager
+        // Get Rule Manager
         $manager = $client->getRuleManager();
         $response = $manager->get('rule-1');
+        $request = $this->mockHandler->getLastRequest();
 
-        // Check for basic fields
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'GET');
+        $this->assertEquals((string) $request->getUri(), '/rules/rule-1?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         $this->assertEquals($response->getId(), 'rule-1');
         $this->assertEquals($response->getLabel(), 'Banner for Belgians');
         $this->assertEquals($response->getDescription(), 'Front page banner personalization for Belgians');

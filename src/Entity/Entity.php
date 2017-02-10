@@ -26,8 +26,8 @@ class Entity extends \ArrayObject
      */
     public function json()
     {
-        $encoders = array(new JsonEncoder());
-        $normalizers = array(new CustomNormalizer());
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new CustomNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
 
         return $serializer->serialize($this, 'json');

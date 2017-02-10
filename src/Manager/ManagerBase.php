@@ -8,6 +8,11 @@ use Psr\Http\Message\RequestInterface;
 abstract class ManagerBase
 {
     /**
+     * @var array A list of query parameters that the URL could possibly have
+     */
+    protected $queryParameters = [];
+
+    /**
      * @var \GuzzleHttp\ClientInterface The request client
      */
     protected $client;
@@ -18,6 +23,15 @@ abstract class ManagerBase
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
+    }
+
+    /**
+     * Get the client.
+     *
+     * @return \GuzzleHttp\ClientInterface The request client
+     */
+    public function getClient() {
+      return $this->client;
     }
 
     /**
@@ -38,6 +52,30 @@ abstract class ManagerBase
         $body = (string) $response->getBody();
 
         return json_decode($body, true);
+    }
+
+    /**
+     * Get query string of using the options.
+     *
+     * @param $options The options
+     * @return string  The query string
+     */
+    protected function getQueryString($options) {
+      $queries = [];
+      foreach ($this->queryParameters as $queryName => $queryDefaultValue) {
+        // Use user value if possible.
+        if (isset($options[$queryName])) {
+          $queries[] = $queryName . '=' . $options[$queryName];
+          continue;
+        }
+        // Use default value if possible.
+        if (!isset($options[$queryName]) && is_string($queryDefaultValue)) {
+          $queries[] = $queryName . '=' . $queryDefaultValue;
+          continue;
+        }
+      }
+      $queryString = implode('&', $queries);
+      return empty($queryString) ? '' : '?' . $queryString;
     }
 
 }

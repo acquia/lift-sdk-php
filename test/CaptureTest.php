@@ -128,6 +128,32 @@ class CaptureTest extends TestBase
         ];
     }
 
+    /**
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionCode    0
+     * @expectedExceptionMessage Middleware not found: acquia_lift_hmac_auth
+     */
+    public function testHandlerStack() {
+        $response = new Response(200, [], json_encode([]));
+
+        $responses = [
+          $response,
+        ];
+        $client = $this->getClient($responses);
+
+        // Get Capture Manager
+        $manager = $client->getCaptureManager();
+
+        // Check if the client has already have expected handlers.
+        // To check, to insert a dummy function after the expected handler, and
+        // hope it finds the expected handler (or throw Exception when don't).
+        $handler = $manager->getClient()->getConfig('handler');
+        $testFunction = function () {};
+        $handler->after('acquia_lift_account_and_site_ids', $testFunction);
+        // Throws Exception because this handler is unauthenticated.
+        $handler->after('acquia_lift_hmac_auth', $testFunction);
+    }
+
     public function testCaptureAdd()
     {
         $response = new Response(200, [], json_encode($this->capturesResponseData));
@@ -137,11 +163,19 @@ class CaptureTest extends TestBase
         ];
         $client = $this->getClient($responses);
 
-        // Get Rule Manager
+        // Get Capture Manager
         $manager = $client->getCaptureManager();
         $response = $manager->add($this->capturePayload);
+        $request = $this->mockHandler->getLastRequest();
 
-        // Check for basic fields
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'POST');
+        $this->assertEquals((string) $request->getUri(), '/capture?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         $this->assertEquals($response->getErrors(), null);
         $this->assertEquals($response->getTouchIdentifier(), 'my-custom-touch-identifier');
         $this->assertEquals($response->getIdentity(), 'my-custom-identity-string');
@@ -179,10 +213,19 @@ class CaptureTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Rule Manager
+        // Get Capture Manager
         $manager = $client->getCaptureManager();
         $response = $manager->add($this->capturePayload);
+        $request = $this->mockHandler->getLastRequest();
 
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'POST');
+        $this->assertEquals((string) $request->getUri(), '/capture?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         $this->assertEquals($response->getTouchIdentifier(), 'my-custom-touch-identifier');
         $this->assertEquals($response->getIdentity(), 'my-custom-identity-string');
         $this->assertEquals($response->getIdentitySource(), 'php-unit-test');

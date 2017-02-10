@@ -58,7 +58,7 @@ class Lift
         // Create both unauthenticated and authenticated handler stacks.
         $handlerStack = isset($config['handler']) ? $config['handler'] : HandlerStack::create();
         $accountAndSiteIdHandler = $this->getAccountAndSiteIdHandler($account_id, $site_id);
-        $handlerStack->push($accountAndSiteIdHandler);
+        $handlerStack->push($accountAndSiteIdHandler, 'acquia_lift_account_and_site_ids');
 
         // Both stacks are cloned so they are both completely internal now.
         $unauthenticatedHandlerStack = clone $handlerStack;
@@ -67,13 +67,13 @@ class Lift
         // Set an authentication handler accordingly.
         if (isset($config['auth_middleware'])) {
             if ($config['auth_middleware'] !== false) {
-                $authenticatedHandlerStack->push($config['auth_middleware']);
+                $authenticatedHandlerStack->push($config['auth_middleware'], 'acquia_lift_hmac_auth');
             }
         } else {
             // A key consists of your UUID and a MIME base64 encoded shared secret.
             $authKey = new Key($public_key, $secret_key);
             $middleware = new HmacAuthMiddleware($authKey, 'Decision');
-            $authenticatedHandlerStack->push($middleware);
+            $authenticatedHandlerStack->push($middleware, 'acquia_lift_hmac_auth');
         }
 
         // Create both unauthenticated and authenticated handlers.

@@ -7,6 +7,27 @@ use GuzzleHttp\Psr7\Response;
 
 class GoalTest extends TestBase
 {
+    public function testHandlerStack() {
+        $response = new Response(200, [], json_encode([]));
+
+        $responses = [
+          $response,
+        ];
+        $client = $this->getClient($responses);
+
+        // Get Rule Manager
+        $manager = $client->getRuleManager();
+
+        // Check if the client has already have expected handlers.
+        // To check, to insert a dummy function after the expected handler, and
+        // hope it finds the expected handler without throwing an Exception.
+        $handler = $manager->getClient()->getConfig('handler');
+        $testFunction = function () {};
+        $handler->after('acquia_lift_account_and_site_ids', $testFunction);
+        // Does not throw Exception because this handler is authenticated.
+        $handler->after('acquia_lift_hmac_auth', $testFunction);
+    }
+
     public function testGoalAdd()
     {
         // Setup
@@ -29,11 +50,19 @@ class GoalTest extends TestBase
         $goal->setSiteIds(array('site-id-1'));
         $goal->setEventNames(array('Click-Through'));
 
-        // Get Slot Manager
+        // Get Goal Manager
         $manager = $client->getGoalManager();
         $response = $manager->add($goal);
+        $request = $this->mockHandler->getLastRequest();
 
-        // Check if the identifier is equal.
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'POST');
+        $this->assertEquals((string) $request->getUri(), '/goals?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         $this->assertEquals($response->getStatus(), 'SUCCESS');
     }
 
@@ -70,6 +99,16 @@ class GoalTest extends TestBase
         // Get Goal Manager
         $manager = $client->getGoalManager();
         $response = $manager->add($goal);
+        $request = $this->mockHandler->getLastRequest();
+
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'POST');
+        $this->assertEquals((string) $request->getUri(), '/goals?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         $this->assertEquals($response->getStatus(), 'FAILURE');
         $this->assertEquals($response->getErrors()[0]->getCode(), '400');
         $this->assertEquals($response->getErrors()[0]->getMessage(), 'Resource had an internal error.');
@@ -111,9 +150,19 @@ class GoalTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Manager
+        // Get Goal Manager
         $manager = $client->getGoalManager();
         $response = $manager->delete('goal-to-delete');
+        $request = $this->mockHandler->getLastRequest();
+
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'DELETE');
+        $this->assertEquals((string) $request->getUri(), '/goals/goal-to-delete?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         $this->assertTrue($response, 'Goal Deletion succeeded');
     }
 
@@ -130,7 +179,7 @@ class GoalTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Manager
+        // Get Goal Manager
         $manager = $client->getGoalManager();
         $manager->delete('goal-to-delete');
     }
@@ -163,9 +212,23 @@ class GoalTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get manager
+        // Get Goal Manager
         $manager = $client->getGoalManager();
-        $responses = $manager->query();
+        $option = [
+            'limit_by_site' => 'my_site',
+            'unrelated_option_name' => 'unrelated_option_value',
+        ];
+        $responses = $manager->query($option);
+        $request = $this->mockHandler->getLastRequest();
+
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'GET');
+        $this->assertEquals((string) $request->getUri(), '/goals?limit_by_site=my_site&account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         foreach ($responses as $response) {
             // Check if the identifier is equal.
           $this->assertEquals($response->getId(), 'test-id');
@@ -206,7 +269,7 @@ class GoalTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Slot Manager
+        // Get Goal Manager
         $manager = $client->getGoalManager();
         $manager->query();
     }
@@ -238,10 +301,19 @@ class GoalTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Manager
+        // Get Goal Manager
         $manager = $client->getGoalManager();
         $response = $manager->get('test-id');
+        $request = $this->mockHandler->getLastRequest();
 
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'GET');
+        $this->assertEquals((string) $request->getUri(), '/goals/test-id?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         // Check if the identifier is equal.
         $this->assertEquals($response->getId(), 'test-id');
 
@@ -280,7 +352,7 @@ class GoalTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Slot Manager
+        // Get Goal Manager
         $manager = $client->getGoalManager();
         $manager->get('non-existing-slot');
     }
