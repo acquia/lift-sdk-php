@@ -9,6 +9,7 @@ abstract class ManagerBase
 {
     /**
      * @var array A list of query parameters that the URL could possibly have
+     *            Format: query_parameter_name => query_parameter_default_value
      */
     protected $queryParameters = [];
 
@@ -65,12 +66,12 @@ abstract class ManagerBase
       foreach ($this->queryParameters as $queryName => $queryDefaultValue) {
         // Use user value if possible.
         if (isset($options[$queryName])) {
-          $queries[] = $queryName . '=' . $options[$queryName];
+          $queries[] = $queryName . '=' . rawurlencode($options[$queryName]);
           continue;
         }
         // Use default value if possible.
         if (is_string($queryDefaultValue)) {
-          $queries[] = $queryName . '=' . $queryDefaultValue;
+          $queries[] = $queryName . '=' . rawurlencode($queryDefaultValue);
           continue;
         }
       }

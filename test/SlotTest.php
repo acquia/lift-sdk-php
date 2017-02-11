@@ -203,7 +203,7 @@ class SlotTest extends TestBase
         // Get Slot Manager
         $manager = $client->getSlotManager();
         $option = [
-            'visible_on_page' => 'my_page',
+            'visible_on_page' => 'my_&&_special_page_!',
             'status' => 'disabled',
             'unrelated_option_name' => 'unrelated_option_value',
         ];
@@ -212,7 +212,7 @@ class SlotTest extends TestBase
 
         // Check for request configuration
         $this->assertEquals($request->getMethod(), 'GET');
-        $this->assertEquals((string) $request->getUri(), '/slots?visible_on_page=my_page&status=disabled&account_id=TESTACCOUNTID&site_id=TESTSITEID');
+        $this->assertEquals((string) $request->getUri(), '/slots?visible_on_page=my_%26%26_special_page_%21&status=disabled&account_id=TESTACCOUNTID&site_id=TESTSITEID');
 
         $requestHeaders = $request->getHeaders();
         $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');

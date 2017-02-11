@@ -215,7 +215,7 @@ class GoalTest extends TestBase
         // Get Goal Manager
         $manager = $client->getGoalManager();
         $option = [
-            'limit_by_site' => 'my_site',
+            'limit_by_site' => 'my_&&_special_site_!',
             'unrelated_option_name' => 'unrelated_option_value',
         ];
         $responses = $manager->query($option);
@@ -223,7 +223,7 @@ class GoalTest extends TestBase
 
         // Check for request configuration
         $this->assertEquals($request->getMethod(), 'GET');
-        $this->assertEquals((string) $request->getUri(), '/goals?limit_by_site=my_site&account_id=TESTACCOUNTID&site_id=TESTSITEID');
+        $this->assertEquals((string) $request->getUri(), '/goals?limit_by_site=my_%26%26_special_site_%21&account_id=TESTACCOUNTID&site_id=TESTSITEID');
 
         $requestHeaders = $request->getHeaders();
         $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
