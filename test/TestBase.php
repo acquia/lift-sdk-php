@@ -66,6 +66,9 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase
 
     /**
      * Get a dummy auth middleware.
+     *
+     * The dummy middleware is a no-op. The purpose is to set this, so Lift
+     * won't set a real auth middleware while still setting a fake one.
      */
     protected function getDummyAuthMiddleware()
     {
