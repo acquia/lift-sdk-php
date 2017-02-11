@@ -69,7 +69,7 @@ abstract class ManagerBase
           continue;
         }
         // Use default value if possible.
-        if (!isset($options[$queryName]) && is_string($queryDefaultValue)) {
+        if (is_string($queryDefaultValue)) {
           $queries[] = $queryName . '=' . $queryDefaultValue;
           continue;
         }
