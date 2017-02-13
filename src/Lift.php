@@ -15,25 +15,20 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
 
-class Lift extends Client
+class Lift
 {
     /**
-     * @var \NickVeenhof\Hmac\KeyInterface A sample key
+     * @var \GuzzleHttp\ClientInterface Unauthenticated client
      */
-    protected $authKey;
+    private $unauthenticatedClient;
 
     /**
-     * @var string The account we are using
+     * @var \GuzzleHttp\ClientInterface Authenticated client
      */
-    protected $accountId;
+    private $authenticatedClient;
 
     /**
-     * @var string The site identifier we are using
-     */
-    protected $siteId;
-
-    /**
-     * Overrides \GuzzleHttp\Client::__construct().
+     * Constructor.
      *
      * @param string $account_id The Lift Web Account Identifier. Eg.: MYACCOUNT
      * @param string $site_id    The Lift Web Site Identifier. Eg.: my-drupal-site
@@ -42,7 +37,7 @@ class Lift extends Client
      *                           you are using
      * @param string $secret_key The Lift Web Secret Key belonging to the Public
      *                           Key
-     * @param array  $config
+     * @param array  $config     Additional configs
      */
     public function __construct(
       $account_id,
@@ -60,38 +55,44 @@ class Lift extends Client
         // Setting up the headers.
         $config['headers']['Content-Type'] = 'application/json';
 
-        // A key consists of your UUID and a MIME base64 encoded shared secret.
-        $this->authKey = new Key($public_key, $secret_key);
+        // Create both unauthenticated and authenticated handler stacks.
+        $handlerStack = isset($config['handler']) ? $config['handler'] : HandlerStack::create();
+        $accountAndSiteIdHandler = $this->getAccountAndSiteIdHandler($account_id, $site_id);
+        $handlerStack->push($accountAndSiteIdHandler, 'acquia_lift_account_and_site_ids');
 
-        $this->accountId = $account_id;
-        $this->siteId = $site_id;
+        // Both stacks are cloned so they are both completely internal now.
+        $unauthenticatedHandlerStack = clone $handlerStack;
+        $authenticatedHandlerStack = clone $handlerStack;
 
-        // Set our default HandlerStack if nothing is provided
-        if (!isset($config['handler'])) {
-            $config['handler'] = HandlerStack::create();
-        }
-
-        // Add our Account and Site identifiers.
-        $config['handler']->push($this->addLiftAccountAndSiteId());
-
+        // Set an authentication handler accordingly.
         if (isset($config['auth_middleware'])) {
             if ($config['auth_middleware'] !== false) {
-                $config['handler']->push($config['auth_middleware']);
+                $authenticatedHandlerStack->push($config['auth_middleware'], 'acquia_lift_hmac_auth');
             }
         } else {
-            $middleware = new HmacAuthMiddleware($this->authKey, 'Decision');
-            $config['handler']->push($middleware);
+            // A key consists of your UUID and a MIME base64 encoded shared secret.
+            $authKey = new Key($public_key, $secret_key);
+            $middleware = new HmacAuthMiddleware($authKey, 'Decision');
+            $authenticatedHandlerStack->push($middleware, 'acquia_lift_hmac_auth');
         }
 
-        parent::__construct($config);
+        // Create both unauthenticated and authenticated handlers.
+        $config['handler'] = $unauthenticatedHandlerStack;
+        $this->unauthenticatedClient = new Client($config);
+        $config['handler'] = $authenticatedHandlerStack;
+        $this->authenticatedClient = new Client($config);
     }
 
-    public function addLiftAccountAndSiteId()
+    /**
+     * Get a handler that adds lift account id and site id.
+     *
+     * @param string $account_id The Lift Web Account Identifier. Eg.: MYACCOUNT
+     * @param string $site_id    The Lift Web Site Identifier. Eg.: my-drupal-site
+     * @return function The handler that adds Lift account id and site id
+     */
+    private function getAccountAndSiteIdHandler($account_id, $site_id)
     {
         // We cannot keep references in such functions.
-        $account_id = $this->accountId;
-        $site_id = $this->siteId;
-
         return function (callable $handler) use ($account_id, $site_id) {
             return function (
               RequestInterface $request,
@@ -118,16 +119,15 @@ class Lift extends Client
     /**
      * Pings the service to ensure that it is available.
      *
-     * @return \Psr\Http\Message\ResponseInterface
-     *
-     * @throws \GuzzleHttp\Exception\RequestException
+     * @return mixed the value encoded in the JSON.
      */
     public function ping()
     {
-        // Now make the request.
         $request = new Request('GET', '/ping');
+        $response = $this->authenticatedClient->send($request);
+        $body = (string) $response->getBody();
 
-        return $this->getResponseJson($request);
+        return json_decode($body, true);
     }
 
     /**
@@ -137,7 +137,7 @@ class Lift extends Client
      */
     public function getSlotManager()
     {
-        return new SlotManager($this);
+        return new SlotManager($this->authenticatedClient);
     }
 
     /**
@@ -147,7 +147,7 @@ class Lift extends Client
      */
     public function getGoalManager()
     {
-        return new GoalManager($this);
+        return new GoalManager($this->authenticatedClient);
     }
 
     /**
@@ -157,7 +157,7 @@ class Lift extends Client
      */
     public function getSegmentManager()
     {
-        return new SegmentManager($this);
+        return new SegmentManager($this->authenticatedClient);
     }
 
     /**
@@ -167,7 +167,7 @@ class Lift extends Client
      */
     public function getRuleManager()
     {
-        return new RuleManager($this);
+        return new RuleManager($this->authenticatedClient);
     }
 
     /**
@@ -177,7 +177,7 @@ class Lift extends Client
      */
     public function getCaptureManager()
     {
-        return new CaptureManager($this);
+        return new CaptureManager($this->unauthenticatedClient);
     }
 
     /**
@@ -187,28 +187,7 @@ class Lift extends Client
      */
     public function getDecideManager()
     {
-        return new DecideManager($this);
+        return new DecideManager($this->unauthenticatedClient);
     }
 
-    /**
-     * Make the given Request and return as JSON Decoded PHP object.
-     *
-     * @param RequestInterface $request
-     *
-     * @return mixed the value encoded in <i>json</i> in appropriate
-     *               PHP type. Values true, false and
-     *               null (case-insensitive) are returned as <b>TRUE</b>, <b>FALSE</b>
-     *               and <b>NULL</b> respectively. <b>NULL</b> is returned if the
-     *               <i>json</i> cannot be decoded or if the encoded
-     *               data is deeper than the recursion limit
-     *
-     * @throws \GuzzleHttp\Exception\RequestException
-     */
-    public function getResponseJson(RequestInterface $request)
-    {
-        $response = $this->send($request);
-        $body = (string) $response->getBody();
-
-        return json_decode($body, true);
-    }
 }

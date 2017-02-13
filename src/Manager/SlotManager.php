@@ -8,6 +8,14 @@ use GuzzleHttp\Psr7\Request;
 class SlotManager extends ManagerBase
 {
     /**
+     * {@inheritdoc}
+     */
+    protected $queryParameters = [
+        'visible_on_page' => null,
+        'status' => null,
+    ];
+
+    /**
      * Get a list of slots.
      *
      * Example of how to structure the $options parameter:
@@ -28,18 +36,12 @@ class SlotManager extends ManagerBase
      */
     public function query($options = [])
     {
-        $variables = $options + [
-            'limit' => 1000,
-            'start' => 0,
-          ];
-
         $url = '/slots';
-        $url .= isset($variables['visible_on_page']) ? "&visible_on_page={$variables['visible_on_page']}" : '';
-        $url .= isset($variables['status']) ? "&status={$variables['status']}" : '';
+        $url .= $this->getQueryString($options);
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         // Get them as Slot objects
         $slots = [];
@@ -69,7 +71,7 @@ class SlotManager extends ManagerBase
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new Slot($data);
     }
@@ -88,7 +90,7 @@ class SlotManager extends ManagerBase
         $body = $slot->json();
         $url = '/slots';
         $request = new Request('POST', $url, [], $body);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new Slot($data);
     }

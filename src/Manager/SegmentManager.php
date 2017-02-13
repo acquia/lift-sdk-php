@@ -22,7 +22,7 @@ class SegmentManager extends ManagerBase
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         // Get them as Segment objects
         $segments = [];

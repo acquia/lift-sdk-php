@@ -130,7 +130,7 @@ class Goal extends Entity
      */
     public function getRuleIds()
     {
-        return $this->getEntityValue('rule_ids', array());
+        return $this->getEntityValue('rule_ids', []);
     }
 
     /**
@@ -161,7 +161,7 @@ class Goal extends Entity
      */
     public function getSiteIds()
     {
-        return $this->getEntityValue('site_ids', array());
+        return $this->getEntityValue('site_ids', []);
     }
 
     /**
@@ -192,7 +192,7 @@ class Goal extends Entity
      */
     public function getEventNames()
     {
-        return $this->getEntityValue('event_names', array());
+        return $this->getEntityValue('event_names', []);
     }
 
     /**

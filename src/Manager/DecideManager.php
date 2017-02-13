@@ -22,9 +22,9 @@ class DecideManager extends ManagerBase
     public function decide(Decide $decide)
     {
         $body = $decide->json();
-        $url = '/capture';
+        $url = '/decide';
         $request = new Request('POST', $url, [], $body);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new DecideResponse($data);
     }

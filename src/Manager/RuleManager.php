@@ -8,6 +8,19 @@ use GuzzleHttp\Psr7\Request;
 class RuleManager extends ManagerBase
 {
     /**
+     * {@inheritdoc}
+     */
+    protected $queryParameters = [
+        'visible_on_page' => null,
+        'prefetch' => null,
+        'sort' => null,
+        'start' => null,
+        'rows' => null,
+        'sort_field' => null,
+        'status' => null,
+    ];
+
+    /**
      * Get a list of Rules.
      *
      * Example of how to structure the $options parameter:
@@ -17,7 +30,7 @@ class RuleManager extends ManagerBase
      *     'prefetch'  => true,
      *     'sort'  => 'asc',
      *     'start'  => 0,
-     *     'rows'  => 0,
+     *     'rows'  => 10,
      *     'sort_field'  => 'updated',
      *     'status'  => 'published'
      * ];
@@ -34,17 +47,11 @@ class RuleManager extends ManagerBase
     public function query($options = [])
     {
         $url = '/rules';
-        $url .= isset($options['visible_on_page']) ? "&visible_on_page={$options['visible_on_page']}" : '';
-        $url .= isset($options['prefetch']) ? "&prefetch={$options['prefetch']}" : true;
-        $url .= isset($options['sort']) ? "&sort={$options['sort']}" : 'asc';
-        $url .= isset($options['start']) ? "&start={$options['start']}" : 0;
-        $url .= isset($options['rows']) ? "&rows={$options['rows']}" : 10;
-        $url .= isset($options['sort_field']) ? "&sort_field={$options['sort_field']}" : 'updated';
-        $url .= isset($options['status']) ? "&status={$options['status']}" : 'published';
+        $url .= $this->getQueryString($options);
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         // Get them as Rule objects
         $rules = [];
@@ -72,7 +79,7 @@ class RuleManager extends ManagerBase
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new Rule($data);
     }
@@ -95,7 +102,7 @@ class RuleManager extends ManagerBase
         $body = $rule->json();
         $url = '/rules';
         $request = new Request('POST', $url, [], $body);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new Rule($data);
     }

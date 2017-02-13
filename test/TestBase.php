@@ -3,17 +3,12 @@
 namespace Acquia\LiftClient\Test;
 
 use Acquia\LiftClient\Lift;
-use NickVeenhof\Hmac\Key;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use Psr\Http\Message\RequestInterface;
 
 abstract class TestBase extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \NickVeenhof\Hmac\KeyInterface A sample key
-     */
-    protected $authKey;
-
     /**
      * @var string The account we are using
      */
@@ -25,16 +20,29 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase
     protected $siteId;
 
     /**
+     * @var string The public key we are using
+     */
+    protected $publicKey;
+
+    /**
+     * @var string The secret key we are using
+     */
+    protected $secretKey;
+
+    /**
+     * @var \GuzzleHttp\Handler\MockHandler The mock handler
+     */
+    protected $mockHandler;
+
+    /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $authId = 'efdde334-fe7b-11e4-a322-1697f925ec7b';
-        $authSecret = 'W5PeGMxSItNerkNFqQMfYiJvH14WzVJMy54CPoTAYoI=';
-
-        $this->authKey = new Key($authId, $authSecret);
         $this->accountId = 'TESTACCOUNTID';
         $this->siteId = 'TESTSITEID';
+        $this->publicKey = 'efdde334-fe7b-11e4-a322-1697f925ec7b';
+        $this->secretKey = 'W5PeGMxSItNerkNFqQMfYiJvH14WzVJMy54CPoTAYoI=';
     }
 
     /**
@@ -44,15 +52,31 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase
      */
     public function getClient(array $responses = [])
     {
-        $mock = new MockHandler($responses);
-        $stack = HandlerStack::create($mock);
+        $this->mockHandler = new MockHandler($responses);
+        $stack = HandlerStack::create($this->mockHandler);
 
         return new Lift(
           $this->accountId,
           $this->siteId,
-          $this->authKey->getId(),
-          $this->authKey->getSecret(),
-          ['handler' => $stack, 'auth_middleware' => false]
+          $this->publicKey,
+          $this->secretKey,
+          ['handler' => $stack, 'auth_middleware' => $this->getDummyAuthMiddleware()]
         );
     }
+
+    /**
+     * Get a dummy auth middleware.
+     *
+     * The dummy middleware is a no-op. The purpose is to set this, so Lift
+     * won't set a real auth middleware while still setting a fake one.
+     */
+    protected function getDummyAuthMiddleware()
+    {
+        return function (callable $handler) {
+            return function (RequestInterface $request, array $options) use ($handler) {
+                return $handler($request, $options);
+            };
+        };
+    }
+
 }

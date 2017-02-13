@@ -20,6 +20,16 @@ class PingTest extends TestBase
 
         // Ping the service
         $response = $client->ping();
+        $request = $this->mockHandler->getLastRequest();
+
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'GET');
+        $this->assertEquals((string) $request->getUri(), '/ping?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         $this->assertEquals($data, $response);
     }
 }

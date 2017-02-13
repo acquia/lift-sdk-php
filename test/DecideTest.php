@@ -62,6 +62,32 @@ class DecideTest extends TestBase
         ];
     }
 
+    /**
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionCode    0
+     * @expectedExceptionMessage Middleware not found: acquia_lift_hmac_auth
+     */
+    public function testHandlerStack() {
+        $response = new Response(200, [], json_encode([]));
+
+        $responses = [
+          $response,
+        ];
+        $client = $this->getClient($responses);
+
+        // Get Decide Manager
+        $manager = $client->getDecideManager();
+
+        // Check if the client has already have expected handlers.
+        // To check, to insert a dummy function after the expected handler, and
+        // hope it finds the expected handler (or throw Exception when don't).
+        $handler = $manager->getClient()->getConfig('handler');
+        $testFunction = function () {};
+        $handler->after('acquia_lift_account_and_site_ids', $testFunction);
+        // Throws Exception because this handler is unauthenticated.
+        $handler->after('acquia_lift_hmac_auth', $testFunction);
+    }
+
     public function testMakeDecision()
     {
         $response = new Response(200, [], json_encode($this->decideResponseData));
@@ -85,8 +111,16 @@ class DecideTest extends TestBase
         // Get Decide Manager
         $manager = $client->getDecideManager();
         $response = $manager->decide($decide);
+        $request = $this->mockHandler->getLastRequest();
 
-        // Check for basic fields
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'POST');
+        $this->assertEquals((string) $request->getUri(), '/decide?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         $this->assertEquals($response->getSetDoNotTrack(), false);
         $this->assertEquals($response->getTouchIdentifier(), 'my-custom-touch-identifier');
         $this->assertEquals($response->getIdentity(), 'my-custom-identity-string');
@@ -113,7 +147,7 @@ class DecideTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Capture Manager
+        // Get Decide Manager
         $manager = $client->getDecideManager();
         $decide = new Decide();
         $manager->decide($decide);

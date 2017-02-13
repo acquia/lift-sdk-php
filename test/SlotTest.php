@@ -9,6 +9,27 @@ use GuzzleHttp\Psr7\Response;
 
 class SlotTest extends TestBase
 {
+    public function testHandlerStack() {
+        $response = new Response(200, [], json_encode([]));
+
+        $responses = [
+          $response,
+        ];
+        $client = $this->getClient($responses);
+
+        // Get Rule Manager
+        $manager = $client->getRuleManager();
+
+        // Check if the client has already have expected handlers.
+        // To check, to insert a dummy function after the expected handler, and
+        // hope it finds the expected handler without throwing an Exception.
+        $handler = $manager->getClient()->getConfig('handler');
+        $testFunction = function () {};
+        $handler->after('acquia_lift_account_and_site_ids', $testFunction);
+        // Does not throw Exception because this handler is authenticated.
+        $handler->after('acquia_lift_hmac_auth', $testFunction);
+    }
+
     public function testSlotAdd()
     {
         // Setup
@@ -46,28 +67,37 @@ class SlotTest extends TestBase
         $slot->setVisibility($visibility);
 
         // Get Slot Manager
-        $slotManager = $client->getSlotManager();
-        $slotResponse = $slotManager->add($slot);
+        $manager = $client->getSlotManager();
+        $response = $manager->add($slot);
+        $request = $this->mockHandler->getLastRequest();
 
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'POST');
+        $this->assertEquals((string) $request->getUri(), '/slots?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         // Check if the identifier is equal.
-        $this->assertEquals($slotResponse->getId(), 'test-id');
+        $this->assertEquals($response->getId(), 'test-id');
         // Check if the description is equal.
-        $this->assertEquals($slotResponse->getDescription(), 'test-description');
+        $this->assertEquals($response->getDescription(), 'test-description');
         // Check if the label is equal.
-        $this->assertEquals($slotResponse->getLabel(), 'test-label');
+        $this->assertEquals($response->getLabel(), 'test-label');
 
         // Check if the timestamp for created is as expected.
-        $this->assertEquals($slotResponse->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
+        $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
 
         // Check if the timestamp for updated is as expected.
-        $this->assertEquals($slotResponse->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
+        $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
 
         // Check if the visibility was set correctly.
-        $this->assertEquals($slotResponse->getVisibility()->getCondition(), 'show');
-        $this->assertEquals($slotResponse->getVisibility()->getPages(), ['localhost/blog/*']);
+        $this->assertEquals($response->getVisibility()->getCondition(), 'show');
+        $this->assertEquals($response->getVisibility()->getPages(), ['localhost/blog/*']);
 
         // Check if the status was set correctly.
-        $this->assertEquals($slotResponse->getStatus(), $slot->getStatus());
+        $this->assertEquals($response->getStatus(), $slot->getStatus());
     }
 
     /**
@@ -97,8 +127,8 @@ class SlotTest extends TestBase
         $slot->setVisibility($visibility);
 
         // Get Slot Manager
-        $slotManager = $client->getSlotManager();
-        $slotResponse = $slotManager->add($slot);
+        $manager = $client->getSlotManager();
+        $response = $manager->add($slot);
     }
 
     public function testSlotDelete()
@@ -111,9 +141,19 @@ class SlotTest extends TestBase
         $client = $this->getClient($responses);
 
         // Get Slot Manager
-        $slotManager = $client->getSlotManager();
-        $slotResponse = $slotManager->delete('slot-to-delete');
-        $this->assertTrue($slotResponse, 'Slot Deletion succeeded');
+        $manager = $client->getSlotManager();
+        $response = $manager->delete('slot-to-delete');
+        $request = $this->mockHandler->getLastRequest();
+
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'DELETE');
+        $this->assertEquals((string) $request->getUri(), '/slots/slot-to-delete?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
+        $this->assertTrue($response, 'Slot Deletion succeeded');
     }
 
     /**
@@ -130,8 +170,8 @@ class SlotTest extends TestBase
         $client = $this->getClient($responses);
 
         // Get Slot Manager
-        $slotManager = $client->getSlotManager();
-        $slotResponse = $slotManager->delete('slot-to-delete');
+        $manager = $client->getSlotManager();
+        $response = $manager->delete('slot-to-delete');
     }
 
     public function testSlotQuery()
@@ -161,29 +201,44 @@ class SlotTest extends TestBase
         $client = $this->getClient($responses);
 
         // Get Slot Manager
-        $slotManager = $client->getSlotManager();
-        $slotsResponse = $slotManager->query();
-        foreach ($slotsResponse as $slotResponse) {
+        $manager = $client->getSlotManager();
+        $option = [
+            'visible_on_page' => 'my_&&_special_page_!',
+            'status' => 'disabled',
+            'unrelated_option_name' => 'unrelated_option_value',
+        ];
+        $slotsResponse = $manager->query($option);
+        $request = $this->mockHandler->getLastRequest();
+
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'GET');
+        $this->assertEquals((string) $request->getUri(), '/slots?visible_on_page=my_%26%26_special_page_%21&status=disabled&account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
+        foreach ($slotsResponse as $response) {
             // Check if the identifier is equal.
-            $this->assertEquals($slotResponse->getId(), 'test-id');
+            $this->assertEquals($response->getId(), 'test-id');
             // Check if the description is equal.
             $this->assertEquals(
-              $slotResponse->getDescription(),
+              $response->getDescription(),
               'test-description'
             );
             // Check if the label is equal.
-            $this->assertEquals($slotResponse->getLabel(), 'test-label');
+            $this->assertEquals($response->getLabel(), 'test-label');
             // Check if the timestamp for created is as expected.
-            $this->assertEquals($slotResponse->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
+            $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
             // Check if the timestamp for updated is as expected.
-            $this->assertEquals($slotResponse->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
+            $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
 
             // Check if the visibility was set correctly.
-            $this->assertEquals($slotResponse->getVisibility()->getCondition(), 'show');
-            $this->assertEquals($slotResponse->getVisibility()->getPages(), ['localhost/blog/*']);
+            $this->assertEquals($response->getVisibility()->getCondition(), 'show');
+            $this->assertEquals($response->getVisibility()->getPages(), ['localhost/blog/*']);
 
             // Check if the status was set correctly.
-            $this->assertEquals($slotResponse->getStatus(), true);
+            $this->assertEquals($response->getStatus(), true);
         }
     }
 
@@ -201,8 +256,8 @@ class SlotTest extends TestBase
         $client = $this->getClient($responses);
 
         // Get Slot Manager
-        $slotManager = $client->getSlotManager();
-        $slotResponse = $slotManager->query();
+        $manager = $client->getSlotManager();
+        $response = $manager->query();
     }
 
     public function testSlotGet()
@@ -230,28 +285,38 @@ class SlotTest extends TestBase
         $client = $this->getClient($responses);
 
         // Get Slot Manager
-        $slotManager = $client->getSlotManager();
-        $slotResponse = $slotManager->get('test-id');
+        $manager = $client->getSlotManager();
+        $response = $manager->get('test-id');
+        $request = $this->mockHandler->getLastRequest();
+
+        // Check for request configuration
+        $this->assertEquals($request->getMethod(), 'GET');
+        $this->assertEquals((string) $request->getUri(), '/slots/test-id?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+
+        $requestHeaders = $request->getHeaders();
+        $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
+
+        // Check for response basic fields
         // Check if the identifier is equal.
-        $this->assertEquals($slotResponse->getId(), 'test-id');
+        $this->assertEquals($response->getId(), 'test-id');
         // Check if the description is equal.
         $this->assertEquals(
-          $slotResponse->getDescription(),
+          $response->getDescription(),
           'test-description'
         );
         // Check if the label is equal.
-        $this->assertEquals($slotResponse->getLabel(), 'test-label');
+        $this->assertEquals($response->getLabel(), 'test-label');
         // Check if the timestamp for created is as expected.
-        $this->assertEquals($slotResponse->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
+        $this->assertEquals($response->getCreated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
         // Check if the timestamp for updated is as expected.
-        $this->assertEquals($slotResponse->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
+        $this->assertEquals($response->getUpdated(), DateTime::createFromFormat(DateTime::ATOM, '2016-08-19T15:15:41Z'));
 
         // Check if the visibility was set correctly.
-        $this->assertEquals($slotResponse->getVisibility()->getCondition(), 'show');
-        $this->assertEquals($slotResponse->getVisibility()->getPages(), ['localhost/blog/*']);
+        $this->assertEquals($response->getVisibility()->getCondition(), 'show');
+        $this->assertEquals($response->getVisibility()->getPages(), ['localhost/blog/*']);
 
         // Check if the status was set correctly.
-        $this->assertEquals($slotResponse->getStatus(), true);
+        $this->assertEquals($response->getStatus(), true);
     }
 
     /**
@@ -268,7 +333,7 @@ class SlotTest extends TestBase
         $client = $this->getClient($responses);
 
         // Get Slot Manager
-        $slotManager = $client->getSlotManager();
-        $slotResponse = $slotManager->get('non-existing-slot');
+        $manager = $client->getSlotManager();
+        $response = $manager->get('non-existing-slot');
     }
 }

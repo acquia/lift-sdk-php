@@ -10,6 +10,13 @@ use GuzzleHttp\Psr7\Request;
 class GoalManager extends ManagerBase
 {
     /**
+     * {@inheritdoc}
+     */
+    protected $queryParameters = [
+        'limit_by_site' => null,
+    ];
+
+    /**
      * Get a list of Goals.
      *
      * Example of how to structure the $options parameter:
@@ -30,11 +37,11 @@ class GoalManager extends ManagerBase
     public function query($options = [])
     {
         $url = '/goals';
-        $url .= isset($options['limit_by_site']) ? "&limit_by_site={$options['limit_by_site']}" : '';
+        $url .= $this->getQueryString($options);
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         // Get them as Goal objects
         $goals = [];
@@ -62,7 +69,7 @@ class GoalManager extends ManagerBase
 
         // Now make the request.
         $request = new Request('GET', $url);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new Goal($data);
     }
@@ -86,7 +93,7 @@ class GoalManager extends ManagerBase
         $body = $goals->json();
         $url = '/goals';
         $request = new Request('POST', $url, [], $body);
-        $data = $this->client->getResponseJson($request);
+        $data = $this->getResponseJson($request);
 
         return new GoalAddResponse($data);
     }
