@@ -132,8 +132,38 @@ class Rule extends Entity
     }
 
     /**
+     * Sets the 'priority' parameter.
+     *
+     * @param int $priority
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Rule
+     */
+    public function setPriority($priority)
+    {
+        if (!is_integer($priority)) {
+            throw new LiftSdkException('Argument must be an instance of integer.');
+        }
+        $this['priority'] = $priority;
+
+        return $this;
+    }
+
+    /**
+     * Gets the 'priority' parameter.
+     *
+     * @return int The priority of the Rule
+     */
+    public function getPriority()
+    {
+        return $this->getEntityValue('priority', 0);
+    }
+
+    /**
      * Sets the 'weight' parameter.
      *
+     * @deprecated use the priority parameter instead.
      * @param int $weight
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
@@ -142,22 +172,18 @@ class Rule extends Entity
      */
     public function setWeight($weight)
     {
-        if (!is_integer($weight)) {
-            throw new LiftSdkException('Argument must be an instance of integer.');
-        }
-        $this['weight'] = $weight;
-
-        return $this;
+        return $this->setPriority($weight);
     }
 
     /**
      * Gets the 'weight' parameter.
      *
+     * @deprecated use the priority parameter instead.
      * @return int The weight of the Rule
      */
     public function getWeight()
     {
-        return $this->getEntityValue('weight', 0);
+        return $this->getPriority();
     }
 
     /**
