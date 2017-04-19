@@ -89,7 +89,7 @@ $rule
     ->setSlotId('slot-1')
     ->setStatus('published')
     ->setSegmentId('belgians')
-    ->setWeight(10)
+    ->setPriority(10)
     ->setContentList([$contentPiece1, $contentPiece2])
     ->setTestConfig($testConfig);
 

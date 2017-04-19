@@ -5,7 +5,6 @@ namespace Acquia\LiftClient\Test\Entity;
 use Acquia\LiftClient\Entity\Content;
 use Acquia\LiftClient\Entity\Probability;
 use Acquia\LiftClient\Entity\Rule;
-use Acquia\LiftClient\Entity\Segment;
 use Acquia\LiftClient\Entity\TestConfigAb;
 use Acquia\LiftClient\Entity\TestConfigMab;
 use Acquia\LiftClient\Entity\TestConfigTarget;
@@ -82,21 +81,21 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $entity->setSlotId(123);
     }
 
-    public function testWeight()
+    public function testPriority()
     {
         $entity = new Rule();
-        $entity->setWeight(100);
-        $this->assertEquals($entity->getWeight(), 100);
+        $entity->setPriority(100);
+        $this->assertEquals($entity->getPriority(), 100);
     }
 
     /**
      * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
      * @expectedExceptionMessage Argument must be an instance of integer.
      */
-    public function testWeightNoInteger()
+    public function testPriorityNoInteger()
     {
         $entity = new Rule();
-        $entity->setWeight('string');
+        $entity->setPriority('string');
     }
 
     public function testContent()
