@@ -82,7 +82,7 @@ class RuleTest extends TestBase
           ->setSlotId('slot-1')
           ->setStatus('published')
           ->setSegmentId('belgians')
-          ->setWeight(10)
+          ->setPriority(10)
           ->setContentList([$contentPiece1, $contentPiece2])
           ->setTestConfig($testConfig);
 
@@ -127,7 +127,7 @@ class RuleTest extends TestBase
           'created' => '2016-01-05T22:04:39Z',
           'status' => 'published',
           'segment' => 'belgians',
-          'weight' => 10,
+          'priority' => 10,
           'content' => $contentList,
           'testconfig' => [
             'ab' => [
@@ -199,6 +199,7 @@ class RuleTest extends TestBase
         $this->assertEquals($response->getSlotId(), 'slot-1');
         $this->assertEquals($response->getStatus(), 'published');
         $this->assertEquals($response->getSegmentId(), 'belgians');
+        $this->assertEquals($response->getPriority(), 10);
         $this->assertEquals($response->getWeight(), 10);
 
         // Check if the timestamp for created is as expected.
@@ -347,6 +348,7 @@ class RuleTest extends TestBase
             $this->assertEquals($response->getSlotId(), 'slot-1');
             $this->assertEquals($response->getStatus(), 'published');
             $this->assertEquals($response->getSegmentId(), 'belgians');
+            $this->assertEquals($response->getPriority(), 10);
             $this->assertEquals($response->getWeight(), 10);
 
             // Check if the timestamp for created is as expected.
@@ -437,6 +439,7 @@ class RuleTest extends TestBase
         $this->assertEquals($response->getSlotId(), 'slot-1');
         $this->assertEquals($response->getStatus(), 'published');
         $this->assertEquals($response->getSegmentId(), 'belgians');
+        $this->assertEquals($response->getPriority(), 10);
         $this->assertEquals($response->getWeight(), 10);
 
         // Check if the timestamp for created is as expected.
