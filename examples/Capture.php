@@ -40,7 +40,7 @@ $capture
     ->setPersona('internal-api-user')
     ->setPersonUdf(5, 'custom-field-for-person-data')
     ->setTouchUdf(5, 'custom-field-for-touch-data')
-    ->setEventUdf(5, 'custom-field-for-touch-data');
+    ->setEventUdf(5, 'custom-field-for-event-data');
 
 $capturePayload->setCaptures([$capture]);
 
