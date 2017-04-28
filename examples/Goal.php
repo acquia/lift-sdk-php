@@ -26,7 +26,7 @@ $pong = $client->ping();
 
 // Get all existing goals.
 $manager = $client->getGoalManager();
-$options = ['limit_by_site' => 'my-site-id'];
+$options = ['global' => 'true', 'limit_by_site' => 'my-site-id'];
 $segments = $manager->query($options);
 
 // Create a new goal object.

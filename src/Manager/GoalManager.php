@@ -5,6 +5,7 @@ namespace Acquia\LiftClient\Manager;
 use Acquia\LiftClient\Entity\Entity;
 use Acquia\LiftClient\Entity\Goal;
 use Acquia\LiftClient\Entity\GoalAddResponse;
+use Acquia\LiftClient\Exception\LiftSdkException;
 use GuzzleHttp\Psr7\Request;
 
 class GoalManager extends ManagerBase
@@ -13,6 +14,7 @@ class GoalManager extends ManagerBase
      * {@inheritdoc}
      */
     protected $queryParameters = [
+        'global' => null,
         'limit_by_site' => null,
     ];
 
@@ -115,5 +117,22 @@ class GoalManager extends ManagerBase
         $this->client->delete($url);
 
         return true;
+    }
+
+    /**
+     * Get query string of using the options.
+     *
+     * @param $options The options
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return string  The query string
+     */
+    protected function getQueryString($options) {
+        if (isset($options['global']) && !in_array($options['global'], ['true', 'false'])) {
+            throw new LiftSdkException('Global parameter must be a string value of "true" or "false".');
+        }
+
+        return parent::getQueryString($options);
     }
 }

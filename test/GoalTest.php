@@ -215,6 +215,7 @@ class GoalTest extends TestBase
         // Get Goal Manager
         $manager = $client->getGoalManager();
         $option = [
+            'global' => 'true',
             'limit_by_site' => 'my_&&_special_site_!',
             'unrelated_option_name' => 'unrelated_option_value',
         ];
@@ -223,7 +224,7 @@ class GoalTest extends TestBase
 
         // Check for request configuration
         $this->assertEquals($request->getMethod(), 'GET');
-        $this->assertEquals((string) $request->getUri(), '/goals?limit_by_site=my_%26%26_special_site_%21&account_id=TESTACCOUNTID&site_id=TESTSITEID');
+        $this->assertEquals((string) $request->getUri(), '/goals?global=true&limit_by_site=my_%26%26_special_site_%21&account_id=TESTACCOUNTID&site_id=TESTSITEID');
 
         $requestHeaders = $request->getHeaders();
         $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
@@ -272,6 +273,26 @@ class GoalTest extends TestBase
         // Get Goal Manager
         $manager = $client->getGoalManager();
         $manager->query();
+    }
+
+    /**
+     * @expectedException        \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionCode    0
+     * @expectedExceptionMessage Global parameter must be a string value of "true" or "false".
+     */
+    public function testGoalQueryInvalidGlobal()
+    {
+        $response = new Response(200, []);
+        $responses = [
+          $response,
+        ];
+
+        $client = $this->getClient($responses);
+
+        // Test "global" option with a bad value.
+        $manager = $client->getGoalManager();
+        $option = ['global' => 'bad_global'];
+        $manager->query($option);
     }
 
     public function testGoalGet()
