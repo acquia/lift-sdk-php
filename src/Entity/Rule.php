@@ -134,6 +134,8 @@ class Rule extends Entity
     /**
      * Sets the 'priority' parameter.
      *
+     * Higher number means the rule display / apply first.
+     *
      * @param int $priority
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
