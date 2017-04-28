@@ -19,12 +19,21 @@ class GoalManager extends ManagerBase
     ];
 
     /**
+     * @var array Valid boolean query strings.
+     */
+    private $validBooleanQueryStrings = [
+        'true',
+        'false',
+    ];
+
+    /**
      * Get a list of Goals.
      *
      * Example of how to structure the $options parameter:
      * <code>
      * $options = [
-     *     'limit_by_site'  => 'my-site-id'
+     *     'global'  => 'false',
+     *     'limit_by_site'  => 'true',
      * ];
      * </code>
      *
@@ -129,8 +138,11 @@ class GoalManager extends ManagerBase
      * @return string  The query string
      */
     protected function getQueryString($options) {
-        if (isset($options['global']) && !in_array($options['global'], ['true', 'false'])) {
-            throw new LiftSdkException('Global parameter must be a string value of "true" or "false".');
+        if (isset($options['global']) && !in_array($options['global'], $this->validBooleanQueryStrings)) {
+            throw new LiftSdkException('The "global" parameter must be a string value of "true" or "false", or absent.');
+        }
+        if (isset($options['limit_by_site']) && !in_array($options['limit_by_site'], $this->validBooleanQueryStrings)) {
+            throw new LiftSdkException('The "limit_by_site" parameter must be a string value of "true" or "false", or absent.');
         }
 
         return parent::getQueryString($options);

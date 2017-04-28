@@ -215,8 +215,8 @@ class GoalTest extends TestBase
         // Get Goal Manager
         $manager = $client->getGoalManager();
         $option = [
-            'global' => 'true',
-            'limit_by_site' => 'my_&&_special_site_!',
+            'global' => 'false',
+            'limit_by_site' => 'true',
             'unrelated_option_name' => 'unrelated_option_value',
         ];
         $responses = $manager->query($option);
@@ -224,7 +224,7 @@ class GoalTest extends TestBase
 
         // Check for request configuration
         $this->assertEquals($request->getMethod(), 'GET');
-        $this->assertEquals((string) $request->getUri(), '/goals?global=true&limit_by_site=my_%26%26_special_site_%21&account_id=TESTACCOUNTID&site_id=TESTSITEID');
+        $this->assertEquals((string) $request->getUri(), '/goals?global=false&limit_by_site=true&account_id=TESTACCOUNTID&site_id=TESTSITEID');
 
         $requestHeaders = $request->getHeaders();
         $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
@@ -278,7 +278,7 @@ class GoalTest extends TestBase
     /**
      * @expectedException        \Acquia\LiftClient\Exception\LiftSdkException
      * @expectedExceptionCode    0
-     * @expectedExceptionMessage Global parameter must be a string value of "true" or "false".
+     * @expectedExceptionMessage The "global" parameter must be a string value of "true" or "false", or absent.
      */
     public function testGoalQueryInvalidGlobal()
     {
@@ -291,7 +291,27 @@ class GoalTest extends TestBase
 
         // Test "global" option with a bad value.
         $manager = $client->getGoalManager();
-        $option = ['global' => 'bad_global'];
+        $option = ['global' => 'bad_global', 'limit_by_site' => 'false'];
+        $manager->query($option);
+    }
+
+    /**
+     * @expectedException        \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionCode    0
+     * @expectedExceptionMessage The "limit_by_site" parameter must be a string value of "true" or "false", or absent.
+     */
+    public function testGoalQueryInvalidLimitBySite()
+    {
+        $response = new Response(200, []);
+        $responses = [
+          $response,
+        ];
+
+        $client = $this->getClient($responses);
+
+        // Test "limit_by_site" option with a bad value.
+        $manager = $client->getGoalManager();
+        $option = ['global' => 'true', 'limit_by_site' => 'bad_limit_by_site'];
         $manager->query($option);
     }
 
