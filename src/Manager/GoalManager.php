@@ -36,6 +36,8 @@ class GoalManager extends ManagerBase
      *     'limit_by_site'  => 'true',
      * ];
      * </code>
+     * Note: the options "global" and "limit_by_site" work together to determine
+     * what goals are coming back. Please see the truth table on following page.
      *
      * @see http://docs.decision-api.acquia.com/#goals_get
      *
@@ -99,7 +101,8 @@ class GoalManager extends ManagerBase
     public function add(Goal $goal)
     {
         // goals only supports adding a list of goals
-        // we do not want to support that in the SDK for consistency reasons, so we convert it to an array here.
+        // we do not want to support that in the SDK for consistency reasons, so
+        // we convert it to an array here.
         $goals = new Entity([$goal->getArrayCopy()]);
         $body = $goals->json();
         $url = '/goals';
