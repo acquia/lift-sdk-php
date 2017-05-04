@@ -200,6 +200,8 @@ class Goal extends Entity
      *
      * @param bool $global
      *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
      * @return \Acquia\LiftClient\Entity\Goal
      */
     public function setGlobal($global)

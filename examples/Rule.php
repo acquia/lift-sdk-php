@@ -89,7 +89,7 @@ $rule
     ->setSlotId('slot-1')
     ->setStatus('published')
     ->setSegmentId('belgians')
-    ->setPriority(10)
+    ->setPriority(10) // Higher number means the rule display / apply first.
     ->setContentList([$contentPiece1, $contentPiece2])
     ->setTestConfig($testConfig);
 

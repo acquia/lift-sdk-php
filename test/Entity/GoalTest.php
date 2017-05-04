@@ -111,8 +111,14 @@ class GoalTest extends \PHPUnit_Framework_TestCase
     public function testGlobal()
     {
         $entity = new Goal();
+        // Default to false.
+        $this->assertFalse($entity->getGlobal());
+
         $entity->setGlobal(true);
-        $this->assertEquals($entity->getGlobal(), true);
+        $this->assertTrue($entity->getGlobal());
+
+        $entity->setGlobal(false);
+        $this->assertFalse($entity->getGlobal());
     }
 
     /**

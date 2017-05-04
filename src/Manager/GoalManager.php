@@ -5,6 +5,7 @@ namespace Acquia\LiftClient\Manager;
 use Acquia\LiftClient\Entity\Entity;
 use Acquia\LiftClient\Entity\Goal;
 use Acquia\LiftClient\Entity\GoalAddResponse;
+use Acquia\LiftClient\Exception\LiftSdkException;
 use GuzzleHttp\Psr7\Request;
 
 class GoalManager extends ManagerBase
@@ -13,7 +14,16 @@ class GoalManager extends ManagerBase
      * {@inheritdoc}
      */
     protected $queryParameters = [
+        'global' => null,
         'limit_by_site' => null,
+    ];
+
+    /**
+     * @var array Valid boolean query strings.
+     */
+    private $validBooleanQueryStrings = [
+        'true',
+        'false',
     ];
 
     /**
@@ -22,9 +32,12 @@ class GoalManager extends ManagerBase
      * Example of how to structure the $options parameter:
      * <code>
      * $options = [
-     *     'limit_by_site'  => 'my-site-id'
+     *     'global'  => 'false',
+     *     'limit_by_site'  => 'true',
      * ];
      * </code>
+     * Note: the options "global" and "limit_by_site" work together to determine
+     * what goals are coming back. Please see the truth table on following page.
      *
      * @see http://docs.decision-api.acquia.com/#goals_get
      *
@@ -88,7 +101,8 @@ class GoalManager extends ManagerBase
     public function add(Goal $goal)
     {
         // goals only supports adding a list of goals
-        // we do not want to support that in the SDK for consistency reasons, so we convert it to an array here.
+        // we do not want to support that in the SDK for consistency reasons, so
+        // we convert it to an array here.
         $goals = new Entity([$goal->getArrayCopy()]);
         $body = $goals->json();
         $url = '/goals';
@@ -115,5 +129,25 @@ class GoalManager extends ManagerBase
         $this->client->delete($url);
 
         return true;
+    }
+
+    /**
+     * Get query string of using the options.
+     *
+     * @param $options The options
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return string  The query string
+     */
+    protected function getQueryString($options) {
+        if (isset($options['global']) && !in_array($options['global'], $this->validBooleanQueryStrings)) {
+            throw new LiftSdkException('The "global" parameter must be a string value of "true" or "false", or absent.');
+        }
+        if (isset($options['limit_by_site']) && !in_array($options['limit_by_site'], $this->validBooleanQueryStrings)) {
+            throw new LiftSdkException('The "limit_by_site" parameter must be a string value of "true" or "false", or absent.');
+        }
+
+        return parent::getQueryString($options);
     }
 }
