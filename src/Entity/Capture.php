@@ -12,6 +12,8 @@ class Capture extends Entity
     const EVENT_UDF_COUNT = 50;
     const TOUCH_UDF_COUNT = 20;
 
+    const UUID_PATTERN = '/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/i';
+
     /**
      * Set the 'person_udf#' field.
      *
@@ -777,6 +779,25 @@ class Capture extends Entity
             throw new LiftSdkException('Argument must be an instance of string.');
         }
         $this['content_id'] = $contentId;
+
+        return $this;
+    }
+
+    /**
+     * Sets the 'content_uuid' parameter.
+     *
+     * @param string $contentUuid UUID of an article
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Capture
+     */
+    public function setContentUuid($contentUuid)
+    {
+        if (!preg_match(self::UUID_PATTERN, $contentUuid)) {
+            throw new LiftSdkException('Argument must be an instance of valid UUID.');
+        }
+        $this['content_uuid'] = $contentUuid;
 
         return $this;
     }

@@ -655,6 +655,23 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
         $entity->setContentId(123);
     }
 
+    public function testContentUuid()
+    {
+        $entity = new Capture();
+        $entity->setContentUuid('ecf826eb-3ef0-4aa6-aae2-9f6e5886bbb6');
+        $this->assertEquals($entity->json(), '{"content_uuid":"ecf826eb-3ef0-4aa6-aae2-9f6e5886bbb6"}');
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of valid UUID.
+     */
+    public function testContentUuidInvalidUuid()
+    {
+        $entity = new Capture();
+        $entity->setContentUuid('invalid-uuid');
+    }
+
     /**
      * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
      * @expectedExceptionMessage Argument must be an instance of string.

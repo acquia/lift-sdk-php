@@ -85,6 +85,7 @@ class CaptureTest extends TestBase
             ->setJavascriptVersion('3')
             ->setPostId('post-id')
             ->setContentId('content-id')
+            ->setContentUuid('ecf826eb-3ef0-4aa6-aae2-9f6e5886bbb6')
             ->setContentType('content-type')
             ->setContentSection('content-section')
             ->setContentKeywords('keyword1, keyword2')
