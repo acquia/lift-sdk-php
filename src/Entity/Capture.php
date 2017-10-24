@@ -145,8 +145,14 @@ class Capture extends Entity
     public function setEventDate(DateTime $eventDate)
     {
         // Lift Profile Manager is currently accepting this ISO 8601 format:
-        // "2017-02-07T19:59:53.123456Z".
-        $this['event_date'] = $eventDate->format('Y-m-d\TH:i:s.u\Z');
+        // "2017-02-07T19:59:53.123Z" (or "2017-02-07T19:59:53.000Z" pre 7.0 ).
+        // todo: the above comment needs updating
+        // todo: works for all but hhvm-3.18.5
+        $format = 'Y-m-d\TH:i:s.v\Z';
+        if (version_compare(phpversion(), '7.0', '<')) {
+            $format = 'Y-m-d\TH:i:s.000\Z';
+        }
+        $this['event_date'] = $eventDate->format($format);
 
         return $this;
     }
@@ -929,7 +935,14 @@ class Capture extends Entity
     {
         // Lift Profile Manager is currently accepting this ISO 8601 format:
         // "2017-02-07T19:59:53.123456Z".
-        $this['published_date'] = $publishedDate->format('Y-m-d\TH:i:s.u\Z');
+        // "2017-02-07T19:59:53.123Z" (or "2017-02-07T19:59:53.000Z" pre 7.0 ).
+        // todo: the above comment needs updating
+        // todo: works for all but hhvm-3.18.5
+        $format = 'Y-m-d\TH:i:s.v\Z';
+        if (version_compare(phpversion(), '7.0', '<')) {
+            $format = 'Y-m-d\TH:i:s.000\Z';
+        }
+        $this['published_date'] = $publishedDate->format($format);
 
         return $this;
     }
