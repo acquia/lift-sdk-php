@@ -42,6 +42,11 @@ $capture
     ->setTouchUdf(5, 'custom-field-for-touch-data')
     ->setEventUdf(5, 'custom-field-for-event-data');
 
+// If, say, we know visitor's cookie id, we can further link the capture to it
+$cookie_id = '1231231231';
+$extra_identities = [$cookie_id => 'tracking'];
+$capture->setIdentities($extra_identities);
+
 $capturePayload->setCaptures([$capture]);
 
 $manager = $client->getCaptureManager();
