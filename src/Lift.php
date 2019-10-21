@@ -208,7 +208,7 @@ class Lift
      *
      * @return \Acquia\LiftClient\Manager\SiteManager
      */
-    public function getSIteManager()
+    public function getSiteManager()
     {
         return new SiteManager($this->authenticatedClient);
     }
