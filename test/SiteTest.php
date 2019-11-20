@@ -52,7 +52,7 @@ class SiteTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Segment Manager
+        // Get Sites Manager
         $manager = $client->getSiteManager();
         $responses = $manager->GetSites();
         $request = $this->mockHandler->getLastRequest();

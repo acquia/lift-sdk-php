@@ -3,6 +3,7 @@
 namespace Acquia\LiftClient;
 
 use Acquia\LiftClient\Manager\AccountManager;
+use Acquia\LiftClient\Manager\CampaignManager;
 use Acquia\LiftClient\Manager\CaptureManager;
 use Acquia\LiftClient\Manager\DecideManager;
 use Acquia\LiftClient\Manager\RuleManager;
@@ -112,7 +113,12 @@ class Lift
               RequestInterface $request,
               array $options
             ) use ($handler, $account_id, $site_id) {
-                $auth_query = "account_id={$account_id}&site_id={$site_id}";
+                $auth_query = "account_id={$account_id}";
+
+                if ($site_id != "" && is_string($site_id)){
+                    $auth_query = $auth_query . "&site_id={$site_id}";
+                }
+
                 $uri = $request->getUri();
                 $query = $uri->getQuery();
                 if (empty($query)) {
@@ -145,13 +151,13 @@ class Lift
     }
 
     /**
-     * Get the Slot Manager.
+     * Get the Campaign Manager.
      *
-     * @return \Acquia\LiftClient\Manager\SlotManager
+     * @return \Acquia\LiftClient\Manager\CampaignManager
      */
-    public function getSlotManager()
+    public function getCampaignManager()
     {
-        return new SlotManager($this->authenticatedClient);
+        return new CampaignManager($this->authenticatedClient);
     }
 
     /**
@@ -172,6 +178,16 @@ class Lift
     public function getSegmentManager()
     {
         return new SegmentManager($this->authenticatedClient);
+    }
+
+    /**
+     * Get the Slot Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\SlotManager
+     */
+    public function getSlotManager()
+    {
+        return new SlotManager($this->authenticatedClient);
     }
 
     /**
