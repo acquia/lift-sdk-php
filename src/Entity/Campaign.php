@@ -23,6 +23,16 @@ class Campaign extends Entity
     }
 
     /**
+     * Returns campaign site id
+     *
+     * @return string
+     */
+    public function getSiteId()
+    {
+        return $this->getEntityValue('site_id', '');
+    }
+
+    /**
      * Returns campaign label
      *
      * @return string

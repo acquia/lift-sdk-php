@@ -87,7 +87,7 @@ class SiteTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Segment Manager
+        // Get Site Manager
         $manager = $client->getSiteManager();
         $manager->GetSites();
     }

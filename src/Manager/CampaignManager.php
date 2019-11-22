@@ -55,12 +55,13 @@ class CampaignManager extends ManagerBase
      * @see http://docs.lift.acquia.com/decision/v2/#campaigns__campaignId__get
      *
      * @throws \GuzzleHttp\Exception\RequestException for network errors
+     * @throws \GuzzleHttp\Exception\ClientException for 4xx errors
      *
      * @return \Acquia\LiftClient\Entity\Campaign when found
      * @return null when not found or if campaign id is null or empty
      * 
      */
-    public function getCampaignById($campaignId){
+    public function getById($campaignId){
 
         if (!isset($campaignId) || trim($campaignId) == ""){
             return;
@@ -74,6 +75,8 @@ class CampaignManager extends ManagerBase
             $campaign = new Campaign($data);
         } catch (ClientException $e){
             return;
+        } catch (Exception $e){
+            throw $e;
         }
 
         return $campaign;
@@ -91,7 +94,7 @@ class CampaignManager extends ManagerBase
      * @return null when not found or if campaign id is null or empty
      * 
      */
-    public function postCampaign(Campaign $campaign){
+    public function post(Campaign $campaign){
 
         if (!isset($campaign)){
             return;
@@ -107,6 +110,10 @@ class CampaignManager extends ManagerBase
             $campaign = new Campaign($data);
         } catch (ServerException $e){
             throw $e;
+        } catch (ClientException $e){
+            throw $e;
+        } catch (Exception $e){
+            throw $e;
         }
 
         return $campaign;
@@ -117,6 +124,9 @@ class CampaignManager extends ManagerBase
      * 
      * @see http://docs.lift.acquia.com/decision/v2/#campaigns__campaignId__patch
      *
+     * @param $campaignId - Campaign Id
+     * @param $patchPayload - Campaign Patch Payload
+     * 
      * @throws \GuzzleHttp\Exception\RequestException for network errors
      * @throws \GuzzleHttp\Exception\ClientException for 4xx status codes
      * @throws \GuzzleHttp\Exception\ServerException for 5xx status codes
@@ -125,23 +135,25 @@ class CampaignManager extends ManagerBase
      * @return null when not found or if campaign id is null or empty
      * 
      */
-    public function patchCampaignById(Campaign $campaign){
+    public function patch($campaignId, $patchPayload){
 
-        if (!isset($campaign)){
+        if (!isset($campaignId) || $campaignId == ""){
             return;
         }
 
         try {
-            $url = CAMPAIGNS_EP."/".$campaign->getId();
-            $body = $campaign->json();
+            $url = CAMPAIGNS_EP."/".$campaignId;
+            $body = $patchPayload->json();
 
-            $request = new Request('POST', $url, [], $body);
+            $request = new Request('PATCH', $url, [], $body);
             $data = $this->getResponseJson($request);
 
             $campaign = new Campaign($data);
         } catch (ServerException $e){
             throw $e;
         } catch (ClientException $e){
+            return; 
+        } catch (Exception $e){
             throw $e;
         }
 
@@ -157,7 +169,7 @@ class CampaignManager extends ManagerBase
      *
      * @return bool
      */
-    public function deleteCampaigns(){
+    public function delete(){
         $url = CAMPAIGNS_EP;
 
         $request = new Request('DELETE', $url);
@@ -166,7 +178,7 @@ class CampaignManager extends ManagerBase
         return true;
     }
 
-        /**
+    /**
      *  Deletes all campaigns associated with account id. Returns true when successful, otherwise false
      * 
      * @see http://docs.lift.acquia.com/decision/v2/#campaigns__campaignId__delete
@@ -176,7 +188,7 @@ class CampaignManager extends ManagerBase
      *
      * @return bool
      */
-    public function deleteCampaignById($campaignId){
+    public function deleteById($campaignId){
 
         if (!isset($campaignId) || trim($campaignId) == ""){
             return false;
