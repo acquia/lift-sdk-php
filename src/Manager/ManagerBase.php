@@ -64,6 +64,7 @@ abstract class ManagerBase
     protected function getQueryString($options) {
       $queries = [];
       foreach ($this->queryParameters as $queryName => $queryDefaultValue) {
+
         // Use user value if possible.
         if (isset($options[$queryName])) {
           $queries[] = $queryName . '=' . rawurlencode($options[$queryName]);
