@@ -2,6 +2,7 @@
 
 namespace Acquia\LiftClient;
 
+use Acquia\LiftClient\Manager\AccountManager;
 use Acquia\LiftClient\Manager\CaptureManager;
 use Acquia\LiftClient\Manager\DecideManager;
 use Acquia\LiftClient\Manager\RuleManager;
@@ -211,6 +212,16 @@ class Lift
     public function getSiteManager()
     {
         return new SiteManager($this->authenticatedClient);
+    }
+
+    /**
+     * Get the Account Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\AccountManager
+     */
+    public function getAccountManager()
+    {
+        return new AccountManager($this->authenticatedClient);
     }
 
 }
