@@ -65,6 +65,24 @@ class CapturePayload extends CaptureBase
         return $this;
     }
 
+    /**
+     * Sets the 'do_not_track' parameter.
+     *
+     * @param bool $doNotTrack Flag to indicate whether the person should not be tracked
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\CapturePayload
+     */
+    public function setDoNotTrack($doNotTrack)
+    {
+        if (!is_bool($doNotTrack)) {
+            throw new LiftSdkException('Argument must be an instance of boolean.');
+        }
+        $this['do_not_track'] = $doNotTrack;
+
+        return $this;
+    }
 
     /**
      * Sets the 'return_segments' parameter.
@@ -119,25 +137,6 @@ class CapturePayload extends CaptureBase
             throw new LiftSdkException('Argument must be an instance of string.');
         }
         $this['site_id'] = $siteId;
-
-        return $this;
-    }
-
-    /**
-     * Sets the 'do_not_track' parameter.
-     *
-     * @param bool $doNotTrack Flag to indicate whether the person should not be tracked
-     *
-     * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *
-     * @return \Acquia\LiftClient\Entity\CapturePayload
-     */
-    public function setDoNotTrack($doNotTrack)
-    {
-        if (!is_bool($doNotTrack)) {
-            throw new LiftSdkException('Argument must be an instance of boolean.');
-        }
-        $this['do_not_track'] = $doNotTrack;
 
         return $this;
     }

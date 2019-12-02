@@ -4,8 +4,9 @@ namespace Acquia\LiftClient\Entity;
 
 class CapturesResponse extends CaptureBase
 {
+    
     /**
-     * Gets the 'status' parameter.
+     * Retrive values from 'errors' parameter.
      *
      * @return LiftError[]|null The errors, if there were any
      */

@@ -177,6 +177,23 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
         $entity->setIdentities(['test-identity-value' => ['another-level']]);
     }
 
+    public function testSiteId()
+    {
+        $entity = new Capture();
+        $entity->setSiteId('test-site-id');
+        $this->assertEquals($entity->json(), '{"site_id":"test-site-id"}');
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testSiteIdNoString()
+    {
+        $entity = new Capture();
+        $entity->setSiteId(123);
+    }
+
     public function testUrl()
     {
         $entity = new Capture();
@@ -442,6 +459,33 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
         $entity = new Capture();
         $entity->setDecisionViewMode('test-decision-view-mode');
         $this->assertEquals($entity->json(), '{"decision_view_mode":"test-decision-view-mode"}');
+
+        $entity = new Capture();
+        $entity->setDecisionCampaignId('test-campaign-id');
+        $entity->setDecisionCampaignName('test-campaign-name');
+        $entity->setDecisionCampaignType('target');
+        $this->assertEquals($entity->json(), '{"decision_campaign_id":"test-campaign-id","decision_campaign_name":"test-campaign-name","decision_campaign_type":"target"}');
+
+        $entity = new Capture();
+        $entity->setDecisionCampaignType('ab');
+        $this->assertEquals($entity->json(), '{"decision_campaign_type":"ab"}');
+
+        $entity = new Capture();
+        $entity->setDecisionCampaignType('dynamic');
+        $this->assertEquals($entity->json(), '{"decision_campaign_type":"dynamic"}');
+
+        $entity = new Capture();
+        $entity->setDecisionCampaignType('mixed');
+        $this->assertEquals($entity->json(), '{"decision_campaign_type":"mixed"}');
+
+        $entity = new Capture();
+        $entity->setDecisionABVariationId('test-ab-variation-id');
+        $entity->setDecisionABVariationLabel('test-ab-variation-label');
+        $this->assertEquals($entity->json(), '{"decision_rule_ab_variation_id":"test-ab-variation-id","decision_rule_ab_variation_label":"test-ab-variation-label"}');
+
+        $entity = new Capture();
+        $entity->setDecisionContextLanguage('en');
+        $this->assertEquals($entity->json(), '{"decision_context_language":"en"}');
     }
 
     /**
@@ -542,6 +586,67 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
     {
         $entity = new Capture();
         $entity->setDecisionSlotId(123);
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testDecisionCampaignId()
+    {
+        $entity = new Capture();
+        $entity->setDecisionCampaignId(123);
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testDecisionCampaignName()
+    {
+        $entity = new Capture();
+        $entity->setDecisionCampaignName(123);
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testDecisionCampaignType()
+    {
+        $entity = new Capture();
+        $entity->setDecisionCampaignType(123);
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument value is not supported.
+     */
+    public function testDecisionCampaignTypeValue()
+    {
+        $entity = new Capture();
+        $entity->setDecisionCampaignType("absfa");
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testDecisionABVariationId()
+    {
+        $entity = new Capture();
+        $entity->setDecisionABVariationId(123);
+    }
+
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testDecisionABVariationLabel()
+    {
+        $entity = new Capture();
+        $entity->setDecisionABVariationLabel(123);
     }
 
     /**
@@ -746,28 +851,38 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
         $entity->setPageType(123);
     }
 
-    public function testThumbnailUrl()
-    {
-        $entity = new Capture();
-        $entity->setThumbnailUrl('test-thumbnail-url');
-        $this->assertEquals($entity->json(), '{"thumbnail_url":"test-thumbnail-url"}');
-    }
-
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
-    public function testThumbnailUrlNoString()
-    {
-        $entity = new Capture();
-        $entity->setThumbnailUrl(123);
-    }
-
     public function testPublishedDate()
     {
         $date = DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z');
         $entity = new Capture();
         $entity->setPublishedDate($date);
         $this->assertEquals($entity->json(), '{"published_date":"2016-01-05T22:04:39.000Z"}');
+    }
+
+    public function testContextLanguage()
+    {
+        $entity = new Capture();
+        $entity->setContextLanguage('en');
+        $this->assertEquals($entity->json(), '{"context_language":"en"}');
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testContextLanguageNoString()
+    {
+        $entity = new Capture();
+        $entity->setContextLanguage(123);
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testDecisionContextLanguageNoString()
+    {
+        $entity = new Capture();
+        $entity->setDecisionContextLanguage(123);
     }
 }
