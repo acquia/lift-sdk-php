@@ -61,7 +61,6 @@ class CaptureTest extends TestBase
             ->setIpAddress('127.0.0.1')
             ->setPersona('persona')
             ->setEngagementScore(1)
-            // Following functions should not be used, only for Lift 2
             ->setPersonalizationName('name')
             ->setPersonalizationMachineName('machine-name')
             ->setPersonalizationChosenVariation('chosen-variation')
@@ -80,6 +79,11 @@ class CaptureTest extends TestBase
             ->setDecisionGoalValue('goal-value')
             ->setDecisionViewMode('view-mode')
             ->setDecisionPolicy('explore')
+            ->setDecisionCampaignId('test-campaign-id')
+            ->setDecisionCampaignName('test-campaign-name')
+            ->setDecisionCampaignType('target')
+            ->setDecisionABVariationId('test-ab-variation-id')
+            ->setDecisionABVariationLabel('test-ab-variation-label')
             ->setCaptureIdentifier('capture-identifier')
             ->setClientTimezone('America/Anguilla')
             ->setJavascriptVersion('3')
@@ -91,8 +95,9 @@ class CaptureTest extends TestBase
             ->setContentKeywords('keyword1, keyword2')
             ->setAuthor('author')
             ->setPageType('page-type')
-            ->setThumbnailUrl('localhost.dev/thumbmail.png')
-            ->setPublishedDate($publishedDate);
+            ->setPublishedDate($publishedDate)
+            ->setContextLanguage("en")
+            ->setDecisionContextLanguage("en");
 
         $capturePayload = new CapturePayload();
         $capturePayload
