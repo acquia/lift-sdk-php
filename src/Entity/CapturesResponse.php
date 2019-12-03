@@ -6,7 +6,7 @@ class CapturesResponse extends CaptureBase
 {
     
     /**
-     * Retrive values from 'errors' parameter.
+     * Retrieve values from 'errors' parameter.
      *
      * @return LiftError[]|null The errors, if there were any
      */

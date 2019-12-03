@@ -733,7 +733,7 @@ class Capture extends Entity
     }
 
     /**
-     * Sets the 'decision_campaign_id' parameter. 
+     * Sets the 'decision_campaign_name' parameter. 
      *
      * @param string $campaignName Campaign Name
      *
@@ -794,7 +794,7 @@ class Capture extends Entity
     }
 
     /**
-     * Sets the 'decision_rule_ab_variation_id' parameter. 
+     * Sets the 'decision_rule_ab_variation_label' parameter. 
      *
      * @param string $abVariationLabel Label for AB Rule Variation
      *
