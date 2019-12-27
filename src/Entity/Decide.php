@@ -27,6 +27,25 @@ class Decide extends Entity
     }
 
     /**
+     * Sets the 'url' parameter.
+     *
+     * @param string $url The url where we want to get decisions for
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Decide
+     */
+    public function setUrl($url)
+    {
+        if (!is_string($url)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['url'] = $url;
+
+        return $this;
+    }
+
+    /**
      * Sets the 'do_not_track' parameter.
      *
      * @param bool $doNotTrack Flag to indicate whether the person should not be tracked
@@ -46,20 +65,39 @@ class Decide extends Entity
     }
 
     /**
-     * Sets the 'url' parameter.
+     * Sets the 'prev iew' parameter.
      *
-     * @param string $url The url where we want to get decisions for
+     * @param bool $preview Flag to indicate whether the person should not be tracked
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
      * @return \Acquia\LiftClient\Entity\Decide
      */
-    public function setUrl($url)
+    public function setPreview($preview)
     {
-        if (!is_string($url)) {
-            throw new LiftSdkException('Argument must be an instance of string.');
+        if (!is_bool($preview)) {
+            throw new LiftSdkException('Argument must be an instance of boolean.');
         }
-        $this['url'] = $url;
+        $this['preview'] = $preview;
+
+        return $this;
+    }
+
+    /**
+     * Sets the 'segments' parameter.
+     *
+     * @param array $segments list of segment ids that will be used for decision process
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Decide
+     */
+    public function setSegments(array $segments)
+    {
+        if (Utility::arrayDepth($segments) > 1) {
+            throw new LiftSdkException('Segment Ids argument is more than 1 level deep.');
+        }
+        $this['segments'] = $segments;
 
         return $this;
     }
@@ -119,6 +157,25 @@ class Decide extends Entity
             throw new LiftSdkException('Argument must be an instance of string.');
         }
         $this['identity_source'] = $identitySource;
+
+        return $this;
+    }
+
+    /**
+     * Sets the 'identity_expiry' parameter.
+     *
+     * @param string $identityExpiry - Expiry date of identity in UNix time (seconds since 1970)
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Decide
+     */
+    public function setIdentityExpiry($identityExpiry)
+    {
+        if (!is_int($identityExpiry)) {
+            throw new LiftSdkException('Argument must be an instance of integer.');
+        }
+        $this['identity_expiry'] = $identityExpiry;
 
         return $this;
     }

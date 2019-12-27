@@ -103,6 +103,8 @@ class DecideTest extends TestBase
         $decide->setTouchIdentifier('my-custom-touch-identifier');
         $decide->setUrl('node/1');
         $decide->setDoNotTrack(false);
+        $decide->setPreview(false);
+        $decide->SetIdentityExpiry(time() + (60 * 60)) ;
 
         $capture = new Capture();
         $capture->setIpAddress('127.0.0.1');
@@ -115,7 +117,7 @@ class DecideTest extends TestBase
 
         // Check for request configuration
         $this->assertEquals($request->getMethod(), 'POST');
-        $this->assertEquals((string) $request->getUri(), '/decide?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+        $this->assertEquals((string) $request->getUri(), '/v2/decide?account_id=TESTACCOUNTID&site_id=TESTSITEID');
 
         $requestHeaders = $request->getHeaders();
         $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
