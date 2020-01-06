@@ -65,7 +65,7 @@ class Decide extends Entity
     }
 
     /**
-     * Sets the 'prev iew' parameter.
+     * Sets the 'preview' parameter.
      *
      * @param bool $preview Flag to indicate whether the person should not be tracked
      *
