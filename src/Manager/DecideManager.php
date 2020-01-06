@@ -8,6 +8,16 @@ use GuzzleHttp\Psr7\Request;
 
 class DecideManager extends ManagerBase
 {
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $queryParameters = [
+        'cdf_version' => null,      // String - CDF version used in content provider. Values accepted are empty string, 1 or 2. Currently the default CDF is 1 
+        'prefetch' => null,         // Boolean - Whether or not to prefetch the HTML of the content item requested. Default is false
+        'entities' => null          // String - Indicate API to return full cdf options
+    ];
+
     /**
      * Make one or more decisions.
      *
@@ -19,10 +29,12 @@ class DecideManager extends ManagerBase
      *
      * @return \Acquia\LiftClient\Entity\DecideResponse
      */
-    public function decide(Decide $decide)
+    public function decide(Decide $decide, $options = [])
     {
         $body = $decide->json();
-        $url = '/decide';
+        $url = DECIDE_EP;
+        $url .= $this->getQueryString($options);
+
         $request = new Request('POST', $url, [], $body);
         $data = $this->getResponseJson($request);
 
