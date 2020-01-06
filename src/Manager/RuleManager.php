@@ -11,13 +11,15 @@ class RuleManager extends ManagerBase
      * {@inheritdoc}
      */
     protected $queryParameters = [
-        'visible_on_page' => null,
+        'context_language' => null, // Required if cdf_version is 2. Must pass 2 or 4 letter language code (ie. 'en', 'fr')
+        'cdf_version' => null, // Default set to 1 if not passed
         'prefetch' => null,
         'sort' => null,
         'start' => null,
         'rows' => null,
         'sort_field' => null,
         'status' => null,
+        'slot_id' => null
     ];
 
     /**
@@ -26,17 +28,19 @@ class RuleManager extends ManagerBase
      * Example of how to structure the $options parameter:
      * <code>
      * $options = [
-     *     'visible_on_page'  => 'node/1/*',
+     *     'context_language' => 'en',
+     *     'cdf_version' => '2', 
      *     'prefetch'  => true,
      *     'sort'  => 'asc',
      *     'start'  => 0,
      *     'rows'  => 10,
      *     'sort_field'  => 'updated',
-     *     'status'  => 'published'
+     *     'status'  => 'published',
+     *     'slot_id' => 'test-slot-id-1'
      * ];
      * </code>
      *
-     * @see http://docs.decision-api.acquia.com/#rules_get
+     * @see http://docs.lift.acquia.com/decision/v2/#rules_get
      *
      * @param array $options
      *
@@ -46,7 +50,7 @@ class RuleManager extends ManagerBase
      */
     public function query($options = [])
     {
-        $url = '/rules';
+        $url = RULES_EP;
         $url .= $this->getQueryString($options);
 
         // Now make the request.
@@ -65,7 +69,7 @@ class RuleManager extends ManagerBase
     /**
      * Get a specific rule.
      *
-     * @see http://docs.decision-api.acquia.com/#rules__ruleId__get
+     * @see http://docs.lift.acquia.com/decision/v2/#rules__ruleId__get
      *
      * @param array $id
      *
@@ -73,9 +77,10 @@ class RuleManager extends ManagerBase
      *
      * @return \Acquia\LiftClient\Entity\Rule
      */
-    public function get($id)
+    public function get($id, $options = [])
     {
-        $url = "/rules/{$id}";
+        $url = RULES_EP."/".$id;
+        $url .= $this->getQueryString($options); // Only context_language and cdf_version is useable. Other fields will be ignored
 
         // Now make the request.
         $request = new Request('GET', $url);
@@ -89,7 +94,7 @@ class RuleManager extends ManagerBase
      *
      * To Update a rule, use a Rule object with an existing identifier.
      *
-     * @see http://docs.decision-api.acquia.com/#rules_post
+     * @see http://docs.lift.acquia.com/decision/v2/#rules_post
      *
      * @param \Acquia\LiftClient\Entity\Rule $rule
      *
@@ -110,7 +115,7 @@ class RuleManager extends ManagerBase
     /**
      * Deletes a rule by ID.
      *
-     * @see http://docs.decision-api.acquia.com/#rules__ruleId__delete
+     * @see http://docs.lift.acquia.com/decision/v2/#rules__ruleId__delete
      *
      * @param string $id
      *

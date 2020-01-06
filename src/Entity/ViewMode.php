@@ -54,16 +54,6 @@ class ViewMode extends Entity
     }
 
     /**
-     * Gets the 'url' parameter.
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->getEntityValue('url', '');
-    }
-
-    /**
      * Gets the 'html' parameter.
      *
      * @return string
