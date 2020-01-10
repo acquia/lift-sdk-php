@@ -82,7 +82,7 @@ class Rule extends Entity
      *
      * @return \Acquia\LiftClient\Entity\Rule
      */
-    public function setSegmentId($segment)
+    public function setSegment($segment)
     {
         if (!is_string($segment)) {
             throw new LiftSdkException('Argument must be an instance of string.');
@@ -97,7 +97,7 @@ class Rule extends Entity
      *
      * @return string
      */
-    public function getSegmentId()
+    public function getSegment()
     {
         return $this->getEntityValue('segment', '');
     }
@@ -149,7 +149,7 @@ class Rule extends Entity
         }
         if ($status !== 'published' && $status !== 'unpublished' && $status !== 'archived' 
             && $status !== 'scheduled' && $status !== 'completed') {
-            throw new LiftSdkException('Status much be either published, unpublished or archived.');
+            throw new LiftSdkException('Status must one of the following value {published, unpublishedm, archived, scheduled, completed}');
         }
         $this['status'] = $status;
 
@@ -180,8 +180,8 @@ class Rule extends Entity
         if (!is_string($type)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
-        if ($status !== 'target' && $status !== 'ab' && $status !== 'dynamic') {
-            throw new LiftSdkException('Type much be either target, ab or dynamic.');
+        if ($type !== 'target' && $type !== 'ab' && $type !== 'dynamic') {
+            throw new LiftSdkException('Type much be either target, ab or dynamic');
         }
         $this['type'] = $type;
 
@@ -241,7 +241,7 @@ class Rule extends Entity
         if (!is_string($campaignId)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
-        $this['campaign_id'] = $id;
+        $this['campaign_id'] = $campaignId;
 
         return $this;
     }

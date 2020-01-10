@@ -2,6 +2,8 @@
 
 namespace Acquia\LiftClient\Entity;
 
+use Acquia\LiftClient\Exception\LiftSdkException;
+
 class TestConfigDynamic extends TestConfigBase implements TestConfigInterface
 {
     /**
@@ -18,7 +20,7 @@ class TestConfigDynamic extends TestConfigBase implements TestConfigInterface
         if (!is_string($slotId)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
-        $this['slot_id'] = $slot_id;
+        $this['slot_id'] = $slotId;
 
         return $this;
     }
@@ -28,7 +30,7 @@ class TestConfigDynamic extends TestConfigBase implements TestConfigInterface
      *
      * @return string The Slot Id that the target rule is associated with
      */
-    public function geSlotId()
+    public function getSlotId()
     {
         return $this->getEntityValue('slot_id', '');
     }
@@ -131,10 +133,15 @@ class TestConfigDynamic extends TestConfigBase implements TestConfigInterface
      */
     public function setCount($count)
     {
-        if (!is_int($count) && $count >= 0) {
+        if (!is_int($count)) {
             throw new LiftSdkException('Argument must be an instance of integer.');
         }
-        $this['count'] = $viewModeId;
+
+        if ($count < 0) {
+            throw new LiftSdkException('Value must be a positive integer');
+        }
+
+        $this['count'] = $count;
 
         return $this;
     }

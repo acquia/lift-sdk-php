@@ -2,6 +2,8 @@
 
 namespace Acquia\LiftClient\Entity;
 
+use Acquia\LiftClient\Exception\LiftSdkException;
+
 class TestConfigAb extends TestConfigBase
 {
     
@@ -64,20 +66,25 @@ class TestConfigAb extends TestConfigBase
     }
 
     /**
-     * Sets the 'probabilities' parameter.
+     * Sets the 'probability' parameter.
      *
-     * @param float $probabilities
+     * @param double $probability
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
      * @return \Acquia\LiftClient\Entity\TestConfigAb
      */
-    public function setProbabilities($probabilities)
+    public function setProbability($probability)
     {
-        if (!is_float($probabilities)) {
-            throw new LiftSdkException('Argument must be an instance of float.');
+        if (!is_numeric($probability)) {
+            throw new LiftSdkException('Argument must be numeric');
         }
-        $this['probabilities'] = $probabilities;
+
+        if ($probability > 1 || $probability < 0) {
+            throw new LiftSdkException('Invalid value of probabiity');
+        }
+
+        $this['probability'] = $probability;
 
         return $this;
     }
@@ -87,9 +94,9 @@ class TestConfigAb extends TestConfigBase
      *
      * @return float
      */
-    public function getProbabilities()
+    public function getProbability()
     {
-        return $this->getEntityValue('probabilities', '');
+        return $this->getEntityValue('probability', '');
     }
 
     /**

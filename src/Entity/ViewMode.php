@@ -44,7 +44,7 @@ class ViewMode extends Entity
     }
 
     /**
-     * Gets the 'id' parameter.
+     * Gets the 'label' parameter.
      *
      * @return string
      */

@@ -11,8 +11,6 @@ class Content extends Entity
      */
     public function __construct(array $array = [])
     {
-        // Set content_hub as default content_connector_id when adding content
-        $array['content_connector_id'] = 'content_hub';
         parent::__construct($array);
     }
 
@@ -55,7 +53,7 @@ class Content extends Entity
         if (!is_string($title)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
-        $this['title'] = $id;
+        $this['title'] = $title;
 
         return $this;
     }
@@ -112,7 +110,7 @@ class Content extends Entity
     }
 
     /**
-     * Gets the 'id' parameter.
+     * Gets the 'view_mode' parameter.
      *
      * @return viewMode
      */

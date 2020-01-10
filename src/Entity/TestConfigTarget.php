@@ -2,6 +2,8 @@
 
 namespace Acquia\LiftClient\Entity;
 
+use Acquia\LiftClient\Exception\LiftSdkException;
+
 class TestConfigTarget extends TestConfigBase implements TestConfigInterface
 {
     /**
@@ -18,7 +20,7 @@ class TestConfigTarget extends TestConfigBase implements TestConfigInterface
         if (!is_string($slotId)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
-        $this['slot_id'] = $slot_id;
+        $this['slot_id'] = $slotId;
 
         return $this;
     }
@@ -28,7 +30,7 @@ class TestConfigTarget extends TestConfigBase implements TestConfigInterface
      *
      * @return string The Slot Id that the target rule is associated with
      */
-    public function geSlotId()
+    public function getSlotId()
     {
         return $this->getEntityValue('slot_id', '');
     }
