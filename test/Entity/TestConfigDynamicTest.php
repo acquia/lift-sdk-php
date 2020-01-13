@@ -2,7 +2,10 @@
 
 namespace Acquia\LiftClient\Test\Entity;
 
+use Acquia\LiftClient\Entity\Content;
 use Acquia\LiftClient\Entity\TestConfigDynamic;
+use Acquia\LiftClient\Entity\ViewMode;
+
 
 class TestConfigDynamicTest extends \PHPUnit_Framework_TestCase
 {
