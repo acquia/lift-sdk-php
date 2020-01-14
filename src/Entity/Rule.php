@@ -15,6 +15,8 @@ class Rule extends Entity
         parent::__construct($array);
     }
 
+    var $ALLOWED_RULE_TYPES = array('target', 'ab', 'dynamic');
+
     /**
      * Sets the 'id' parameter.
      *
@@ -291,11 +293,11 @@ class Rule extends Entity
     /**
      * Sets the Rule test_config property.
      *
-     * @param \Acquia\LiftClient\Entity\TestConfigInterface $testConfig
+     * @param \Acquia\LiftClient\Entity\TestConfigInterface[] $testConfig
      *
      * @return \Acquia\LiftClient\Entity\Rule
      */
-    public function setTestConfig(TestConfigInterface $testConfig)
+    public function setTestConfig(array $testConfig)
     {
         // To facilitate TypeHinting in PHPStorm we redefine what $testConfig is
         // here. We know it inherits from the TestConfigInterface and is a child
@@ -303,19 +305,20 @@ class Rule extends Entity
         /** @var \Acquia\LiftClient\Entity\TestConfigBase $testConfig */
 
         // Get class of the testConfig object.
-        $type = get_class($testConfig);
+        $type = get_class($testConfig[0]);
 
         // Only allow one test type at a time.
         $this['testconfig'] = [];
         switch ($type) {
             case 'Acquia\LiftClient\Entity\TestConfigTarget':
-                $this['testconfig']['target'] = $testConfig->getArrayCopy();
+                $this['testconfig']['target'] = $testConfig;
                 break;
             case 'Acquia\LiftClient\Entity\TestConfigAb':
-                $this['testconfig']['ab'] = $testConfig->getArrayCopy();
+
+                $this['testconfig']['ab'] = $testConfig;
                 break;
             case 'Acquia\LiftClient\Entity\TestConfigDynamic':
-                $this['testconfig']['dynamic'] = $testConfig->getArrayCopy();
+                $this['testconfig']['dynamic'] = $testConfig;
                 break;
         }
 
@@ -335,17 +338,28 @@ class Rule extends Entity
         reset($testConfig);
         $key = key($testConfig);
 
-        // Based on the config, we load the different objects.
-        switch ($key) {
-            case 'ab':
-                return new TestConfigAb($testConfig[$key]);
-            case 'mab':
-                return new TestConfigMab($testConfig[$key]);
-            case 'target':
-                return new TestConfigTarget($testConfig[$key]);
+        // If key not a valid rule type, function will return null
+        if (!in_array($key, $this->ALLOWED_RULE_TYPES)){
+            return null;
         }
 
-        return null;
+        $ret = [];
+        foreach ($testConfig as $tc){
+            // Based on the config, we load the different objects.
+            switch ($key) {
+                case 'target':
+                    array_push($ret, new TestConfigTarget($testConfig[$key]));
+                    break;
+                case 'ab':
+                    array_push($ret, new TestConfigAb($testConfig[$key]));
+                    break;
+                case 'dynamic':
+                    array_push($ret, new TestConfigDynamic($testConfig[$key]));
+                    break;
+            }
+        }
+        
+        return $ret;
     }
 
     /**

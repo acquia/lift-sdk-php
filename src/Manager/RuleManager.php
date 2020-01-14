@@ -105,7 +105,7 @@ class RuleManager extends ManagerBase
     public function add(Rule $rule)
     {
         $body = $rule->json();
-        $url = '/rules';
+        $url = RULES_EP;
         $request = new Request('POST', $url, [], $body);
         $data = $this->getResponseJson($request);
 

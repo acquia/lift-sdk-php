@@ -103,6 +103,7 @@ class TestConfigAbTest extends \PHPUnit_Framework_TestCase
         $entity->setProbability(0.5);
         $entity->setSlotList($slots);
         $this->assertEquals($entity->getProbability(), 0.5);
+        $this->assertEquals(sizeof($slots), 2);
         $this->assertEquals(sizeof($entity->getSlotList()), 2);
 
         $ret_slots = $entity->getSlotList();

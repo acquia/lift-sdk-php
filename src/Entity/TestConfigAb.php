@@ -112,9 +112,8 @@ class TestConfigAb extends TestConfigBase
     {
         $this['slots'] = [];
         foreach ($slotList as $slot) {
-            // We need to 'normalize' the data.
             $this['slots'][] = $slot->getArrayCopy();
-        }
+        }   
 
         return $this;
     }
@@ -129,7 +128,7 @@ class TestConfigAb extends TestConfigBase
         $slotList = $this->getEntityValue('slots', '');
         $ret = [];
         foreach ($slotList as $slot) {
-            $ret[] = new TestConfigTarget($slot);
+            array_push($ret, new TestConfigTarget($slot));
         }
 
         return $ret;
