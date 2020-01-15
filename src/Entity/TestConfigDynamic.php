@@ -196,10 +196,10 @@ class TestConfigDynamic extends TestConfigBase implements TestConfigInterface
      */
     public function setContentList(array $contentList)
     {
-        $this['content'] = [];
+        $this['contents'] = [];
         foreach ($contentList as $content) {
             // We need to 'normalize' the data.
-            $this['content'][] = $content->getArrayCopy();
+            $this['contents'][] = $content->getArrayCopy();
         }
 
         return $this;
@@ -212,7 +212,7 @@ class TestConfigDynamic extends TestConfigBase implements TestConfigInterface
      */
     public function getContentList()
     {
-        $contentList = $this->getEntityValue('content', '');
+        $contentList = $this->getEntityValue('contents', []);
         $ret = [];
         foreach ($contentList as $content) {
             $ret[] = new Content($content);

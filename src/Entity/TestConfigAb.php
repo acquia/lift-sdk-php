@@ -125,7 +125,7 @@ class TestConfigAb extends TestConfigBase
      */
     public function getSlotList()
     {
-        $slotList = $this->getEntityValue('slots', '');
+        $slotList = $this->getEntityValue('slots', []);
         $ret = [];
         foreach ($slotList as $slot) {
             array_push($ret, new TestConfigTarget($slot));

@@ -314,7 +314,6 @@ class Rule extends Entity
                 $this['testconfig']['target'] = $testConfig;
                 break;
             case 'Acquia\LiftClient\Entity\TestConfigAb':
-
                 $this['testconfig']['ab'] = $testConfig;
                 break;
             case 'Acquia\LiftClient\Entity\TestConfigDynamic':
@@ -332,11 +331,11 @@ class Rule extends Entity
      */
     public function getTestConfig()
     {
-        $testConfig = $this->getEntityValue('testconfig', []);
+        $testConfigList = $this->getEntityValue('testconfig', []);
         // We know the array only has one possible set of options.
         // Get its key and value.
-        reset($testConfig);
-        $key = key($testConfig);
+        reset($testConfigList);
+        $key = key($testConfigList);
 
         // If key not a valid rule type, function will return null
         if (!in_array($key, $this->ALLOWED_RULE_TYPES)){
@@ -344,21 +343,22 @@ class Rule extends Entity
         }
 
         $ret = [];
-        foreach ($testConfig as $tc){
+        $testConfigs = $testConfigList[$key];
+        foreach ($testConfigs as $tc){
             // Based on the config, we load the different objects.
             switch ($key) {
                 case 'target':
-                    array_push($ret, new TestConfigTarget($testConfig[$key]));
-                    break;
+                    array_push($ret, new TestConfigTarget($tc));
+                    continue;
                 case 'ab':
-                    array_push($ret, new TestConfigAb($testConfig[$key]));
-                    break;
+                    array_push($ret, new TestConfigAb($tc));
+                    continue;
                 case 'dynamic':
-                    array_push($ret, new TestConfigDynamic($testConfig[$key]));
-                    break;
+                    array_push($ret, new TestConfigDynamic($tc));
+                    continue;
             }
         }
-        
+
         return $ret;
     }
 

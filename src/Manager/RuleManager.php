@@ -97,15 +97,19 @@ class RuleManager extends ManagerBase
      * @see http://docs.lift.acquia.com/decision/v2/#rules_post
      *
      * @param \Acquia\LiftClient\Entity\Rule $rule
+     * @param array $options - query parameters
      *
      * @throws \GuzzleHttp\Exception\RequestException
      *
      * @return \Acquia\LiftClient\Entity\Rule
      */
-    public function add(Rule $rule)
+    public function add(Rule $rule, $options = [])
     {
         $body = $rule->json();
+        
         $url = RULES_EP;
+        $url .= $this->getQueryString($options);
+
         $request = new Request('POST', $url, [], $body);
         $data = $this->getResponseJson($request);
 
