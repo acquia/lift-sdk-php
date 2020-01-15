@@ -116,20 +116,68 @@ class RuleManager extends ManagerBase
         return new Rule($data);
     }
 
+
     /**
-     * Deletes a rule by ID.
+     * Update specific rule
+     *
+     * Currently the endpoint only supports updating segment, priority, description, and label.
+     *
+     * @see http://docs.lift.acquia.com/decision/v2/#rules_post
+     *
+     * @param \Acquia\LiftClient\Entity\Rule $rule
+     * @param array $options - query parameters. Only cdf_version and context_language is supported. Everything else is ignored
+     *
+     * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return \Acquia\LiftClient\Entity\Rule
+     */
+    public function patch(Rule $rule, $options = [])
+    {
+        $body = $rule->json();
+        $ruleId = $rule->getId();
+
+        $url = RULES_EP."/{$ruleId}";
+        $url .= $this->getQueryString($options);
+
+        $request = new Request('PATCH', $url, [], $body);
+        $data = $this->getResponseJson($request);
+
+        return new Rule($data);
+    }
+
+    /**
+     * Delete rule either by account and site id
      *
      * @see http://docs.lift.acquia.com/decision/v2/#rules__ruleId__delete
      *
-     * @param string $id
-     *
+     * @param string $id - Optional field
+     * 
      * @throws \GuzzleHttp\Exception\RequestException
      *
      * @return bool
      */
-    public function delete($id)
+    public function delete()
     {
-        $url = "/rules/{$id}";
+        $url = RULES_EP;
+        $this->client->delete($url);
+
+        return true;
+    }
+
+    /**
+     * Delete rule either by id
+     *
+     * @see http://docs.lift.acquia.com/decision/v2/#rules__ruleId__delete
+     *
+     * @param string $id - Optional field
+     * 
+     * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return bool
+     */
+    public function deleteById($id)
+    {
+        $url = RULES_EP."/{$id}";
         $this->client->delete($url);
 
         return true;
