@@ -75,9 +75,16 @@ class TestConfigDynamic extends TestConfigBase implements TestConfigInterface
      */
     public function setAlgorithm($algorithm)
     {
+        $algorithm_types = array('most_recent', 'most_viewed', 'similar_current', 'similar_historic');
+
         if (!is_string($algorithm)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
+
+        if (!in_array($algorithm, $algorithm_types)){
+            throw new LiftSdkException('Algorithm ('.$algorithm.') is not supported for dynamic rules.');
+        }
+
         $this['algorithm'] = $algorithm;
 
         return $this;

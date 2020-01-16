@@ -182,7 +182,7 @@ class Rule extends Entity
         if (!is_string($type)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
-        if ($type !== 'target' && $type !== 'ab' && $type !== 'dynamic') {
+        if (!in_array($type, $this->ALLOWED_RULE_TYPES)) {
             throw new LiftSdkException('Type much be either target, ab or dynamic');
         }
         $this['type'] = $type;

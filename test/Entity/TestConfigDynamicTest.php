@@ -60,6 +60,16 @@ class TestConfigDynamicTest extends \PHPUnit_Framework_TestCase
         $entity->setAlgorithm(123);
     }
 
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Algorithm (most_common) is not supported for dynamic rules.
+     */
+    public function testAlgorithmInvalid()
+    {
+        $entity = new TestConfigDynamic();
+        $entity->setAlgorithm('most_common');
+    }
+
     public function testViewModeId()
     {
         $entity = new TestConfigDynamic();
