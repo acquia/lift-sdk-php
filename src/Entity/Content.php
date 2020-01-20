@@ -11,8 +11,6 @@ class Content extends Entity
      */
     public function __construct(array $array = [])
     {
-        // Set content_hub as default content_connector_id when adding content
-        $array['content_connector_id'] = 'content_hub';
         parent::__construct($array);
     }
 
@@ -44,30 +42,30 @@ class Content extends Entity
     }
 
     /**
-     * @param string $contentConnectorId
+     * @param string $title
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
      * @return \Acquia\LiftClient\Entity\Content
      */
-    public function setContentConnectorId($contentConnectorId = 'content_hub')
+    public function setTitle($title)
     {
-        if (!is_string($contentConnectorId)) {
+        if (!is_string($title)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
-        $this['content_connector_id'] = $contentConnectorId;
+        $this['title'] = $title;
 
         return $this;
     }
 
     /**
-     * Gets the 'content_connector_id' parameter.
+     * Gets the 'title' parameter.
      *
      * @return string
      */
-    public function getContentConnectorId()
+    public function getTitle()
     {
-        return $this->getEntityValue('content_connector_id', 'content_hub');
+        return $this->getEntityValue('title', '');
     }
 
     /**
@@ -112,7 +110,7 @@ class Content extends Entity
     }
 
     /**
-     * Gets the 'id' parameter.
+     * Gets the 'view_mode' parameter.
      *
      * @return viewMode
      */
@@ -121,20 +119,5 @@ class Content extends Entity
         $viewMode = $this->getEntityValue('view_mode', []);
 
         return new ViewMode($viewMode);
-    }
-
-    /**
-     * Gets the 'errors' parameter.
-     *
-     * @return Error|null The errors, if there were any
-     */
-    public function getError()
-    {
-        $error = $this->getEntityValue('error', null);
-        if ($error == null) {
-            return null;
-        }
-
-        return new Error($error);
     }
 }

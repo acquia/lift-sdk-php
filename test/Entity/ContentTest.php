@@ -7,12 +7,6 @@ use Acquia\LiftClient\Entity\ViewMode;
 
 class ContentTest extends \PHPUnit_Framework_TestCase
 {
-    public function testDefaultContentHub()
-    {
-        $entity = new Content();
-        $this->assertEquals($entity->getContentConnectorId(), 'content_hub');
-    }
-
     public function testId()
     {
         $entity = new Content();
@@ -30,21 +24,21 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $entity->setId(123);
     }
 
-    public function testContentConnectorId()
+    public function testTitle()
     {
         $entity = new Content();
-        $entity->setContentConnectorId('test-cc-id');
-        $this->assertEquals($entity->getContentConnectorId(), 'test-cc-id');
+        $entity->setTitle('content-title');
+        $this->assertEquals($entity->getTitle(), 'content-title');
     }
 
     /**
      * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
      * @expectedExceptionMessage Argument must be an instance of string.
      */
-    public function testContentConnectorIdNoString()
+    public function testTitleNoString()
     {
         $entity = new Content();
-        $entity->setContentConnectorId(123);
+        $entity->setTitle(123);
     }
 
     public function testBaseUrl()
@@ -71,12 +65,5 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $entity = new Content();
         $entity->setViewMode($viewMode);
         $this->assertEquals($entity->getViewMode()->getId(), 'test-view-mode-id');
-    }
-
-    public function testError()
-    {
-        $entity = new Content(['error' => ['code' => 10, 'message' => 'Error in fetching content']]);
-        $this->assertEquals($entity->getError()->getCode(), 10);
-        $this->assertEquals($entity->getError()->getMessage(), 'Error in fetching content');
     }
 }

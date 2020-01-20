@@ -15,6 +15,8 @@ class Rule extends Entity
         parent::__construct($array);
     }
 
+    var $ALLOWED_RULE_TYPES = array('target', 'ab', 'dynamic');
+
     /**
      * Sets the 'id' parameter.
      *
@@ -74,61 +76,32 @@ class Rule extends Entity
     }
 
     /**
-     * Sets the 'description' parameter.
+     * Sets the 'segment' parameter.
      *
-     * @param string $description
-     *
-     * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *
-     * @return \Acquia\LiftClient\Entity\Rule
-     */
-    public function setDescription($description)
-    {
-        if (!is_string($description)) {
-            throw new LiftSdkException('Argument must be an instance of string.');
-        }
-        $this['description'] = $description;
-
-        return $this;
-    }
-
-    /**
-     * Gets the 'description' parameter.
-     *
-     * @return string The Description of the Rule
-     */
-    public function getDescription()
-    {
-        return $this->getEntityValue('description', '');
-    }
-
-    /**
-     * Sets the 'slot_id' parameter.
-     *
-     * @param string $slotId
+     * @param string $segment
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
      * @return \Acquia\LiftClient\Entity\Rule
      */
-    public function setSlotId($slotId)
+    public function setSegment($segment)
     {
-        if (!is_string($slotId)) {
+        if (!is_string($segment)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
-        $this['slot_id'] = $slotId;
+        $this['segment'] = $segment;
 
         return $this;
     }
 
     /**
-     * Gets the 'slot_id' parameter.
+     * Gets the 'segment' parameter.
      *
-     * @return string The Description of the Rule
+     * @return string
      */
-    public function getSlotId()
+    public function getSegment()
     {
-        return $this->getEntityValue('slot_id', '');
+        return $this->getEntityValue('segment', '');
     }
 
     /**
@@ -163,97 +136,6 @@ class Rule extends Entity
     }
 
     /**
-     * Sets the 'weight' parameter.
-     *
-     * @deprecated use the priority parameter instead.
-     * @param int $weight
-     *
-     * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *
-     * @return \Acquia\LiftClient\Entity\Rule
-     */
-    public function setWeight($weight)
-    {
-        return $this->setPriority($weight);
-    }
-
-    /**
-     * Gets the 'weight' parameter.
-     *
-     * @deprecated use the priority parameter instead.
-     * @return int The weight of the Rule
-     */
-    public function getWeight()
-    {
-        return $this->getPriority();
-    }
-
-    /**
-     * Sets the 'content' parameter.
-     *
-     * @param Content[] $contentList
-     *
-     * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *
-     * @return \Acquia\LiftClient\Entity\Rule
-     */
-    public function setContentList(array $contentList)
-    {
-        $this['content'] = [];
-        foreach ($contentList as $content) {
-            // We need to 'normalize' the data.
-            $this['content'][] = $content->getArrayCopy();
-        }
-
-        return $this;
-    }
-
-    /**
-     * Gets the 'content' parameter.
-     *
-     * @return Content[] The list of content this rule applies to
-     */
-    public function getContentList()
-    {
-        $contentList = $this->getEntityValue('content', '');
-        $ret = [];
-        foreach ($contentList as $content) {
-            $ret[] = new Content($content);
-        }
-
-        return $ret;
-    }
-
-    /**
-     * Sets the 'segment' parameter.
-     *
-     * @param string $segment
-     *
-     * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *
-     * @return \Acquia\LiftClient\Entity\Rule
-     */
-    public function setSegmentId($segment)
-    {
-        if (!is_string($segment)) {
-            throw new LiftSdkException('Argument must be an instance of string.');
-        }
-        $this['segment'] = $segment;
-
-        return $this;
-    }
-
-    /**
-     * Gets the 'segment' parameter.
-     *
-     * @return string
-     */
-    public function getSegmentId()
-    {
-        return $this->getEntityValue('segment', '');
-    }
-
-    /**
      * Sets the 'status' parameter.
      *
      * @param string $status
@@ -267,8 +149,9 @@ class Rule extends Entity
         if (!is_string($status)) {
             throw new LiftSdkException('Argument must be an instance of string.');
         }
-        if ($status !== 'published' && $status !== 'unpublished' && $status !== 'archived') {
-            throw new LiftSdkException('Status much be either published, unpublished or archived.');
+        if ($status !== 'published' && $status !== 'unpublished' && $status !== 'archived' 
+            && $status !== 'scheduled' && $status !== 'completed') {
+            throw new LiftSdkException('Status must one of the following value {published, unpublishedm, archived, scheduled, completed}');
         }
         $this['status'] = $status;
 
@@ -286,6 +169,96 @@ class Rule extends Entity
     }
 
     /**
+     * Sets the 'type' parameter.
+     *
+     * @param string $type
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Rule
+     */
+    public function setType($type)
+    {
+        if (!is_string($type)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        if (!in_array($type, $this->ALLOWED_RULE_TYPES)) {
+            throw new LiftSdkException('Type much be either target, ab or dynamic');
+        }
+        $this['type'] = $type;
+
+        return $this;
+    }
+
+    /**
+     * Gets the 'type' parameter.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->getEntityValue('type', '');
+    }
+
+    /**
+     * Sets the 'description' parameter.
+     *
+     * @param string $description
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Rule
+     */
+    public function setDescription($description)
+    {
+        if (!is_string($description)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['description'] = $description;
+
+        return $this;
+    }
+
+    /**
+     * Gets the 'description' parameter.
+     *
+     * @return string The Description of the Rule
+     */
+    public function getDescription()
+    {
+        return $this->getEntityValue('description', '');
+    }
+
+    /**
+     * Sets the 'campaign_id' parameter.
+     *
+     * @param string $campaignId
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Rule
+     */
+    public function setCampaignId($campaignId)
+    {
+        if (!is_string($campaignId)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['campaign_id'] = $campaignId;
+
+        return $this;
+    }
+
+    /**
+     * Gets the 'campaign_id' parameter.
+     *
+     * @return string The campaign id associated with rule id
+     */
+    public function getCampaignId()
+    {
+        return $this->getEntityValue('campaign_id', '');
+    }
+
+/**
      * Gets the 'created' parameter.
      *
      * @return DateTime|false
@@ -320,11 +293,11 @@ class Rule extends Entity
     /**
      * Sets the Rule test_config property.
      *
-     * @param \Acquia\LiftClient\Entity\TestConfigInterface $testConfig
+     * @param \Acquia\LiftClient\Entity\TestConfigInterface[] $testConfig
      *
      * @return \Acquia\LiftClient\Entity\Rule
      */
-    public function setTestConfig(TestConfigInterface $testConfig)
+    public function setTestConfig(array $testConfig)
     {
         // To facilitate TypeHinting in PHPStorm we redefine what $testConfig is
         // here. We know it inherits from the TestConfigInterface and is a child
@@ -332,19 +305,19 @@ class Rule extends Entity
         /** @var \Acquia\LiftClient\Entity\TestConfigBase $testConfig */
 
         // Get class of the testConfig object.
-        $type = get_class($testConfig);
+        $type = get_class($testConfig[0]);
 
         // Only allow one test type at a time.
         $this['testconfig'] = [];
         switch ($type) {
-            case 'Acquia\LiftClient\Entity\TestConfigAb':
-                $this['testconfig']['ab'] = $testConfig->getArrayCopy();
-                break;
-            case 'Acquia\LiftClient\Entity\TestConfigMab':
-                $this['testconfig']['mab'] = $testConfig->getArrayCopy();
-                break;
             case 'Acquia\LiftClient\Entity\TestConfigTarget':
-                $this['testconfig']['target'] = $testConfig->getArrayCopy();
+                $this['testconfig']['target'] = $testConfig;
+                break;
+            case 'Acquia\LiftClient\Entity\TestConfigAb':
+                $this['testconfig']['ab'] = $testConfig;
+                break;
+            case 'Acquia\LiftClient\Entity\TestConfigDynamic':
+                $this['testconfig']['dynamic'] = $testConfig;
                 break;
         }
 
@@ -358,22 +331,49 @@ class Rule extends Entity
      */
     public function getTestConfig()
     {
-        $testConfig = $this->getEntityValue('testconfig', []);
+        $testConfigList = $this->getEntityValue('testconfig', []);
         // We know the array only has one possible set of options.
         // Get its key and value.
-        reset($testConfig);
-        $key = key($testConfig);
+        reset($testConfigList);
+        $key = key($testConfigList);
 
-        // Based on the config, we load the different objects.
-        switch ($key) {
-            case 'ab':
-                return new TestConfigAb($testConfig[$key]);
-            case 'mab':
-                return new TestConfigMab($testConfig[$key]);
-            case 'target':
-                return new TestConfigTarget($testConfig[$key]);
+        // If key not a valid rule type, function will return null
+        if (!in_array($key, $this->ALLOWED_RULE_TYPES)){
+            return null;
         }
 
-        return null;
+        $ret = [];
+        $testConfigs = $testConfigList[$key];
+        foreach ($testConfigs as $tc){
+            // Based on the config, we load the different objects.
+            switch ($key) {
+                case 'target':
+                    array_push($ret, new TestConfigTarget($tc));
+                    continue;
+                case 'ab':
+                    array_push($ret, new TestConfigAb($tc));
+                    continue;
+                case 'dynamic':
+                    array_push($ret, new TestConfigDynamic($tc));
+                    continue;
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Gets the 'errors' parameter.
+     *
+     * @return Error|null The errors, if there were any
+     */
+    public function getError()
+    {
+        $error = $this->getEntityValue('error', null);
+        if ($error == null) {
+            return null;
+        }
+
+        return new Error($error);
     }
 }
