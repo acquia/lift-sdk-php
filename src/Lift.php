@@ -12,6 +12,7 @@ use Acquia\LiftClient\Manager\RuleManager;
 use Acquia\LiftClient\Manager\SegmentManager;
 use Acquia\LiftClient\Manager\SiteManager;
 use Acquia\LiftClient\Manager\SlotManager;
+use Acquia\LiftClient\Manager\ViewModeManager;
 
 use Acquia\Hmac\Guzzle\HmacAuthMiddleware;
 use Acquia\Hmac\Key;
@@ -29,9 +30,11 @@ define('DECIDE_EP', API_VERSION."/decide");
 define('DEPLOY_SITE_EP', API_VERSION."/deploy-site");
 define('GOALS_EP', API_VERSION."/goals");
 define('RULES_EP', API_VERSION."/rules");
+define('SEARCH_EP', API_VERSION."/search");
 define('SEGMENTS_EP', API_VERSION."/segments");
 define('SITES_EP', API_VERSION."/sites");
 define('SLOT_EP', API_VERSION."/slot");
+define('VIEW_MODES_EP', API_VERSION."/view_modes");
 
 class Lift
 {
@@ -251,5 +254,15 @@ class Lift
     public function getSlotManager()
     {
         return new SlotManager($this->authenticatedClient);
+    }
+
+    /**
+     * Get the View Mode Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\ViewModeManager
+     */
+    public function getViewModeManager()
+    {
+        return new ViewModeManager($this->authenticatedClient);
     }
 }

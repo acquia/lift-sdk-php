@@ -4,7 +4,7 @@ namespace Acquia\LiftClient\Test;
 
 use GuzzleHttp\Psr7\Response;
 
-class DeploySiteTest extends TestBase
+class ViewModeTest extends TestBase
 {
     public function testHandlerStack() {
         $response = new Response(200, [], json_encode([]));
@@ -14,8 +14,8 @@ class DeploySiteTest extends TestBase
         ];
         $client = $this->getClient($responses);
 
-        // Get DeploySite Manager
-        $manager = $client->getDeploySiteManager();
+        // Get ViewMode Manager
+        $manager = $client->getViewModeManager();
 
         // Check if the client has already have expected handlers.
         // To check, to insert a dummy function after the expected handler, and
@@ -30,10 +30,21 @@ class DeploySiteTest extends TestBase
     /**
      * Testing get list of sites associated on account id
      */
-    public function testPostDeploySite()
+    public function testGetViewModes()
     {
       $data = [
-        "Successfully deployed source_site_id to dest_site_id"
+        [
+          "id" => "teaser",
+          "label" => "Teaser"
+        ],
+        [
+          "id" => "full",
+          "label" => "Full Content"
+        ],
+        [
+          "id" => "rss",
+          "label" => "RSS"
+        ]
       ];
 
       $response = new Response(200, [], json_encode($data));
@@ -44,31 +55,36 @@ class DeploySiteTest extends TestBase
       $client = $this->getClient($responses);
 
       $options = [
-        'dest_site_id' => 'test-site-prod',
-        'source_site_id' => 'test-site-qa',
+        'cdf_version' => '2',
+        'context_language' => 'en',
       ];
 
       // Get Deploy-Site Manager
-      $manager = $client->getDeploySiteManager();
-      $response = $manager->post($options);
+      $manager = $client->getViewModeManager();
+      $responses = $manager->get($options);
       $request = $this->mockHandler->getLastRequest();
 
       // Check for request configuration
-      $this->assertEquals($request->getMethod(), 'POST');
-      $this->assertEquals((string) $request->getUri(), '/v2/deploy-site?source_site_id=test-site-qa&account_id=TESTACCOUNTID&site_id=TESTSITEID');
+      $this->assertEquals($request->getMethod(), 'GET');
+      $this->assertEquals((string) $request->getUri(), '/v2/view_modes?context_language=en&cdf_version=2&account_id=TESTACCOUNTID&site_id=TESTSITEID');
 
       $requestHeaders = $request->getHeaders();
       $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
 
-      $this->assertEquals($response->getError(), null);
-      $this->assertEquals($response[0], "Successfully deployed source_site_id to dest_site_id");
+      $this->assertEquals(sizeof($responses), 3);
+      $this->assertEquals($responses[0]->getId(), "teaser");
+      $this->assertEquals($responses[0]->getLabel(), "Teaser");
+      $this->assertEquals($responses[1]->getId(), "full");
+      $this->assertEquals($responses[1]->getLabel(), "Full Content");
+      $this->assertEquals($responses[2]->getId(), "rss");
+      $this->assertEquals($responses[2]->getLabel(), "RSS");
     }
 
     /**
      * @expectedException     \GuzzleHttp\Exception\RequestException
      * @expectedExceptionCode 400
      */
-    public function testPostDeploySitesError()
+    public function testGetViewModeError()
     {
         $response = new Response(400, []);
         $responses = [
@@ -77,8 +93,8 @@ class DeploySiteTest extends TestBase
 
         $client = $this->getClient($responses);
 
-        // Get Deploy-Site Manager
-        $manager = $client->getDeploySiteManager();
-        $manager->post();
+        // Get ViewMode Manager
+        $manager = $client->getViewModeManager();
+        $manager->get();
     }
 }
