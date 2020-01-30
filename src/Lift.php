@@ -30,7 +30,6 @@ define('DECIDE_EP', API_VERSION."/decide");
 define('DEPLOY_SITE_EP', API_VERSION."/deploy-site");
 define('GOALS_EP', API_VERSION."/goals");
 define('RULES_EP', API_VERSION."/rules");
-define('SEARCH_EP', API_VERSION."/search");
 define('SEGMENTS_EP', API_VERSION."/segments");
 define('SITES_EP', API_VERSION."/sites");
 define('SLOT_EP', API_VERSION."/slot");
