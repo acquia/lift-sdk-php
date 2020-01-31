@@ -215,14 +215,14 @@ class TestConfigDynamic extends TestConfigBase implements TestConfigInterface
     /**
      * Gets the 'content' parameter.
      *
-     * @return Content[] The list of content this rule applies to
+     * @return ContentView[] The list of content this rule applies to
      */
     public function getContentList()
     {
         $contentList = $this->getEntityValue('contents', []);
         $ret = [];
         foreach ($contentList as $content) {
-            $ret[] = new Content($content);
+            $ret[] = new ContentView($content);
         }
 
         return $ret;

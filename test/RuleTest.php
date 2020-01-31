@@ -2,7 +2,7 @@
 
 namespace Acquia\LiftClient\Test;
 
-use Acquia\LiftClient\Entity\Content;
+use Acquia\LiftClient\Entity\ContentView;
 use Acquia\LiftClient\Entity\Rule;
 use Acquia\LiftClient\Entity\TestConfigTarget;
 use Acquia\LiftClient\Entity\TestConfigAb;
@@ -46,7 +46,7 @@ class RuleTest extends TestBase
       $viewMode1 = new ViewMode();
       $viewMode1->setId('banner-wide-1');
 
-      $contentPiece1 = new Content();
+      $contentPiece1 = new ContentView();
       $contentPiece1
         ->setId('front-banner-1')
         ->setTitle('front-banner-title-1')
@@ -87,7 +87,7 @@ class RuleTest extends TestBase
       $viewMode2 = new ViewMode();
       $viewMode2->setId('banner-wide-2');
 
-      $contentPiece2 = new Content();
+      $contentPiece2 = new ContentView();
       $contentPiece2
         ->setId('front-banner-2')
         ->setTitle('front-banner-title-2')
@@ -124,7 +124,7 @@ class RuleTest extends TestBase
       $viewMode3 = new ViewMode();
       $viewMode3->setId('banner-wide-3');
 
-      $contentPiece3 = new Content();
+      $contentPiece3 = new ContentView();
       $contentPiece3
         ->setId('front-banner-3')
         ->setTitle('front-banner-title-3')

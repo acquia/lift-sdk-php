@@ -2,7 +2,7 @@
 
 namespace Acquia\LiftClient\Test\Entity;
 
-use Acquia\LiftClient\Entity\Content;
+use Acquia\LiftClient\Entity\ContentView;
 use Acquia\LiftClient\Entity\ViewMode;
 use Acquia\LiftClient\Entity\TestConfigTarget;
 use Acquia\LiftClient\Entity\TestConfigAb;
@@ -73,7 +73,7 @@ class TestConfigAbTest extends \PHPUnit_Framework_TestCase
 
     public function testSlotList()
     {
-        $content1 = new Content();
+        $content1 = new ContentView();
         $content1->setId('content-id-1');
         $content1->setTitle('content-title-1');
         $content1->setBaseUrl('https://www.baseurl.com');
@@ -85,7 +85,7 @@ class TestConfigAbTest extends \PHPUnit_Framework_TestCase
         $slot1 = new TestConfigTarget();
         $slot1->setContentList([$content1]);
 
-        $content2 = new Content();
+        $content2 = new ContentView();
         $content2->setId('content-id-2');
         $content2->setTitle('content-title-2');
         $content2->setBaseUrl('https://www.baseurl.com');

@@ -4,6 +4,7 @@ namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Content;
 use Acquia\LiftClient\Entity\ViewMode;
+use DateTime;
 
 class ContentTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,6 +42,37 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $entity->setTitle(123);
     }
 
+    public function testContentConnectorId()
+    {
+        $entity = new Content();
+        $entity->setContentConnectorId('test-content-connector-id');
+        $this->assertEquals($entity->getContentConnectorId(), 'test-content-connector-id');
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testContentConnectorIdNoString()
+    {
+        $entity = new Content();
+        $entity->setContentConnectorId(123);
+    }
+
+    public function testCreated()
+    {
+        $date = DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z');
+        $entity = new Content(['created' => '2016-01-05T22:04:39Z']);
+        $this->assertEquals($entity->getCreated(), $date);
+    }
+
+    public function testUpdated()
+    {
+        $date = DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z');
+        $entity = new Content(['updated' => '2016-01-05T22:04:39Z']);
+        $this->assertEquals($entity->getUpdated(), $date);
+    }
+
     public function testBaseUrl()
     {
         $entity = new Content();
@@ -58,12 +90,21 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $entity->setBaseUrl(123);
     }
 
-    public function testViewMode()
+    public function testViewModes()
     {
-        $viewMode = new ViewMode();
-        $viewMode->setId('test-view-mode-id');
+        $viewMode1 = new ViewMode();
+        $viewMode1->setId('test-view-mode-1');
+
+        $viewMode2 = new ViewMode();
+        $viewMode2->setId('test-view-mode-2');
+
+        $viewModes = [$viewMode1, $viewMode2];
+
         $entity = new Content();
-        $entity->setViewMode($viewMode);
-        $this->assertEquals($entity->getViewMode()->getId(), 'test-view-mode-id');
+        $entity->setViewModes($viewModes);
+        $this->assertEquals(sizeof($entity->getViewModes()), 2);
+        $this->assertEquals($entity->getViewModes()[0]->getId(), 'test-view-mode-1');
+        $this->assertEquals($entity->getViewModes()[1]->getId(), 'test-view-mode-2');
+
     }
 }

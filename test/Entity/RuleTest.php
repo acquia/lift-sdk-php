@@ -2,7 +2,7 @@
 
 namespace Acquia\LiftClient\Test\Entity;
 
-use Acquia\LiftClient\Entity\Content;
+use Acquia\LiftClient\Entity\ContentView;
 use Acquia\LiftClient\Entity\Probability;
 use Acquia\LiftClient\Entity\Rule;
 use Acquia\LiftClient\Entity\TestConfigAb;

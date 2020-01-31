@@ -59,7 +59,7 @@ class ViewModeTest extends TestBase
         'context_language' => 'en',
       ];
 
-      // Get Deploy-Site Manager
+      // Get View Mode Manager
       $manager = $client->getViewModeManager();
       $responses = $manager->get($options);
       $request = $this->mockHandler->getLastRequest();

@@ -2,7 +2,7 @@
 
 namespace Acquia\LiftClient\Test\Entity;
 
-use Acquia\LiftClient\Entity\Content;
+use Acquia\LiftClient\Entity\ContentView;
 use Acquia\LiftClient\Entity\TestConfigDynamic;
 use Acquia\LiftClient\Entity\ViewMode;
 
@@ -135,7 +135,7 @@ class TestConfigDynamicTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testContentList(){
-        $content = new Content();
+        $content = new ContentView();
         $content->setId('content-id');
         $content->setTitle('content-title');
         $content->setBaseUrl('https://www.baseurl.com');
