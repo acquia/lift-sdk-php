@@ -3,6 +3,9 @@
 namespace Acquia\LiftClient\Entity;
 use DateTime;
 
+/**
+ * Primarily used for /search endpoint
+ */
 use Acquia\LiftClient\Exception\LiftSdkException;
 
 /**

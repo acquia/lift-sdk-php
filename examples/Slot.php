@@ -25,10 +25,9 @@ $pong = $client->ping();
 
 // Get all existing slots.
 $manager = $client->getSlotManager();
-$slots = $manager->query();
 
 // Create a new slot object.
-$slot = new \Acquia\LiftClient\Entity\Slot();
+$slot = new Slot();
 $slot
     ->setDescription('test-description')
     ->setId('test-id')
@@ -36,19 +35,40 @@ $slot
     ->setStatus(true);
 
 // Add the visibility to the slot.
-$visibility = new \Acquia\LiftClient\Entity\Visibility();
+$visibility = new Visibility();
 $visibility->setCondition('show');
 $visibility->setPages(['localhost/blog/*']);
 $slot->setVisibility($visibility);
 
 // Add the slot to the system
 $slot = $manager->add($slot);
+echo $slot->getId()."<br>";
+echo $slot->getLabel()."<br>";
+echo $slot->getDescription()."<br>";
+echo $slot->getStatus()."<br>";
+echo $slot->getVisibility()->getCondition()."<br>";
+print_r($slot->getVisibility()->getPages());
+echo "<br>";
 
 // Get the slot again from the system.
 $slot = $manager->get($slot->getId());
+echo $slot->getId()."<br>";
+echo $slot->getLabel()."<br>";
+echo $slot->getDescription()."<br>";
+echo $slot->getStatus()."<br>";
+echo $slot->getVisibility()->getCondition()."<br>";
+print_r($slot->getVisibility()->getPages());
+echo "<br>";
 
 // This now includes the created and updated date
 $slot->getCreated()->getTimestamp();
 
 // Delete the slot from the system.
-$manager->delete($slot->getId());
+$delResult = $manager->delete($slot->getId());
+if ($delResult == true){
+    echo "Delete slot was successful.<br>";
+}else{
+    echo "Delete slot was not successful.<br>";
+}
+
+?>

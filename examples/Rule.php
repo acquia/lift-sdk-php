@@ -28,7 +28,7 @@ $client = new Lift($accountId, $siteId, $publicKey, $secretKey, ['base_url' => $
 // Check if the server is functional
 $pong = $client->ping();
 
-// Initialize the manager.
+// Creating a rule assuming you have valid campaign id, slot id and content id
 $manager = $client->getRuleManager();
 
 // Get all existing rules.
@@ -37,7 +37,7 @@ $options = [
     'prefetch' => true,
     'sort' => 'asc',
     'start' => 0,
-    'rows' => 0,
+    'rows' => 10,
     'sort_field' => 'updated',
     'status' => 'published',
 ];
@@ -47,60 +47,128 @@ foreach ($rules as $rule) {
     echo $rule->getId();
 }
 
+////////////////////////////////////////////////////////
+//// Targer Rule example
+////////////////////////////////////////////////////////
+
 // Create a rule to insert into the API.
 $viewMode1 = new ViewMode();
 $viewMode1->setId('banner-wide-1');
 
-$contentPiece1 = new Content();
+$contentPiece1 = new ContentView();
 $contentPiece1
     ->setId('front-banner')
+    ->setTitle('Front Banner')
     ->setBaseUrl('http://mysite.dev')
     ->setViewMode($viewMode1);
 
 $viewMode2 = new ViewMode();
 $viewMode2->setId('banner-wide-2');
 
-$contentPiece2 = new Content();
+$contentPiece2 = new ContentView();
 $contentPiece2
-    ->setId('front-banner')
+    ->setId('front-banner-2')
+    ->setTitle('Front Banner 2')
     ->setBaseUrl('http://mysite.dev')
     ->setViewMode($viewMode2);
 
-$probabilityContentPiece1 = new Probability();
-$probabilityContentPiece1
-    ->setContentId('front-banner')
-    ->setContentViewId('banner-wide-1')
-    ->setFraction(0.3);
+$testConfigTarget1 = new TestConfigTarget();
+$testConfigTarget1
+    ->setSlotId($slot->getId())
+    ->setContentList(array($contentPiece1));
 
-$probabilityContentPiece2 = new Probability();
-$probabilityContentPiece2
-    ->setContentId('front-banner')
-    ->setContentViewId('banner-wide-2')
-    ->setFraction(0.7);
+$testConfigTarget2 = new TestConfigTarget();
+$testConfigTarget2
+    ->setSlotId($slot->getId())
+    ->setContentList(array($contentPiece2));
 
-$testConfig = new TestConfigAb();
-$testConfig->setProbabilities([$probabilityContentPiece1, $probabilityContentPiece2]);
-
-$rule = new Rule();
-$rule
+$targetRule = new Rule();
+$targetRule
     ->setId('rule-1')
     ->setLabel('Banner for Belgians')
     ->setDescription('Front page banner personalization for Belgians')
-    ->setSlotId('slot-1')
     ->setStatus('published')
-    ->setSegmentId('belgians')
     ->setPriority(10) // Higher number means the rule display / apply first.
-    ->setContentList([$contentPiece1, $contentPiece2])
-    ->setTestConfig($testConfig);
+    ->setType('target')
+    ->setCampaignId('test-campaign-1')
+    ->setTestConfig(array($testConfigTarget1));
 
 // Add the rule to the system
-$rule = $manager->add($rule);
+$rule1 = $manager->add($targetRule);
 
 // Get the slot again from the system.
-$rule = $manager->get($rule->getId());
+$rule1 = $manager->get($rule1->getId());
+$manager->deleteById($rule1->getId());
 
-// This now includes the created and updated date
-$rule->getCreated()->getTimestamp();
+////////////////////////////////////////////////////////
+//// AB Rule example
+////////////////////////////////////////////////////////
 
-// Delete the slot from the system.
-$manager->delete($rule->getId());
+$testConfigAb1 = new TestConfigAB();
+$testConfigAb1
+    ->setVariationId('test-variation-A')
+    ->setVariationLabel('Using variation A banner')
+    ->setProbability(0.35)
+    ->setSlots(array($testConfigTarget1));
+
+$testConfigAb2 = new TestConfigAB();
+$testConfigAb2
+    ->setVariationId('test-variation-A')
+    ->setVariationLabel('Using variation A banner')
+    ->setProbability(0.35)
+    ->setSlots(array($testConfigTarget1));
+
+// AB Rule
+$abRule = new Rule();
+$abRule
+    ->setId('rule-2')
+    ->setLabel('Banner for Belgians')
+    ->setDescription('Front page banner personalization for Belgians')
+    ->setStatus('published')
+    ->setSegment('chrome_users')
+    ->setPriority(10) // Higher number means the rule display / apply first.
+    ->setType('ab')
+    ->setCampaignId('test-campaign-2')
+    ->setTestConfig(array($testConfigAb1, $testConfigAb2));
+
+// Add the rule to the system
+$rule2 = $manager->add($abRule);
+
+// Get the slot again from the system.
+$rule2 = $manager->get($rule2->getId());
+$manager->deleteById($rule2->getId());
+
+////////////////////////////////////////////////////////
+//// Dynamic Rule example
+////////////////////////////////////////////////////////
+
+$testConfigDynamic = new TestConfigDynamic();
+$testConfigDynamic
+->setSlotId('test-slot-id-3')
+->setFilterId('test-filter-id')
+->setAlgorithm('most_viewed')
+->setViewModeId('banner-wide-3')
+->setCount(1)
+->setExcludeViewedContent(true)
+->setContentList(array($contentPiece3));
+
+$dynamicRule = new Rule();
+$dynamicRule
+  ->setId('test-dynamic-rule-3')
+  ->setLabel('Banner for Firefox users')
+  ->setSegment('firefox_users')
+  ->setDescription('Front page banner personalization for Firefox users')
+  ->setStatus('published')
+  ->setPriority(10)
+  ->setType('dynamic')
+  ->setCampaignId('test-campaign-3')
+  ->setTestConfig(array($testConfigDynamic));
+
+// Add the rule to the system
+$rule3 = $manager->add($dynamicRule);
+
+// Get the slot again from the system.
+$rule3 = $manager->get($rule3->getId());
+$manager->deleteById($rule3->getId());
+
+?>

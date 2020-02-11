@@ -8,7 +8,6 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
-
 class CampaignManager extends ManagerBase
 {
 
@@ -175,6 +174,10 @@ class CampaignManager extends ManagerBase
         $request = new Request('DELETE', $url);
         $data = $this->getResponseJson($request);
 
+        if (isset($data)){
+            return false;
+        }
+
         return true;
     }
 
@@ -199,6 +202,10 @@ class CampaignManager extends ManagerBase
             $request = new Request('DELETE', $url);
             $data = $this->getResponseJson($request);
         }catch (ClientException $e){
+            return false;
+        }
+
+        if (isset($data)){
             return false;
         }
 

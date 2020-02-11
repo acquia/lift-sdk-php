@@ -258,7 +258,7 @@ class Rule extends Entity
         return $this->getEntityValue('campaign_id', '');
     }
 
-/**
+    /**
      * Gets the 'created' parameter.
      *
      * @return DateTime|false

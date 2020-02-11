@@ -4,6 +4,9 @@ namespace Acquia\LiftClient\Entity;
 
 use Acquia\LiftClient\Exception\LiftSdkException;
 
+/** 
+ * Primarily used for /rules EP
+ */
 class ContentView extends Entity
 {
     /**
@@ -19,7 +22,7 @@ class ContentView extends Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Content
+     * @return \Acquia\LiftClient\Entity\ContentView
      */
     public function setId($id)
     {
@@ -46,7 +49,7 @@ class ContentView extends Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Content
+     * @return \Acquia\LiftClient\Entity\ContentView
      */
     public function setTitle($title)
     {
@@ -73,7 +76,7 @@ class ContentView extends Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Content
+     * @return \Acquia\LiftClient\Entity\ContentView
      */
     public function setBaseUrl($baseUrl)
     {
@@ -100,7 +103,7 @@ class ContentView extends Entity
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Content
+     * @return \Acquia\LiftClient\Entity\ContentView
      */
     public function setViewMode(ViewMode $viewMode)
     {

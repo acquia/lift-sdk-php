@@ -3,6 +3,7 @@
 namespace Acquia\LiftClient\Manager;
 
 use Acquia\LiftClient\Entity\Site;
+use Acquia\LiftClient\Entity\SiteResponse;
 use GuzzleHttp\Psr7\Request;
 
 class SiteManager extends ManagerBase
@@ -53,5 +54,53 @@ class SiteManager extends ManagerBase
         $data = $this->getResponseJson($request);
 
         return new Site($data);
+    }
+
+    /**
+     * Create/Update a list of customer sites associated with account
+     *
+     * @see http://docs.lift.acquia.com/decision/v2/#sites_post
+     *
+     * @param Site[] sites
+     * 
+     * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return SiteResponse[] 
+     */
+    public function post(array $sites)
+    {
+        $url = SITES_EP;
+
+        $body = json_encode($sites);
+        $request = new Request('POST', $url, [], $body);
+        $data = $this->getResponseJson($request);
+
+        $siteResps = [];
+        foreach ($data as $dataItem) {
+            $siteResps[] = new SiteResponse($dataItem);
+        }
+
+        return $siteResps;
+    }
+
+    /**
+     * Delete customer site by id
+     *
+     * @see http://docs.lift.acquia.com/decision/v2/#sites__site_id__delete
+     *
+     * @param string $id
+     * 
+     * @throws \GuzzleHttp\Exception\RequestException
+     *
+     * @return boolean
+     */
+    public function delete($id)
+    {
+        $url = SITES_EP."/".$id;
+
+        // Push request to API
+        $this->client->delete($url);
+
+        return true;
     }
 }

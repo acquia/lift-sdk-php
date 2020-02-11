@@ -59,12 +59,13 @@ class CampaignResponse extends Entity
      */
     public function getCampaigns()
     {
-        $campaigns = $this->getEntityValue('campaigns', []);
-        foreach ($campaigns as $c) {
-            $ret[] = new Campaign($c);
+        $campaigns = [];
+        $data = $this->getEntityValue('campaigns', []);
+        foreach ($data as $dataItem) {
+            $campaigns[] = new Campaign($dataItem);
         }
 
-        return $ret;
+        return $campaigns;
     }
 
 }
