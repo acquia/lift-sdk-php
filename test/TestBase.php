@@ -64,6 +64,24 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase
         );
     }
 
+        /**
+     * @param array $responses Responses
+     *
+     * @return \Acquia\LiftClient\Lift
+     */
+    public function getClientWithNoSiteId(array $responses = [])
+    {
+        $this->mockHandler = new MockHandler($responses);
+        $stack = HandlerStack::create($this->mockHandler);
+
+        return new Lift(
+          $this->accountId,
+          $this->publicKey,
+          $this->secretKey,
+          ['handler' => $stack, 'auth_middleware' => $this->getDummyAuthMiddleware()]
+        );
+    }
+
     /**
      * Get a dummy auth middleware.
      *

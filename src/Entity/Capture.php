@@ -87,7 +87,7 @@ class Capture extends Entity
         if (!is_string($value)) {
             throw new LiftSdkException('Argument $value must be an instance of string.');
         }
-        $this['event_udf'.$num] = $value;
+        $this['touch_udf'.$num] = $value;
 
         return $this;
     }
@@ -180,6 +180,25 @@ class Capture extends Entity
             throw new LiftSdkException('Identities argument is more than 1 level deep.');
         }
         $this['identities'] = $identities;
+
+        return $this;
+    }
+
+    /**
+     * Sets the 'site_id' parameter.
+     *
+     * @param string $siteId Page's Site Id
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Capture
+     */
+    public function setSiteId($siteId)
+    {
+        if (!is_string($siteId)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['site_id'] = $siteId;
 
         return $this;
     }
@@ -486,25 +505,6 @@ class Capture extends Entity
     }
 
     /**
-     * Sets the 'decision_slot_id' parameter.
-     *
-     * @param string $decisionSlotId Decision Slot Id
-     *
-     * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *
-     * @return \Acquia\LiftClient\Entity\Capture
-     */
-    public function setDecisionSlotId($decisionSlotId)
-    {
-        if (!is_string($decisionSlotId)) {
-            throw new LiftSdkException('Argument must be an instance of string.');
-        }
-        $this['decision_slot_id'] = $decisionSlotId;
-
-        return $this;
-    }
-
-    /**
      * Sets the 'decision_slot_name' parameter.
      *
      * @param string $decisionSlotName Decision Slot Name
@@ -519,6 +519,25 @@ class Capture extends Entity
             throw new LiftSdkException('Argument must be an instance of string.');
         }
         $this['decision_slot_name'] = $decisionSlotName;
+
+        return $this;
+    }
+
+    /**
+     * Sets the 'decision_slot_id' parameter.
+     *
+     * @param string $decisionSlotId Decision Slot Id
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Capture
+     */
+    public function setDecisionSlotId($decisionSlotId)
+    {
+        if (!is_string($decisionSlotId)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['decision_slot_id'] = $decisionSlotId;
 
         return $this;
     }
@@ -690,6 +709,105 @@ class Capture extends Entity
             throw new LiftSdkException('Argument must be an instance of string.');
         }
         $this['decision_policy'] = $decisionPolicy;
+
+        return $this;
+    }
+
+    /**
+     * Sets the 'decision_campaign_id' parameter. 
+     *
+     * @param string $campaignId Campaign Identifier
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Capture
+     */
+    public function setDecisionCampaignId($campaignId)
+    {
+        if (!is_string($campaignId)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['decision_campaign_id'] = $campaignId;
+
+        return $this;
+    }
+
+    /**
+     * Sets the 'decision_campaign_name' parameter. 
+     *
+     * @param string $campaignName Campaign Name
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Capture
+     */
+    public function setDecisionCampaignName($campaignName)
+    {
+        if (!is_string($campaignName)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['decision_campaign_name'] = $campaignName;
+
+        return $this;
+    }
+
+
+    /**
+     * Sets the 'decision_campaign_type' parameter. 
+     *
+     * @param string $campaignType Campaign Type
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Capture
+     */
+    public function setDecisionCampaignType($campaignType)
+    {
+        $supported_types = array("target", "ab", "dynamic", "mixed");
+        if (!is_string($campaignType)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }else if (!in_array(strtolower($campaignType), $supported_types)){
+            throw new LiftSdkException('Argument value is not supported.');
+        }
+        $this['decision_campaign_type'] = strtolower($campaignType);
+
+        return $this;
+    }
+
+    /**
+     * Sets the 'decision_rule_ab_variation_id' parameter. 
+     *
+     * @param string $abVariationId Identifier for AB Rule Variation
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Capture
+     */
+    public function setDecisionABVariationId($abVariationId)
+    {
+        if (!is_string($abVariationId)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['decision_rule_ab_variation_id'] = $abVariationId;
+
+        return $this;
+    }
+
+    /**
+     * Sets the 'decision_rule_ab_variation_label' parameter. 
+     *
+     * @param string $abVariationLabel Label for AB Rule Variation
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Capture
+     */
+    public function setDecisionABVariationLabel($abVariationLabel)
+    {
+        if (!is_string($abVariationLabel)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['decision_rule_ab_variation_label'] = $abVariationLabel;
 
         return $this;
     }
@@ -904,25 +1022,6 @@ class Capture extends Entity
     }
 
     /**
-     * Sets the 'thumbnail_url' parameter.
-     *
-     * @param string $thumbnailUrl Thumbnail URL of an article
-     *
-     * @throws \Acquia\LiftClient\Exception\LiftSdkException
-     *
-     * @return \Acquia\LiftClient\Entity\Capture
-     */
-    public function setThumbnailUrl($thumbnailUrl)
-    {
-        if (!is_string($thumbnailUrl)) {
-            throw new LiftSdkException('Argument must be an instance of string.');
-        }
-        $this['thumbnail_url'] = $thumbnailUrl;
-
-        return $this;
-    }
-
-    /**
      * Sets the 'published_date' parameter.
      *
      * @param DateTime $publishedDate Publish date of an article
@@ -943,6 +1042,45 @@ class Capture extends Entity
             $format = 'Y-m-d\TH:i:s.000\Z';
         }
         $this['published_date'] = $publishedDate->format($format);
+
+        return $this;
+    }
+
+    /**
+     * Sets the 'context_language' parameter.
+     *
+     * @param string $contextLang Visitor's Context Language
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Capture
+     */
+    public function setContextLanguage($contextLang)
+    {
+        if (!is_string($contextLang)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['context_language'] = $contextLang;
+
+        return $this;
+    }
+
+
+    /**
+     * Sets the 'context_language' parameter.
+     *
+     * @param string $decisionContextLang Decision response context language
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Capture
+     */
+    public function setDecisionContextLanguage($decisionContextLang)
+    {
+        if (!is_string($decisionContextLang)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['decision_context_language'] = $decisionContextLang;
 
         return $this;
     }

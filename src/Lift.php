@@ -2,18 +2,40 @@
 
 namespace Acquia\LiftClient;
 
+use Acquia\LiftClient\Manager\AccountManager;
+use Acquia\LiftClient\Manager\CampaignManager;
 use Acquia\LiftClient\Manager\CaptureManager;
 use Acquia\LiftClient\Manager\DecideManager;
-use Acquia\LiftClient\Manager\RuleManager;
-use Acquia\LiftClient\Manager\SegmentManager;
-use Acquia\LiftClient\Manager\SlotManager;
+use Acquia\LiftClient\Manager\DeploySiteManager;
 use Acquia\LiftClient\Manager\GoalManager;
+use Acquia\LiftClient\Manager\RuleManager;
+use Acquia\LiftClient\Manager\SearchManager;
+use Acquia\LiftClient\Manager\SegmentManager;
+use Acquia\LiftClient\Manager\SiteManager;
+use Acquia\LiftClient\Manager\SlotManager;
+use Acquia\LiftClient\Manager\ViewModeManager;
+
 use Acquia\Hmac\Guzzle\HmacAuthMiddleware;
 use Acquia\Hmac\Key;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
+
+// Lift 4 Endpoints 
+define('API_VERSION', "/v2");
+define('ACCOUNTS_EP', API_VERSION."/accounts");
+define('CAMPAIGNS_EP', API_VERSION."/campaigns");
+define('CAPTURE_EP', API_VERSION."/capture");
+define('DECIDE_EP', API_VERSION."/decide");
+define('DEPLOY_SITE_EP', API_VERSION."/deploy-site");
+define('GOALS_EP', API_VERSION."/goals");
+define('RULES_EP', API_VERSION."/rules");
+define('SEARCH_EP', API_VERSION."/search");
+define('SEGMENTS_EP', API_VERSION."/segments");
+define('SITES_EP', API_VERSION."/sites");
+define('SLOT_EP', API_VERSION."/slot");
+define('VIEW_MODES_EP', API_VERSION."/view_modes");
 
 class Lift
 {
@@ -98,7 +120,12 @@ class Lift
               RequestInterface $request,
               array $options
             ) use ($handler, $account_id, $site_id) {
-                $auth_query = "account_id={$account_id}&site_id={$site_id}";
+                $auth_query = "account_id={$account_id}";
+
+                if ($site_id != "" && is_string($site_id)){
+                    $auth_query = $auth_query . "&site_id={$site_id}";
+                }
+
                 $uri = $request->getUri();
                 $query = $uri->getQuery();
                 if (empty($query)) {
@@ -131,43 +158,23 @@ class Lift
     }
 
     /**
-     * Get the Slot Manager.
+     * Get the Account Manager.
      *
-     * @return \Acquia\LiftClient\Manager\SlotManager
+     * @return \Acquia\LiftClient\Manager\AccountManager
      */
-    public function getSlotManager()
+    public function getAccountManager()
     {
-        return new SlotManager($this->authenticatedClient);
+        return new AccountManager($this->authenticatedClient);
     }
 
     /**
-     * Get the Slot Manager.
+     * Get the Campaign Manager.
      *
-     * @return \Acquia\LiftClient\Manager\GoalManager
+     * @return \Acquia\LiftClient\Manager\CampaignManager
      */
-    public function getGoalManager()
+    public function getCampaignManager()
     {
-        return new GoalManager($this->authenticatedClient);
-    }
-
-    /**
-     * Get the Segment Manager.
-     *
-     * @return \Acquia\LiftClient\Manager\SegmentManager
-     */
-    public function getSegmentManager()
-    {
-        return new SegmentManager($this->authenticatedClient);
-    }
-
-    /**
-     * Get the Rules Manager.
-     *
-     * @return \Acquia\LiftClient\Manager\RuleManager
-     */
-    public function getRuleManager()
-    {
-        return new RuleManager($this->authenticatedClient);
+        return new CampaignManager($this->authenticatedClient);
     }
 
     /**
@@ -190,4 +197,83 @@ class Lift
         return new DecideManager($this->unauthenticatedClient);
     }
 
+    /**
+     * Get the DeploySite Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\DeploySiteManager
+     */
+    public function getDeploySiteManager()
+    {
+        return new DeploySiteManager($this->authenticatedClient);
+    }
+
+    /**
+     * Get the Goal Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\GoalManager
+     */
+    public function getGoalManager()
+    {
+        return new GoalManager($this->authenticatedClient);
+    }
+
+    /**
+     * Get the Rules Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\RuleManager
+     */
+    public function getRuleManager()
+    {
+        return new RuleManager($this->authenticatedClient);
+    }
+
+    /**
+     * Get the Search Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\SearchManager
+     */
+    public function getSearchManager()
+    {
+        return new SearchManager($this->authenticatedClient);
+    }
+
+    /**
+     * Get the Segment Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\SegmentManager
+     */
+    public function getSegmentManager()
+    {
+        return new SegmentManager($this->authenticatedClient);
+    }
+
+    /**
+     * Get the Site Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\SiteManager
+     */
+    public function getSiteManager()
+    {
+        return new SiteManager($this->authenticatedClient);
+    }
+
+    /**
+     * Get the Slot Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\SlotManager
+     */
+    public function getSlotManager()
+    {
+        return new SlotManager($this->authenticatedClient);
+    }
+
+    /**
+     * Get the View Mode Manager.
+     *
+     * @return \Acquia\LiftClient\Manager\ViewModeManager
+     */
+    public function getViewModeManager()
+    {
+        return new ViewModeManager($this->authenticatedClient);
+    }
 }

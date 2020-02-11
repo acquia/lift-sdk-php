@@ -30,12 +30,6 @@ class ViewModeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($entity->getLabel(), 'test-view-mode-label');
     }
 
-    public function testUrl()
-    {
-        $entity = new ViewMode(['url' => 'test-view-mode-url']);
-        $this->assertEquals($entity->getUrl(), 'test-view-mode-url');
-    }
-
     public function testHtml()
     {
         $entity = new ViewMode(['html' => 'test-view-mode-html']);

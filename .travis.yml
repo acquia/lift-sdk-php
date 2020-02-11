@@ -1,6 +1,5 @@
 language: php
 
-dist: trusty
 sudo: false
 
 ## Cache composer bits
@@ -9,10 +8,9 @@ cache:
     - $HOME/.composer/cache
 
 php:
-  - 7.0
+  - 7.2
+  - 7.1
   - 5.6
-  - 5.5
-  - hhvm
 
 before_script:
   - composer install

@@ -44,23 +44,13 @@ class ViewMode extends Entity
     }
 
     /**
-     * Gets the 'id' parameter.
+     * Gets the 'label' parameter.
      *
      * @return string
      */
     public function getLabel()
     {
         return $this->getEntityValue('label', '');
-    }
-
-    /**
-     * Gets the 'url' parameter.
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->getEntityValue('url', '');
     }
 
     /**

@@ -4,15 +4,10 @@ namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Content;
 use Acquia\LiftClient\Entity\ViewMode;
+use DateTime;
 
 class ContentTest extends \PHPUnit_Framework_TestCase
 {
-    public function testDefaultContentHub()
-    {
-        $entity = new Content();
-        $this->assertEquals($entity->getContentConnectorId(), 'content_hub');
-    }
-
     public function testId()
     {
         $entity = new Content();
@@ -30,11 +25,28 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $entity->setId(123);
     }
 
+    public function testTitle()
+    {
+        $entity = new Content();
+        $entity->setTitle('content-title');
+        $this->assertEquals($entity->getTitle(), 'content-title');
+    }
+
+    /**
+     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+     * @expectedExceptionMessage Argument must be an instance of string.
+     */
+    public function testTitleNoString()
+    {
+        $entity = new Content();
+        $entity->setTitle(123);
+    }
+
     public function testContentConnectorId()
     {
         $entity = new Content();
-        $entity->setContentConnectorId('test-cc-id');
-        $this->assertEquals($entity->getContentConnectorId(), 'test-cc-id');
+        $entity->setContentConnectorId('test-content-connector-id');
+        $this->assertEquals($entity->getContentConnectorId(), 'test-content-connector-id');
     }
 
     /**
@@ -45,6 +57,20 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     {
         $entity = new Content();
         $entity->setContentConnectorId(123);
+    }
+
+    public function testCreated()
+    {
+        $date = DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z');
+        $entity = new Content(['created' => '2016-01-05T22:04:39Z']);
+        $this->assertEquals($entity->getCreated(), $date);
+    }
+
+    public function testUpdated()
+    {
+        $date = DateTime::createFromFormat(DateTime::ATOM, '2016-01-05T22:04:39Z');
+        $entity = new Content(['updated' => '2016-01-05T22:04:39Z']);
+        $this->assertEquals($entity->getUpdated(), $date);
     }
 
     public function testBaseUrl()
@@ -64,19 +90,21 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $entity->setBaseUrl(123);
     }
 
-    public function testViewMode()
+    public function testViewModes()
     {
-        $viewMode = new ViewMode();
-        $viewMode->setId('test-view-mode-id');
-        $entity = new Content();
-        $entity->setViewMode($viewMode);
-        $this->assertEquals($entity->getViewMode()->getId(), 'test-view-mode-id');
-    }
+        $viewMode1 = new ViewMode();
+        $viewMode1->setId('test-view-mode-1');
 
-    public function testError()
-    {
-        $entity = new Content(['error' => ['code' => 10, 'message' => 'Error in fetching content']]);
-        $this->assertEquals($entity->getError()->getCode(), 10);
-        $this->assertEquals($entity->getError()->getMessage(), 'Error in fetching content');
+        $viewMode2 = new ViewMode();
+        $viewMode2->setId('test-view-mode-2');
+
+        $viewModes = [$viewMode1, $viewMode2];
+
+        $entity = new Content();
+        $entity->setViewModes($viewModes);
+        $this->assertEquals(sizeof($entity->getViewModes()), 2);
+        $this->assertEquals($entity->getViewModes()[0]->getId(), 'test-view-mode-1');
+        $this->assertEquals($entity->getViewModes()[1]->getId(), 'test-view-mode-2');
+
     }
 }

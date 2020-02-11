@@ -97,12 +97,20 @@ class DecideTest extends TestBase
         ];
         $client = $this->getClient($responses);
 
+        $options = [
+            'cdf_version' => '2',
+            'prefetch' => 'false',
+            'entities' => 'entity1'
+        ];
+
         $decide = new Decide();
         $decide->setIdentity('my-custom-identity-string');
         $decide->setIdentitySource('source');
         $decide->setTouchIdentifier('my-custom-touch-identifier');
         $decide->setUrl('node/1');
         $decide->setDoNotTrack(false);
+        $decide->setPreview(false);
+        $decide->SetIdentityExpiry(time() + (60 * 60)) ;
 
         $capture = new Capture();
         $capture->setIpAddress('127.0.0.1');
@@ -110,12 +118,12 @@ class DecideTest extends TestBase
 
         // Get Decide Manager
         $manager = $client->getDecideManager();
-        $response = $manager->decide($decide);
+        $response = $manager->decide($decide, $options);
         $request = $this->mockHandler->getLastRequest();
 
         // Check for request configuration
         $this->assertEquals($request->getMethod(), 'POST');
-        $this->assertEquals((string) $request->getUri(), '/decide?account_id=TESTACCOUNTID&site_id=TESTSITEID');
+        $this->assertEquals((string) $request->getUri(), '/v2/decide?cdf_version=2&prefetch=false&entities=entity1&account_id=TESTACCOUNTID&site_id=TESTSITEID');
 
         $requestHeaders = $request->getHeaders();
         $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');

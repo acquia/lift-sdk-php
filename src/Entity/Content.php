@@ -1,8 +1,16 @@
 <?php
 
 namespace Acquia\LiftClient\Entity;
+use DateTime;
 
+/**
+ * Primarily used for /search endpoint
+ */
 use Acquia\LiftClient\Exception\LiftSdkException;
+
+/**
+ * Content is used is
+ */
 
 class Content extends Entity
 {
@@ -11,8 +19,6 @@ class Content extends Entity
      */
     public function __construct(array $array = [])
     {
-        // Set content_hub as default content_connector_id when adding content
-        $array['content_connector_id'] = 'content_hub';
         parent::__construct($array);
     }
 
@@ -44,13 +50,41 @@ class Content extends Entity
     }
 
     /**
+     * @param string $title
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Content
+     */
+    public function setTitle($title)
+    {
+        if (!is_string($title)) {
+            throw new LiftSdkException('Argument must be an instance of string.');
+        }
+        $this['title'] = $title;
+
+        return $this;
+    }
+
+    /**
+     * Gets the 'title' parameter.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->getEntityValue('title', '');
+    }
+
+    /**
+     * 
      * @param string $contentConnectorId
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
      * @return \Acquia\LiftClient\Entity\Content
      */
-    public function setContentConnectorId($contentConnectorId = 'content_hub')
+    public function setContentConnectorId($contentConnectorId)
     {
         if (!is_string($contentConnectorId)) {
             throw new LiftSdkException('Argument must be an instance of string.');
@@ -67,7 +101,39 @@ class Content extends Entity
      */
     public function getContentConnectorId()
     {
-        return $this->getEntityValue('content_connector_id', 'content_hub');
+        return $this->getEntityValue('content_connector_id', '');
+    }
+
+    /**
+     * Gets the 'created' parameter.
+     *
+     * @return DateTime|false
+     */
+    public function getCreated()
+    {
+        $date = $this->getEntityValue('created', 0);
+        // The ISO8601 DateTime format is not compatible with ISO-8601, but is left this way for backward compatibility
+        // reasons. Use DateTime::ATOM or DATE_ATOM for compatibility with ISO-8601 instead.
+        // See http://php.net/manual/en/class.datetime.php
+        $datetime = DateTime::createFromFormat(DateTime::ATOM, $date);
+
+        return $datetime;
+    }
+
+    /**
+     * Gets the 'updated' parameter.
+     *
+     * @return DateTime|false
+     */
+    public function getUpdated()
+    {
+        $date = $this->getEntityValue('updated', 0);
+        // The ISO8601 DateTime format is not compatible with ISO-8601, but is left this way for backward compatibility
+        // reasons. Use DateTime::ATOM or DATE_ATOM for compatibility with ISO-8601 instead.
+        // See http://php.net/manual/en/class.datetime.php
+        $datetime = DateTime::createFromFormat(DateTime::ATOM, $date);
+
+        return $datetime;
     }
 
     /**
@@ -98,43 +164,37 @@ class Content extends Entity
     }
 
     /**
-     * @param ViewMode $viewMode
+     * @param ViewMode[] $viewModes
      *
      * @throws \Acquia\LiftClient\Exception\LiftSdkException
      *
-     * @return \Acquia\LiftClient\Entity\Content
+     * @return \Acquia\LiftClient\Entity\ViewMode[]
      */
-    public function setViewMode(ViewMode $viewMode)
+    public function setViewModes(array $viewModes)
     {
-        $this['view_mode'] = $viewMode->getArrayCopy();
+        $this['view_modes'] = [];
+        foreach ($viewModes as $viewMode) {
+            // We need to 'normalize' the data.
+            $this['view_modes'][] = $viewMode->getArrayCopy();
+        }
 
         return $this;
     }
 
     /**
-     * Gets the 'id' parameter.
+     * Gets the 'view_modes' parameter.
      *
-     * @return viewMode
+     * @return \Acquia\LiftClient\Entity\ViewMode[]
      */
-    public function getViewMode()
-    {
-        $viewMode = $this->getEntityValue('view_mode', []);
+    public function getViewModes()
+    {        
+        $data = $this->getEntityValue('view_modes', []);
 
-        return new ViewMode($viewMode);
-    }
-
-    /**
-     * Gets the 'errors' parameter.
-     *
-     * @return Error|null The errors, if there were any
-     */
-    public function getError()
-    {
-        $error = $this->getEntityValue('error', null);
-        if ($error == null) {
-            return null;
+        $viewModes = [];
+        foreach ($data as $dataItem) {
+            $viewModes[] = new ViewMode($dataItem);
         }
 
-        return new Error($error);
+        return $viewModes;
     }
 }
