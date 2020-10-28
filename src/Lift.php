@@ -158,6 +158,16 @@ class Lift
     }
 
     /**
+     * Gets the Authenticated Client
+     *
+     * @return \GuzzleHttp\ClientInterface Authenticated client
+     */
+    public function getAuthenticatedClient()
+    {
+        return $this->authenticatedClient;
+    }
+
+    /**
      * Get the Account Manager.
      *
      * @return \Acquia\LiftClient\Manager\AccountManager
