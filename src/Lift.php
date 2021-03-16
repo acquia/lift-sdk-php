@@ -151,7 +151,7 @@ class Lift
     public function ping()
     {
         $request = new Request('GET', '/ping');
-        $response = $this->authenticatedClient->send($request);
+        $response = $this->unauthenticatedClient->send($request);
         $body = (string) $response->getBody();
 
         return json_decode($body, true);
