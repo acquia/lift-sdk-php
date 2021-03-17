@@ -1,8 +1,8 @@
 # Acquia Lift SDK for PHP
 
-[![Build Status](https://travis-ci.org/baophan1/lift-sdk-php.svg?branch=Lift4)](https://travis-ci.org/acquia/lift-sdk-php) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/baophan1/lift-sdk-php/badges/quality-score.png?b=Lift4)](https://scrutinizer-ci.com/g/baophan1/lift-sdk-php/?branch=Lift4) [![Code Coverage](https://scrutinizer-ci.com/g/baophan1/lift-sdk-php/badges/coverage.png?b=Lift4)](https://scrutinizer-ci.com/g/baophan1/lift-sdk-php/?branch=Lift4)
-
+[![Build Status](https://travis-ci.org/acquia/lift-sdk-php.svg?branch=Lift4)](https://travis-ci.org/acquia/lift-sdk-php) [![Coverage Status](https://coveralls.io/repos/github/acquia/lift-sdk-php/badge.svg?branch=Lift4)](https://coveralls.io/github/acquia/lift-sdk-php?branch=Lift4)
   
+
 
 A PHP Client library to consume the Acquia Lift 4 API's.
 
