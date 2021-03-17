@@ -78,32 +78,26 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"event_udf1":"test-udf-value"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument $num must be an instance of integer.
-     */
     public function testTouchUdfRangeIsInt()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument \$num must be an instance of integer.");
         $entity = new Capture();
         $entity->setTouchUdf('string', 'value');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument $num must be greater than 0 and smaller or equal to 20.
-     */
     public function testTouchUdfIsValidRange()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument \$num must be greater than 0 and smaller or equal to 20.");
         $entity = new Capture();
         $entity->setTouchUdf(21, 'value');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument $value must be an instance of string.
-     */
     public function testTouchUdfValueIsString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument \$value must be an instance of string.");
         $entity = new Capture();
         $entity->setTouchUdf(1, 100);
     }
@@ -115,12 +109,10 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"event_name":"test-event-name"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testEventNameNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setEventName(123);
     }
@@ -132,12 +124,10 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"event_source":"test-event-source"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testEventSourceNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setEventSource(123);
     }
@@ -157,12 +147,10 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"identities":{"test-identity-value":"test-identity-key","something-else":"key"}}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Identities argument is more than 1 level deep.
-     */
     public function testIdentitiesArrayTwoLevels()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Identities argument is more than 1 level deep.");
         $entity = new Capture();
         $entity->setIdentities(['test-identity-value' => ['another-level']]);
     }
@@ -174,12 +162,10 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"site_id":"test-site-id"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testSiteIdNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setSiteId(123);
     }
@@ -191,12 +177,10 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"url":"test-url"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testUrlNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setUrl(123);
     }
@@ -208,12 +192,10 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"referral_url":"test-referral-url"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testReferralUrlNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setReferralUrl(123);
     }
@@ -225,12 +207,10 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"user_agent":"test-user-agent"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testUserAgentNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setUserAgent(123);
     }
@@ -242,12 +222,10 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"platform":"test-platform"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testPlatformNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setPlatform(123);
     }
@@ -259,12 +237,10 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"ip_address":"127.0.0.1"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testIpAddressNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setIpAddress(123);
     }
@@ -276,12 +252,10 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"persona":"test-persona"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testPersonaNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setPersona(123);
     }
@@ -293,12 +267,10 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"engagement_score":100}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of integer.
-     */
     public function testEngagementScoreNoInt()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of integer.");
         $entity = new Capture();
         $entity->setEngagementScore('test-engagement-score');
     }
@@ -334,72 +306,58 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"personalization_name":"test-personalization-name"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testPersonalizationAudienceNameNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setPersonalizationAudienceName(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testPersonalizationChosenVariationNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setPersonalizationChosenVariation(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testPersonalizationDecisionPolicyNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setPersonalizationDecisionPolicy(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testPersonalizationGoalNameNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setPersonalizationGoalName(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testPersonalizationGoalValueNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setPersonalizationGoalValue(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testPersonalizationMachineNameNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setPersonalizationMachineName(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testPersonalizationNameNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setPersonalizationName(123);
     }
@@ -478,122 +436,97 @@ class CaptureTest extends TestCase
         $this->assertEquals($entity->json(), '{"decision_context_language":"en"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionContentIdNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionContentId(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionContentNameNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionContentName(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionGoalIdNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionGoalId(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionGoalNameNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionGoalName(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionGoalValueNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionGoalValue(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionPolicy()
     {
-        $entity = new Capture();
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");$entity = new Capture();
         $entity->setDecisionPolicy(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionRuleId()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionRuleId(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionRuleName()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionRuleName(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionSlotName()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionSlotName(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionSlotId()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionSlotId(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionCampaignId()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionCampaignId(123);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDecisionCampaignName()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionCampaignName(123);
     }
@@ -604,6 +537,8 @@ class CaptureTest extends TestCase
      */
     public function testDecisionCampaignType()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionCampaignType(123);
     }
@@ -614,6 +549,8 @@ class CaptureTest extends TestCase
      */
     public function testDecisionCampaignTypeValue()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument value is not supported");
         $entity = new Capture();
         $entity->setDecisionCampaignType("absfa");
     }
@@ -624,6 +561,8 @@ class CaptureTest extends TestCase
      */
     public function testDecisionABVariationId()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionABVariationId(123);
     }
@@ -635,6 +574,8 @@ class CaptureTest extends TestCase
      */
     public function testDecisionABVariationLabel()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionABVariationLabel(123);
     }
@@ -645,6 +586,8 @@ class CaptureTest extends TestCase
      */
     public function testDecisionViewMode()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setDecisionViewMode(123);
     }
@@ -662,6 +605,8 @@ class CaptureTest extends TestCase
      */
     public function testCaptureIdentifierNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setCaptureIdentifier(123);
     }
@@ -679,6 +624,8 @@ class CaptureTest extends TestCase
      */
     public function testClientTimeZoneNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setClientTimezone(123);
     }
@@ -696,6 +643,8 @@ class CaptureTest extends TestCase
      */
     public function testJavascriptVersionNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setJavascriptVersion(123);
     }
@@ -713,6 +662,8 @@ class CaptureTest extends TestCase
      */
     public function testPostIdNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setPostId(123);
     }
@@ -746,6 +697,8 @@ class CaptureTest extends TestCase
      */
     public function testContentIdNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setContentId(123);
     }
@@ -763,6 +716,8 @@ class CaptureTest extends TestCase
      */
     public function testContentUuidInvalidUuid()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of valid UUID.");
         $entity = new Capture();
         $entity->setContentUuid('invalid-uuid');
     }
@@ -773,6 +728,8 @@ class CaptureTest extends TestCase
      */
     public function testContentTitleNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setContentTitle(123);
     }
@@ -783,6 +740,8 @@ class CaptureTest extends TestCase
      */
     public function testContentTypeNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setContentType(123);
     }
@@ -793,6 +752,8 @@ class CaptureTest extends TestCase
      */
     public function testContentSectionNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setContentSection(123);
     }
@@ -803,6 +764,8 @@ class CaptureTest extends TestCase
      */
     public function testContentKeywordsNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setContentKeywords(123);
     }
@@ -820,6 +783,8 @@ class CaptureTest extends TestCase
      */
     public function testAuthorNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setAuthor(123);
     }
@@ -837,6 +802,8 @@ class CaptureTest extends TestCase
      */
     public function testPageTypeNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setPageType(123);
     }
@@ -862,6 +829,8 @@ class CaptureTest extends TestCase
      */
     public function testContextLanguageNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Capture();
         $entity->setContextLanguage(123);
     }
@@ -872,6 +841,8 @@ class CaptureTest extends TestCase
      */
     public function testDecisionContextLanguageNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $this->expectException(LiftSdkException::class);
         $entity = new Capture();
         $entity->setDecisionContextLanguage(123);

@@ -5,6 +5,7 @@ namespace Acquia\LiftClient\Test;
 use Acquia\LiftClient\Entity\Capture;
 use Acquia\LiftClient\Entity\CapturePayload;
 use DateTime;
+use InvalidArgumentException;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 
@@ -135,12 +136,11 @@ class CaptureTest extends TestBase
         ];
     }
 
-    /**
-     * @expectedException        \InvalidArgumentException
-     * @expectedExceptionCode    0
-     * @expectedExceptionMessage Middleware not found: acquia_lift_hmac_auth
-     */
     public function testHandlerStack() {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage("Middleware not found: acquia_lift_hmac_auth");
+        
         $response = new Response(200, [], json_encode([]));
 
         $responses = [
@@ -159,7 +159,6 @@ class CaptureTest extends TestBase
         $handler->after('acquia_lift_account_and_site_ids', $testFunction);
         // Throws Exception because this handler is unauthenticated.
         $handler->after('acquia_lift_hmac_auth', $testFunction);
-        $this->assertNotNull($handler);
     }
 
     public function testCaptureAdd()

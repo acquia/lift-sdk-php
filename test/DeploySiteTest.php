@@ -3,6 +3,8 @@
 namespace Acquia\LiftClient\Test;
 
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\RequestException;
+
 
 class DeploySiteTest extends TestBase
 {
@@ -25,6 +27,7 @@ class DeploySiteTest extends TestBase
         $handler->after('acquia_lift_account_and_site_ids', $testFunction);
         // Does not throw Exception because this handler is authenticated.
         $handler->after('acquia_lift_hmac_auth', $testFunction);
+        $this->assertNotNull($handler);
     }
 
     /**
@@ -64,13 +67,11 @@ class DeploySiteTest extends TestBase
       $this->assertEquals($response[0], "Successfully deployed source_site_id to dest_site_id");
     }
 
-    /**
-     * @expectedException     \GuzzleHttp\Exception\RequestException
-     * @expectedExceptionCode 400
-     */
     public function testPostDeploySitesError()
     {
-        $response = new Response(400, []);
+      $this->expectException(RequestException::class);
+      $this->expectExceptionCode(400);
+      $response = new Response(400, []);
         $responses = [
           $response,
         ];

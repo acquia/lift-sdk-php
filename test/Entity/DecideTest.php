@@ -4,6 +4,7 @@ namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Capture;
 use Acquia\LiftClient\Entity\Decide;
+use Acquia\LiftClient\Exception\LiftSdkException;
 use PHPUnit\Framework\TestCase;
 
 class DecideTest extends TestCase
@@ -15,12 +16,10 @@ class DecideTest extends TestCase
         $this->assertEquals($entity->json(), '{"slots":["test-slot-id"]}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Slot Ids argument is more than 1 level deep.
-     */
     public function testSlotsArrayDepth()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Slot Ids argument is more than 1 level deep.");
         $entity = new Decide();
         $entity->setSlots(['test-slot-id' => ['too-deep']]);
     }
@@ -32,12 +31,10 @@ class DecideTest extends TestCase
         $this->assertEquals($entity->json(), '{"url":"test-url"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testUrlIsString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Decide();
         $entity->setUrl(100);
     }
@@ -49,12 +46,10 @@ class DecideTest extends TestCase
         $this->assertEquals($entity->json(), '{"do_not_track":true}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of boolean.
-     */
     public function testDoNotTrackIsBoolean()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of boolean.");
         $entity = new Decide();
         $entity->setDoNotTrack(100);
     }
@@ -66,12 +61,10 @@ class DecideTest extends TestCase
         $this->assertEquals($entity->json(), '{"preview":true}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of boolean.
-     */
     public function testPreviewIsBoolean()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of boolean.");
         $entity = new Decide();
         $entity->setPreview(100);
     }
@@ -83,12 +76,10 @@ class DecideTest extends TestCase
         $this->assertEquals($entity->json(), '{"segments":["test-segment-id-1","test-segment-id-2"]}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Segment Ids argument is more than 1 level deep.
-     */
     public function testSegmentsArrayDepth()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Segment Ids argument is more than 1 level deep.");
         $entity = new Decide();
         $entity->setSegments(['test-segment-id' => ['too-deep']]);
     }
@@ -100,12 +91,10 @@ class DecideTest extends TestCase
         $this->assertEquals($entity->json(), '{"touch_identifier":"test-touch-identifier"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testTouchIdentifierIsString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Decide();
         $entity->setTouchIdentifier(100);
     }
@@ -117,12 +106,10 @@ class DecideTest extends TestCase
         $this->assertEquals($entity->json(), '{"identity":"test-identity"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testIdentityIsString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Decide();
         $entity->setIdentity(100);
     }
@@ -134,12 +121,10 @@ class DecideTest extends TestCase
         $this->assertEquals($entity->json(), '{"identity_source":"test-identity-source"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testIdentitySourceIsString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Decide();
         $entity->setIdentitySource(100);
     }
@@ -152,12 +137,10 @@ class DecideTest extends TestCase
         $this->assertEquals($entity->json(), '{"identity_expiry":'.$unixTime.'}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of integer.
-     */
     public function testIdentityExpiryIsInt()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of integer.");
         $entity = new Decide();
         $entity->setIdentityExpiry("test");
     }

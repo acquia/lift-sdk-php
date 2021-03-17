@@ -3,6 +3,7 @@
 namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Goal;
+use Acquia\LiftClient\Exception\LiftSdkException;
 use PHPUnit\Framework\TestCase;
 
 class GoalTest extends TestCase
@@ -14,12 +15,10 @@ class GoalTest extends TestCase
         $this->assertEquals($entity->getId(), 'test-id');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testIdNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Goal();
         $entity->setId(123);
     }
@@ -31,12 +30,10 @@ class GoalTest extends TestCase
         $this->assertEquals($entity->getName(), 'test-name');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testNameNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Goal();
         $entity->setName(123);
     }
@@ -48,12 +45,10 @@ class GoalTest extends TestCase
         $this->assertEquals($entity->getDescription(), 'test-description');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of string.
-     */
     public function testDescriptionNoString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of string.");
         $entity = new Goal();
         $entity->setDescription(123);
     }
@@ -65,12 +60,10 @@ class GoalTest extends TestCase
         $this->assertEquals($entity->getRuleIds(), ['test-rule-id']);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Rule Ids argument is more than 1 level deep.
-     */
     public function testRuleIdsArrayTwoLevels()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Rule Ids argument is more than 1 level deep.");
         $entity = new Goal();
         $entity->setRuleIds(['test-rule-id' => ['another-level']]);
     }
@@ -82,12 +75,10 @@ class GoalTest extends TestCase
         $this->assertEquals($entity->getSiteIds(), ['test-site-id']);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Site Ids argument is more than 1 level deep.
-     */
     public function testSiteIdsArrayTwoLevels()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Site Ids argument is more than 1 level deep.");
         $entity = new Goal();
         $entity->setSiteIds(['test-site-id' => ['another-level']]);
     }
@@ -99,12 +90,10 @@ class GoalTest extends TestCase
         $this->assertEquals($entity->getEventNames(), ['test-event-id']);
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Event Names argument is more than 1 level deep.
-     */
     public function testEventNamesArrayTwoLevels()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Event Names argument is more than 1 level deep.");
         $entity = new Goal();
         $entity->setEventNames(['test-event-id' => ['another-level']]);
     }
@@ -122,12 +111,10 @@ class GoalTest extends TestCase
         $this->assertFalse($entity->getGlobal());
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of boolean.
-     */
     public function testGlobalNoBoolean()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of boolean.");
         $entity = new Goal();
         $entity->setGlobal('string');
     }
@@ -138,13 +125,11 @@ class GoalTest extends TestCase
         $entity->setValue(10);
         $this->assertEquals($entity->getValue(), 10);
     }
-
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument must be an instance of float or int.
-     */
+    
     public function testValueNoNumeric()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument must be an instance of float or int.");
         $entity = new Goal();
         $entity->setValue('string');
     }

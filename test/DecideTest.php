@@ -6,6 +6,8 @@ use Acquia\LiftClient\Entity\Capture;
 use Acquia\LiftClient\Entity\Decide;
 use Acquia\LiftClient\Entity\Segment;
 use GuzzleHttp\Psr7\Response;
+use InvalidArgumentException;
+use GuzzleHttp\Exception\RequestException;
 
 class DecideTest extends TestBase
 {
@@ -62,12 +64,11 @@ class DecideTest extends TestBase
         ];
     }
 
-    /**
-     * @expectedException        \InvalidArgumentException
-     * @expectedExceptionCode    0
-     * @expectedExceptionMessage Middleware not found: acquia_lift_hmac_auth
-     */
     public function testHandlerStack() {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage("Middleware not found: acquia_lift_hmac_auth");
+
         $response = new Response(200, [], json_encode([]));
 
         $responses = [
@@ -142,12 +143,10 @@ class DecideTest extends TestBase
         $this->assertEquals($response->getMatchedSegments()[1]->getDescription(), 'Second Segment for the unit test');
     }
 
-    /**
-     * @expectedException     \GuzzleHttp\Exception\RequestException
-     * @expectedExceptionCode 400
-     */
     public function testDecideMakeDecisionDecisionAPIError()
     {
+        $this->expectException(RequestException::class);
+        $this->expectExceptionCode(400);
         $response = new Response(400, []);
         $responses = [
             $response,

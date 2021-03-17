@@ -3,7 +3,9 @@
 namespace Acquia\LiftClient\Test;
 
 use Acquia\LiftClient\Entity\Goal;
+use Acquia\LiftClient\Exception\LiftSdkException;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\RequestException;
 
 class GoalTest extends TestBase
 {
@@ -26,6 +28,7 @@ class GoalTest extends TestBase
         $handler->after('acquia_lift_account_and_site_ids', $testFunction);
         // Does not throw Exception because this handler is authenticated.
         $handler->after('acquia_lift_hmac_auth', $testFunction);
+        $this->assertNotNull($handler);
     }
 
     public function testGoalAdd()
@@ -114,13 +117,11 @@ class GoalTest extends TestBase
         $this->assertEquals($response->getErrors()[0]->getMessage(), 'Resource had an internal error.');
     }
 
-    /**
-     * @expectedException     \GuzzleHttp\Exception\RequestException
-     * @expectedExceptionCode 400
-     */
     public function testGoalAddDecisionAPIFailed()
     {
-        $response = new Response(400, []);
+      $this->expectException(RequestException::class);
+      $this->expectExceptionCode(400);
+      $response = new Response(400, []);
         $responses = [
           $response,
         ];
@@ -166,13 +167,11 @@ class GoalTest extends TestBase
         $this->assertTrue($response, 'Goal Deletion succeeded');
     }
 
-    /**
-     * @expectedException     \GuzzleHttp\Exception\RequestException
-     * @expectedExceptionCode 400
-     */
     public function testGoalDeleteFailed()
     {
-        $response = new Response(400, []);
+      $this->expectException(RequestException::class);
+      $this->expectExceptionCode(400);  
+      $response = new Response(400, []);
         $responses = [
           $response,
         ];
@@ -257,13 +256,11 @@ class GoalTest extends TestBase
         }
     }
 
-    /**
-     * @expectedException     \GuzzleHttp\Exception\RequestException
-     * @expectedExceptionCode 400
-     */
     public function testGoalQueryFailed()
     {
-        $response = new Response(400, []);
+      $this->expectException(RequestException::class);
+      $this->expectExceptionCode(400);
+      $response = new Response(400, []);
         $responses = [
           $response,
         ];
@@ -275,14 +272,13 @@ class GoalTest extends TestBase
         $manager->query();
     }
 
-    /**
-     * @expectedException        \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionCode    0
-     * @expectedExceptionMessage The "global" parameter must be a string value of "true" or "false", or absent.
-     */
     public function testGoalQueryInvalidGlobal()
     {
-        $response = new Response(200, []);
+      $this->expectException(LiftSdkException::class);
+      $this->expectExceptionCode(0);
+      $this->expectExceptionMessage("The \"global\" parameter must be a string value of \"true\" or \"false\", or absent.");
+        
+      $response = new Response(200, []);
         $responses = [
           $response,
         ];
@@ -295,13 +291,12 @@ class GoalTest extends TestBase
         $manager->query($option);
     }
 
-    /**
-     * @expectedException        \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionCode    0
-     * @expectedExceptionMessage The "limit_by_site" parameter must be a string value of "true" or "false", or absent.
-     */
     public function testGoalQueryInvalidLimitBySite()
     {
+      $this->expectException(LiftSdkException::class);
+      $this->expectExceptionCode(0);
+      $this->expectExceptionMessage("The \"limit_by_site\" parameter must be a string value of \"true\" or \"false\", or absent.");
+
         $response = new Response(200, []);
         $responses = [
           $response,
@@ -380,13 +375,11 @@ class GoalTest extends TestBase
         $this->assertEquals($response->getGlobal(), false);
     }
 
-    /**
-     * @expectedException     \GuzzleHttp\Exception\RequestException
-     * @expectedExceptionCode 400
-     */
     public function testGoalGetFailed()
     {
-        $response = new Response(400, []);
+      $this->expectException(RequestException::class);
+      $this->expectExceptionCode(400);
+      $response = new Response(400, []);
         $responses = [
           $response,
         ];
