@@ -4,8 +4,9 @@ namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Capture;
 use Acquia\LiftClient\Entity\CapturePayload;
+use PHPUnit\Framework\TestCase;
 
-class CapturePayloadTest extends \PHPUnit_Framework_TestCase
+class CapturePayloadTest extends TestCase
 {
     public function testTouchIdentifier()
     {

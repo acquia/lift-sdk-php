@@ -3,8 +3,9 @@
 namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\LiftError;
+use PHPUnit\Framework\TestCase;
 
-class LiftErrorTest extends \PHPUnit_Framework_TestCase
+class LiftErrorTest extends TestCase
 {
     public function testCodeAndMessage()
     {

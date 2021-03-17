@@ -9,8 +9,9 @@ use Acquia\LiftClient\Entity\TestConfigAb;
 use Acquia\LiftClient\Entity\TestConfigTarget;
 use Acquia\LiftClient\Entity\ViewMode;
 use DateTime;
+use PHPUnit\Framework\TestCase;
 
-class RuleTest extends \PHPUnit_Framework_TestCase
+class RuleTest extends TestCase
 {
     public function testId()
     {

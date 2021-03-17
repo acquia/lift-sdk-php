@@ -3,8 +3,9 @@
 namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\SiteResponse;
+use PHPUnit\Framework\TestCase;
 
-class SiteResponseTest extends \PHPUnit_Framework_TestCase
+class SiteResponseTest extends TestCase
 {
 
     public function testSiteResponseProperties_Success()

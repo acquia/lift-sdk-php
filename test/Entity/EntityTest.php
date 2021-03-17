@@ -4,8 +4,9 @@ namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Entity;
 use ReflectionClass;
+use PHPUnit\Framework\TestCase;
 
-class EntityTest extends \PHPUnit_Framework_TestCase
+class EntityTest extends TestCase
 {
     public function testgetEntityValue()
     {

@@ -3,8 +3,9 @@
 namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Visibility;
+use PHPUnit\Framework\TestCase;
 
-class VisibilityTest extends \PHPUnit_Framework_TestCase
+class VisibilityTest extends TestCase
 {
     public function testCondition()
     {

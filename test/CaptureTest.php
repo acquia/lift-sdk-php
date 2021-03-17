@@ -6,6 +6,7 @@ use Acquia\LiftClient\Entity\Capture;
 use Acquia\LiftClient\Entity\CapturePayload;
 use DateTime;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\RequestException;
 
 class CaptureTest extends TestBase
 {
@@ -19,7 +20,7 @@ class CaptureTest extends TestBase
      */
     private $capturesResponseData;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->setTestCaptures();
@@ -158,6 +159,7 @@ class CaptureTest extends TestBase
         $handler->after('acquia_lift_account_and_site_ids', $testFunction);
         // Throws Exception because this handler is unauthenticated.
         $handler->after('acquia_lift_hmac_auth', $testFunction);
+        $this->assertNotNull($handler);
     }
 
     public function testCaptureAdd()
@@ -239,12 +241,10 @@ class CaptureTest extends TestBase
         $this->assertEquals($response->getErrors()[0]->getMessage(), 'Resource had an internal error.');
     }
 
-    /**
-     * @expectedException     \GuzzleHttp\Exception\RequestException
-     * @expectedExceptionCode 400
-     */
     public function testCaptureAddDecisionAPIError()
     {
+        $this->expectException(RequestException::class);
+        $this->expectExceptionCode(400);
         $response = new Response(400, []);
         $responses = [
             $response,

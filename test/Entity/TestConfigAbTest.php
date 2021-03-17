@@ -6,8 +6,9 @@ use Acquia\LiftClient\Entity\ContentView;
 use Acquia\LiftClient\Entity\ViewMode;
 use Acquia\LiftClient\Entity\TestConfigTarget;
 use Acquia\LiftClient\Entity\TestConfigAb;
+use PHPUnit\Framework\TestCase;
 
-class TestConfigAbTest extends \PHPUnit_Framework_TestCase
+class TestConfigAbTest extends TestCase
 {
 
     public function testVariationId()

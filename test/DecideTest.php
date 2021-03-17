@@ -14,7 +14,7 @@ class DecideTest extends TestBase
      */
     private $decideResponseData;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->setTestDecideResponseData();

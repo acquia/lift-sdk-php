@@ -27,7 +27,7 @@ class RuleTest extends TestBase
     private $ruleAbResponseData;
     private $ruleDynamicResponseData;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->setTestRules();

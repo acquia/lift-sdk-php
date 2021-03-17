@@ -3,8 +3,9 @@
 namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\CapturesResponse;
+use PHPUnit\Framework\TestCase;
 
-class CapturesResponseTest extends \PHPUnit_Framework_TestCase
+class CapturesResponseTest extends TestCase
 {
     public function testErrors()
     {

@@ -3,8 +3,9 @@
 namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Goal;
+use PHPUnit\Framework\TestCase;
 
-class GoalTest extends \PHPUnit_Framework_TestCase
+class GoalTest extends TestCase
 {
     public function testId()
     {

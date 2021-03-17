@@ -3,6 +3,7 @@
 namespace Acquia\LiftClient\Test;
 
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\RequestException;
 
 class AccountTest extends TestBase
 {
@@ -14,8 +15,8 @@ class AccountTest extends TestBase
         ];
         $client = $this->getClient($responses);
 
-        // Get Rule Manager
-        $manager = $client->getSiteManager();
+        // Get Account Manager
+        $manager = $client->getAccountManager();
 
         // Check if the client has already have expected handlers.
         // To check, to insert a dummy function after the expected handler, and
@@ -25,6 +26,7 @@ class AccountTest extends TestBase
         $handler->after('acquia_lift_account_and_site_ids', $testFunction);
         // Does not throw Exception because this handler is authenticated.
         $handler->after('acquia_lift_hmac_auth', $testFunction);
+        $this->assertNotNull($handler);
     }
 
     /**
@@ -78,12 +80,10 @@ class AccountTest extends TestBase
         $this->assertEquals($responses[1]->getLicenseId(), 1);
     }
 
-    /**
-     * @expectedException     \GuzzleHttp\Exception\RequestException
-     * @expectedExceptionCode 400
-     */
     public function testGetAccountsError()
     {
+        $this->expectException(RequestException::class);
+        $this->expectExceptionCode(400);
         $response = new Response(400, []);
         $responses = [
           $response,

@@ -5,8 +5,9 @@ namespace Acquia\LiftClient\Test\Entity;
 use Acquia\LiftClient\Entity\Slot;
 use Acquia\LiftClient\Entity\Visibility;
 use DateTime;
+use PHPUnit\Framework\TestCase;
 
-class SlotTest extends \PHPUnit_Framework_TestCase
+class SlotTest extends TestCase
 {
     public function testId()
     {

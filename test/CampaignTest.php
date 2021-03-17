@@ -5,7 +5,8 @@ namespace Acquia\LiftClient\Test;
 use GuzzleHttp\Psr7\Response;
 use Acquia\LiftClient\Entity\Campaign;
 use Acquia\LiftClient\Entity\CampaignPatchPayload;
-
+use PHPUnit\Framework\TestCase;
+use GuzzleHttp\Exception\RequestException;
 
 class CampaignTest extends TestBase
 {
@@ -28,6 +29,7 @@ class CampaignTest extends TestBase
         $handler->after('acquia_lift_account_and_site_ids', $testFunction);
         // Does not throw Exception because this handler is authenticated.
         $handler->after('acquia_lift_hmac_auth', $testFunction);
+        $this->assertNotNull($handler);
     }
 
     /**
@@ -110,12 +112,10 @@ class CampaignTest extends TestBase
         $this->assertEquals($responses[1]->getType(), 'target');
     }
 
-    /**
-     * @expectedException     \GuzzleHttp\Exception\RequestException
-     * @expectedExceptionCode 400
-     */
     public function testGetCampaignsError()
     {
+        $this->expectException(RequestException::class);
+        $this->expectExceptionCode(400);
         $response = new Response(400, []);
         $responses = [
           $response,
@@ -226,12 +226,10 @@ class CampaignTest extends TestBase
         $this->assertEquals($requestHeaders['Content-Type'][0], 'application/json');
     }
 
-    /**
-     * @expectedException     \GuzzleHttp\Exception\RequestException
-     * @expectedExceptionCode 400
-     */
     public function testCampaignDeleteError()
     {
+      $this->expectException(RequestException::class);
+      $this->expectExceptionCode(400);
       $response = new Response(400, []);
       $responses = [
         $response,
@@ -375,12 +373,10 @@ class CampaignTest extends TestBase
         $this->assertEquals((string) $request->getUri(), '/v2/campaigns/test-campaign-id-1?account_id=TESTACCOUNTID&site_id=TESTSITEID');
     }
 
-    /**
-     * @expectedException     \GuzzleHttp\Exception\RequestException
-     * @expectedExceptionCode 400
-     */
     public function testCampaignPostError()
     {
+      $this->expectException(RequestException::class);
+      $this->expectExceptionCode(400);
       $response = new Response(400, []);
       $responses = [
         $response,

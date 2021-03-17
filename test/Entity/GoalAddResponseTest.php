@@ -3,8 +3,9 @@
 namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\GoalAddResponse;
+use PHPUnit\Framework\TestCase;
 
-class GoalAddResponseTest extends \PHPUnit_Framework_TestCase
+class GoalAddResponseTest extends TestCase
 {
     public function testStatusAndErrors()
     {

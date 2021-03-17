@@ -4,8 +4,9 @@ namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Slot;
 use Acquia\LiftClient\Entity\ViewMode;
+use PHPUnit\Framework\TestCase;
 
-class ViewModeTest extends \PHPUnit_Framework_TestCase
+class ViewModeTest extends TestCase
 {
     public function testId()
     {

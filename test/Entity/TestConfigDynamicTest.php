@@ -5,9 +5,9 @@ namespace Acquia\LiftClient\Test\Entity;
 use Acquia\LiftClient\Entity\ContentView;
 use Acquia\LiftClient\Entity\TestConfigDynamic;
 use Acquia\LiftClient\Entity\ViewMode;
+use PHPUnit\Framework\TestCase;
 
-
-class TestConfigDynamicTest extends \PHPUnit_Framework_TestCase
+class TestConfigDynamicTest extends TestCase
 {
     public function testSlotId()
     {

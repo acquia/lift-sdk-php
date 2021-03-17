@@ -6,8 +6,9 @@ use Acquia\LiftClient\Lift;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\RequestInterface;
+use PHPUnit\Framework\TestCase;
 
-abstract class TestBase extends \PHPUnit_Framework_TestCase
+abstract class TestBase extends TestCase
 {
     /**
      * @var string The account we are using
@@ -37,7 +38,7 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->accountId = 'TESTACCOUNTID';
         $this->siteId = 'TESTSITEID';

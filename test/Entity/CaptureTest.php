@@ -4,8 +4,10 @@ namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Capture;
 use DateTime;
+use PHPUnit\Framework\TestCase;
+use Acquia\LiftClient\Exception\LiftSdkException;
 
-class CaptureTest extends \PHPUnit_Framework_TestCase
+class CaptureTest extends TestCase
 {
     public function testPersonUdf()
     {
@@ -14,32 +16,26 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($entity->json(), '{"person_udf1":"test-udf-value"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument $num must be an instance of integer.
-     */
     public function testPersonUdfRangeIsInt()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument \$num must be an instance of integer.");
         $entity = new Capture();
         $entity->setPersonUdf('string', 'value');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument $num must be greater than 0 and smaller or equal to 50.
-     */
     public function testPersonUdfIsValidRange()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument \$num must be greater than 0 and smaller or equal to 50.");
         $entity = new Capture();
         $entity->setPersonUdf(51, 'value');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument $value must be an instance of string.
-     */
     public function testPersonUdfValueIsString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument \$value must be an instance of string.");
         $entity = new Capture();
         $entity->setPersonUdf(1, 100);
     }
@@ -51,32 +47,26 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($entity->json(), '{"event_udf1":"test-udf-value"}');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument $num must be an instance of integer.
-     */
     public function testEventUdfRangeIsInt()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument \$num must be an instance of integer.");
         $entity = new Capture();
         $entity->setEventUdf('string', 'value');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument $num must be greater than 0 and smaller or equal to 50.
-     */
     public function testEventUdfIsValidRange()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument \$num must be greater than 0 and smaller or equal to 50.");
         $entity = new Capture();
         $entity->setEventUdf(51, 'value');
     }
 
-    /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
-     * @expectedExceptionMessage Argument $value must be an instance of string.
-     */
     public function testEventUdfValueIsString()
     {
+        $this->expectException(LiftSdkException::class);
+        $this->expectExceptionMessage("Argument \$value must be an instance of string.");
         $entity = new Capture();
         $entity->setEventUdf(1, 100);
     }
@@ -877,11 +867,12 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException     \Acquia\LiftClient\Exception\LiftSdkException
+
      * @expectedExceptionMessage Argument must be an instance of string.
      */
     public function testDecisionContextLanguageNoString()
     {
+        $this->expectException(LiftSdkException::class);
         $entity = new Capture();
         $entity->setDecisionContextLanguage(123);
     }

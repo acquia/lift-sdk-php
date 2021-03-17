@@ -3,8 +3,9 @@
 namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Site;
+use PHPUnit\Framework\TestCase;
 
-class SiteTest extends \PHPUnit_Framework_TestCase
+class SiteTest extends TestCase
 {
 
     public function testSiteProperties()

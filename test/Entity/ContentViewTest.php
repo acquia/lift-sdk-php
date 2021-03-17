@@ -5,8 +5,9 @@ namespace Acquia\LiftClient\Test\Entity;
 use Acquia\LiftClient\Entity\ContentView;
 use Acquia\LiftClient\Entity\ViewMode;
 use DateTime;
+use PHPUnit\Framework\TestCase;
 
-class ContentViewTest extends \PHPUnit_Framework_TestCase
+class ContentViewTest extends TestCase
 {
     public function testId()
     {

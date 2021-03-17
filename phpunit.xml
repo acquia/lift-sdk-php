@@ -6,7 +6,6 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false"
          bootstrap="test/bootstrap.php">
 
     <testsuites>
@@ -15,16 +14,8 @@
        </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
-
     <logging>
-      <log type="coverage-html" target="build/coverage" charset="UTF-8"/>
-      <log type="coverage-clover" target="build/logs/clover.xml" charset="UTF-8"/>
-      <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
+      <junit outputFile="build/logs/junit.xml"/>
     </logging>
 
 </phpunit>

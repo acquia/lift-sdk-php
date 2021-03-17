@@ -4,8 +4,9 @@ namespace Acquia\LiftClient\Test\Entity;
 
 use Acquia\LiftClient\Entity\Capture;
 use Acquia\LiftClient\Entity\Decide;
+use PHPUnit\Framework\TestCase;
 
-class DecideTest extends \PHPUnit_Framework_TestCase
+class DecideTest extends TestCase
 {
     public function testSlots()
     {
