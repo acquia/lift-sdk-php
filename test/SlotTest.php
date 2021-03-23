@@ -37,6 +37,7 @@ class SlotTest extends TestBase
           'id' => 'test-id',
           'label' => 'test-label',
           'description' => 'test-description',
+          'css_selector' => 'btn.awesome',
           'html' => '',
           'created' => '2016-08-19T15:15:41Z',
           'updated' => '2016-08-19T15:15:41Z',
@@ -56,6 +57,7 @@ class SlotTest extends TestBase
         // Create a new slot object.
         $slot = new Slot();
         $slot->setDescription('test-description');
+        $slot->setCssSelector('btn.awesome');
         $slot->setId('test-id');
         $slot->setLabel('test-label');
         $slot->setStatus(true);
@@ -83,6 +85,8 @@ class SlotTest extends TestBase
         $this->assertEquals($response->getId(), 'test-id');
         // Check if the description is equal.
         $this->assertEquals($response->getDescription(), 'test-description');
+        // Check if the css selector is equal.
+        $this->assertEquals($response->getCssSelector(), 'btn.awesome');
         // Check if the label is equal.
         $this->assertEquals($response->getLabel(), 'test-label');
 
