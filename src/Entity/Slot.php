@@ -103,6 +103,35 @@ class Slot extends Entity
     }
 
     /**
+     * Sets the 'css_selector' parameter.
+     *
+     * @param string $css_selector
+     *
+     * @throws \Acquia\LiftClient\Exception\LiftSdkException
+     *
+     * @return \Acquia\LiftClient\Entity\Slot
+     */
+    public function setCssSelector($css_selector)
+    {
+      if (!is_string($css_selector)) {
+        throw new LiftSdkException('Argument must be an instance of string.');
+      }
+      $this['css_selector'] = $css_selector;
+
+      return $this;
+    }
+
+    /**
+     * Gets the 'css_selector' parameter.
+     *
+     * @return string
+     */
+    public function getCssSelector()
+    {
+      return $this->getEntityValue('css_selector', '');
+    }
+
+    /**
      * Sets the 'status' parameter.
      *
      * @param bool $status
